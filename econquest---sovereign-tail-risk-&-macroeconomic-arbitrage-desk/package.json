@@ -1,0 +1,57 @@
+{
+  "name": "econquest-sovereign-risk-desk",
+  "private": false,
+  "version": "1.0.0",
+  "description": "Quantitative sovereign tail-risk engineering, 6-layer VaR pipeline, 7-pillar macroeconomic scorecard, prediction market arbitrage alpha detection, and Basel III backtesting.",
+  "license": "MIT",
+  "keywords": [
+    "sovereign-risk",
+    "quantitative-finance",
+    "var",
+    "expected-shortfall",
+    "merton-model",
+    "bayesian-updating",
+    "prediction-markets",
+    "macroeconomics",
+    "d3-choropleth",
+    "basel-iii",
+    "tail-risk"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port=3000 --host=0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf dist server.js",
+    "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "verify": "npm run lint && npm run build"
+  },
+  "dependencies": {
+    "@google/genai": "^2.4.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-react": "^6.1.1",
+    "d3": "^7.9.0",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "lucide-react": "^0.546.0",
+    "motion": "^12.23.24",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "recharts": "^3.10.1",
+    "vite": "^8.3.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/d3": "^7.4.3",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "autoprefixer": "^10.4.21",
+    "esbuild": "^0.25.0",
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.21.0",
+    "typescript": "^7.0.2"
+  }
+}

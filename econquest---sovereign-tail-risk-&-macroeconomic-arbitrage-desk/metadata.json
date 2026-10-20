@@ -1,0 +1,6 @@
+{
+  "name": "EconQuest - Sovereign Tail-Risk & Macroeconomic Arbitrage Desk",
+  "description": "Quantitative sovereign tail-risk engineering, 6-layer VaR pipeline, 7-pillar macroeconomic scorecard, prediction market arbitrage alpha detection, and Basel III backtesting.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

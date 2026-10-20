@@ -1,0 +1,42 @@
+cff-version: 1.2.0
+title: "EconQuest: Sovereign Tail-Risk, Macroeconomic Arbitrage & Institutional Market Risk Intelligence Desk"
+message: "If you use EconQuest or its quantitative sovereign risk models in academic research, policy analysis, or institutional risk engineering, please cite this software using the metadata below."
+type: software
+authors:
+  - name: "EconQuest Quantitative Sovereign Risk Research Group"
+version: 2.4.0
+date-released: "2026-10-20"
+license: MIT
+repository-code: "https://github.com/your-org/econquest-sovereign-risk-desk"
+keywords:
+  - sovereign-risk
+  - value-at-risk
+  - expected-shortfall
+  - extreme-value-theory
+  - merton-model
+  - bayesian-updating
+  - prediction-markets
+  - nelson-siegel-yield-curve
+  - systemic-contagion
+  - debtrank
+  - taylor-rule
+  - copula-var
+  - macroeconomic-arbitrage
+abstract: >-
+  An institutional-grade open-source quantitative sovereign risk and macroeconomic
+  market intelligence platform implemented in TypeScript. Unifies a 6-Layer Sovereign
+  Default & Tail-Risk Pipeline (Logistic EWS, Bayesian Log-Odds Updating, Merton
+  Structural Balance Sheet, Gaussian HMM Regime Switching, POT/GPD Extreme Value
+  Theory VaR/ES, and Legal/CAC LGD) with a 7-Pillar Forensic Vulnerability Scorecard,
+  Nelson-Siegel Sovereign Yield Curve & Debt Maturity Wall Analyzer, 3-Round DebtRank
+  Systemic Contagion Simulator, Open-Economy Augmented Taylor Rule Monitor, Student-t
+  Copula Euler Portfolio VaR & CDS Hedge Optimizer, and Basel III FRTB Backtesting.
+preferred-citation:
+  type: manual
+  title: "EconQuest: Sovereign Tail-Risk and Geopolitical Information Asymmetry — A Quantitative VaR Framework for Macroeconomic Arbitrage"
+  authors:
+    - name: "EconQuest Quantitative Sovereign Risk Research Group"
+  year: 2026
+  month: 10
+  version: "2.4.0"
+  url: "https://github.com/your-org/econquest-sovereign-risk-desk"
