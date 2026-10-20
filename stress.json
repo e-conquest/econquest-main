@@ -1,0 +1,154 @@
+{
+ "A": {
+  "name": "Hawkish Fed +200 bps",
+  "description": "+200 bps Fed shock: HY spreads +280 bps, EM currencies -12 to -18%, FX-vol skew up, R +0.25, frontier Stressed -> Crisis.",
+  "comparison": {
+   "var99_mm": {
+    "base": 65.85089939359176,
+    "stress": 124.6452443760112,
+    "change_pct": 89.28404247146999
+   },
+   "es99_mm": {
+    "base": 85.20962369950075,
+    "stress": 158.35885157913557,
+    "change_pct": 85.84620457614274
+   },
+   "es975_frtb_mm": {
+    "base": 67.72103482566177,
+    "stress": 127.4450826849523,
+    "change_pct": 88.19128061619502
+   },
+   "lvar99_mm": {
+    "base": 71.13240522030411,
+    "stress": 134.19534696141181,
+    "change_pct": 88.65571401078809
+   },
+   "liquidity_cost99_mm": {
+    "base": 5.281505826712349,
+    "stress": 9.550102585400595,
+    "change_pct": 80.82158571328088
+   },
+   "expected_loss_mm": {
+    "base": 0.3415481713067251,
+    "stress": 3.448147945669706,
+    "change_pct": 909.5641655692308
+   },
+   "regimes": {
+    "base": {
+     "Calm": 10,
+     "Stressed": 5,
+     "Crisis": 3
+    },
+    "stress": {
+     "Stressed": 10,
+     "Crisis": 8
+    }
+   },
+   "share_to_crisis": 0.2777777777777778,
+   "mean_pd_default_change_pp": 5.312090606676656,
+   "mean_lgd_change_pp": 3.8916666666666635
+  }
+ },
+ "B": {
+  "name": "30% commodity collapse",
+  "description": "30% commodity price collapse: pillars 2 and 5 +18 for mono-exporters, DD -1.8 sigma (LGD 40% -> 58%), deficits widen.",
+  "comparison": {
+   "var99_mm": {
+    "base": 65.85089939359176,
+    "stress": 69.21612957766176,
+    "change_pct": 5.110378468722154
+   },
+   "es99_mm": {
+    "base": 85.20962369950075,
+    "stress": 89.20981462628923,
+    "change_pct": 4.6945295063096415
+   },
+   "es975_frtb_mm": {
+    "base": 67.72103482566177,
+    "stress": 71.5526535772106,
+    "change_pct": 5.657944775080281
+   },
+   "lvar99_mm": {
+    "base": 71.13240522030411,
+    "stress": 74.49763540437411,
+    "change_pct": 4.730938274401875
+   },
+   "liquidity_cost99_mm": {
+    "base": 5.281505826712349,
+    "stress": 5.281505826712349,
+    "change_pct": 0.0
+   },
+   "expected_loss_mm": {
+    "base": 0.3415481713067251,
+    "stress": 1.2694296241503453,
+    "change_pct": 271.66927853650907
+   },
+   "regimes": {
+    "base": {
+     "Calm": 10,
+     "Stressed": 5,
+     "Crisis": 3
+    },
+    "stress": {
+     "Calm": 10,
+     "Stressed": 5,
+     "Crisis": 3
+    }
+   },
+   "share_to_crisis": 0.0,
+   "mean_pd_default_change_pp": 1.7919217409115131,
+   "mean_lgd_change_pp": 27.50638888888889
+  }
+ },
+ "C": {
+  "name": "Strait of Malacca blockade",
+  "description": "Strait of Malacca blockade: location multipliers at 2.0x, TSI > +3.5 sigma, L-VaR spreads doubled.",
+  "comparison": {
+   "var99_mm": {
+    "base": 65.85089939359176,
+    "stress": 82.1085062827522,
+    "change_pct": 24.688511529642888
+   },
+   "es99_mm": {
+    "base": 85.20962369950075,
+    "stress": 105.65931962634569,
+    "change_pct": 23.999279704558486
+   },
+   "es975_frtb_mm": {
+    "base": 67.72103482566177,
+    "stress": 84.18649905917765,
+    "change_pct": 24.31366306776599
+   },
+   "lvar99_mm": {
+    "base": 71.13240522030411,
+    "stress": 90.95250063643901,
+    "change_pct": 27.863665448609677
+   },
+   "liquidity_cost99_mm": {
+    "base": 5.281505826712349,
+    "stress": 8.843994353686814,
+    "change_pct": 67.4521366417209
+   },
+   "expected_loss_mm": {
+    "base": 0.3415481713067251,
+    "stress": 0.496979114999624,
+    "change_pct": 45.50776632714428
+   },
+   "regimes": {
+    "base": {
+     "Calm": 10,
+     "Stressed": 5,
+     "Crisis": 3
+    },
+    "stress": {
+     "Calm": 10,
+     "Stressed": 5,
+     "Crisis": 3
+    }
+   },
+   "share_to_crisis": 0.0,
+   "mean_pd_default_change_pp": 2.8526324597286195,
+   "mean_lgd_change_pp": 0.0
+  }
+ }
+}
