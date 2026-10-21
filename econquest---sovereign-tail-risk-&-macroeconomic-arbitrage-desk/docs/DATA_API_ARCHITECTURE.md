@@ -1,5 +1,22 @@
 # Multi-Tier Data & Real-Time API Integration Blueprint (`docs/DATA_API_ARCHITECTURE.md`)
 
+> **Blueprint, not implemented-provider inventory.** The current research backend has manual
+> Yahoo, IMF monthly, IMF WEO, World Bank WDI, World Bank IDS, FRED/ALFRED, BIS quarterly,
+> resumable annual UN Comtrade, global daily GDELT Events and account-accessible ACLED core-event adapters, each with explicit
+> review/activation and limitations. See [the authoritative backend contracts](../backend/README.md)
+> and [implemented architecture](./ARCHITECTURE.md). The diagrams, endpoint examples, scheduler/
+> streaming infrastructure and automatic risk-layer mappings below describe proposed extensions.
+> Implemented BIS monitoring is a six-indicator LBS/credit basket, not a bilateral
+> sovereign exposure matrix or consolidated banking/contagion integration.
+> Implemented IDS is source-6 World-creditor totals for 18 external-debt indicators,
+> not independent corroboration of its three overlapping WDI series or verified actuals.
+> In particular, the implemented FRED basket excludes TEDRATE, uses native values without
+> automatic transformations, and keeps dated ALFRED snapshots separate from current/model inputs.
+> Implemented GDELT is manual Events-only daily archive research, not keyword headline search,
+> sentiment/risk conversion, article-text acquisition or a real-time alert stream.
+> ACLED is a separate private 30-day core-event snapshot with account entitlements, source
+> uncertainty and native precision, not a GDELT merge, CAST integration or risk-scoring feed.
+
 This document specifies the production data engineering architecture, external API connectors, normalization schemas, and Point-in-Time (PiT) storage layer required to feed **EconQuest's** 6-Layer Quantitative Risk Engine, 7-Pillar Vulnerability Scorecard, and Institutional Macro Desks with live global telemetry.
 
 ---

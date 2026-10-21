@@ -1,0 +1,3136 @@
+{
+  "retrievedAt": "2026-10-20T17:17:35.012549+00:00",
+  "sources": [
+    {
+      "url": "https://www.bankofcanada.ca/wp-content/uploads/2025/10/BoC-BoE-Database-2025.xlsx",
+      "sha256": "5ed273650bed7d5c50cfdd04a28d2515856ae8786be52b8916af20af91cd2500"
+    },
+    {
+      "url": "https://api.worldbank.org/v2/country/all/indicator/DT.DOD.DECT.GN.ZS?format=json&date=1980:2024&per_page=20000",
+      "indicator": "DT.DOD.DECT.GN.ZS",
+      "sha256": "2c4e718f61bf11e75fab2f2f44c7f54f96b31c523ea46da9207e3bccf62e7165",
+      "sourceLastUpdated": "2026-10-08"
+    },
+    {
+      "url": "https://api.worldbank.org/v2/country/all/indicator/DT.DOD.DSTC.IR.ZS?format=json&date=1980:2024&per_page=20000",
+      "indicator": "DT.DOD.DSTC.IR.ZS",
+      "sha256": "51e93333634d8d94aa3c7093cb37c173c15d443a52f3374df070f6db60807b1a",
+      "sourceLastUpdated": "2026-10-08"
+    },
+    {
+      "url": "https://api.worldbank.org/v2/country/all/indicator/FI.RES.TOTL.MO?format=json&date=1980:2024&per_page=20000",
+      "indicator": "FI.RES.TOTL.MO",
+      "sha256": "f914fdf7bc0a52ea63d2f91e779a1a3772b2eacf75c34c79d779c2e0282f4c89",
+      "sourceLastUpdated": "2026-10-08"
+    },
+    {
+      "url": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.MKTP.KD.ZG?format=json&date=1980:2024&per_page=20000",
+      "indicator": "NY.GDP.MKTP.KD.ZG",
+      "sha256": "e084dfb162479cc6929755007ff2de26683f44766fc7178bea950055f2b51b5b",
+      "sourceLastUpdated": "2026-10-08"
+    },
+    {
+      "url": "https://api.worldbank.org/v2/country/all/indicator/FP.CPI.TOTL.ZG?format=json&date=1980:2024&per_page=20000",
+      "indicator": "FP.CPI.TOTL.ZG",
+      "sha256": "282a490b9a162f4f644b5dcd690ac1c49aa7fbff3e03acd63db2998fc9b371ee",
+      "sourceLastUpdated": "2026-10-08"
+    },
+    {
+      "url": "https://api.worldbank.org/v2/country/all/indicator/BN.CAB.XOKA.GD.ZS?format=json&date=1980:2024&per_page=20000",
+      "indicator": "BN.CAB.XOKA.GD.ZS",
+      "sha256": "0a9df795ab81586ff4b1bd3eed4870d7c8c05cd4a37cedf3ed597dddc5248d6d",
+      "sourceLastUpdated": "2026-10-08"
+    }
+  ],
+  "coverage": {
+    "startYear": 1980,
+    "endYear": 2024
+  },
+  "features": {
+    "externalDebtGni": "DT.DOD.DECT.GN.ZS",
+    "shortTermDebtReserves": "DT.DOD.DSTC.IR.ZS",
+    "reservesMonths": "FI.RES.TOTL.MO",
+    "gdpGrowth": "NY.GDP.MKTP.KD.ZG",
+    "inflation": "FP.CPI.TOTL.ZG",
+    "currentAccountGdp": "BN.CAB.XOKA.GD.ZS"
+  },
+  "rows": 6478,
+  "countries": 152,
+  "completeRows": 3565,
+  "excludedUnknownOrNegativeDefaultLabels": [
+    {
+      "country": "AGO",
+      "year": 1986
+    },
+    {
+      "country": "AGO",
+      "year": 1985
+    },
+    {
+      "country": "AGO",
+      "year": 1984
+    },
+    {
+      "country": "AGO",
+      "year": 1983
+    },
+    {
+      "country": "AGO",
+      "year": 1982
+    },
+    {
+      "country": "AGO",
+      "year": 1981
+    },
+    {
+      "country": "AGO",
+      "year": 1980
+    },
+    {
+      "country": "ARM",
+      "year": 1990
+    },
+    {
+      "country": "ARM",
+      "year": 1989
+    },
+    {
+      "country": "ARM",
+      "year": 1988
+    },
+    {
+      "country": "ARM",
+      "year": 1987
+    },
+    {
+      "country": "ARM",
+      "year": 1986
+    },
+    {
+      "country": "ARM",
+      "year": 1985
+    },
+    {
+      "country": "ARM",
+      "year": 1984
+    },
+    {
+      "country": "ARM",
+      "year": 1983
+    },
+    {
+      "country": "ARM",
+      "year": 1982
+    },
+    {
+      "country": "ARM",
+      "year": 1981
+    },
+    {
+      "country": "ARM",
+      "year": 1980
+    },
+    {
+      "country": "ABW",
+      "year": 2024
+    },
+    {
+      "country": "ABW",
+      "year": 2023
+    },
+    {
+      "country": "ABW",
+      "year": 2022
+    },
+    {
+      "country": "ABW",
+      "year": 2021
+    },
+    {
+      "country": "ABW",
+      "year": 2020
+    },
+    {
+      "country": "ABW",
+      "year": 2019
+    },
+    {
+      "country": "ABW",
+      "year": 2018
+    },
+    {
+      "country": "ABW",
+      "year": 2017
+    },
+    {
+      "country": "ABW",
+      "year": 2016
+    },
+    {
+      "country": "ABW",
+      "year": 2015
+    },
+    {
+      "country": "ABW",
+      "year": 2014
+    },
+    {
+      "country": "ABW",
+      "year": 2013
+    },
+    {
+      "country": "ABW",
+      "year": 2012
+    },
+    {
+      "country": "ABW",
+      "year": 2011
+    },
+    {
+      "country": "ABW",
+      "year": 2010
+    },
+    {
+      "country": "ABW",
+      "year": 2009
+    },
+    {
+      "country": "ABW",
+      "year": 2008
+    },
+    {
+      "country": "ABW",
+      "year": 2007
+    },
+    {
+      "country": "ABW",
+      "year": 2006
+    },
+    {
+      "country": "ABW",
+      "year": 2005
+    },
+    {
+      "country": "ABW",
+      "year": 2004
+    },
+    {
+      "country": "ABW",
+      "year": 2003
+    },
+    {
+      "country": "ABW",
+      "year": 2002
+    },
+    {
+      "country": "ABW",
+      "year": 2001
+    },
+    {
+      "country": "ABW",
+      "year": 2000
+    },
+    {
+      "country": "ABW",
+      "year": 1999
+    },
+    {
+      "country": "ABW",
+      "year": 1998
+    },
+    {
+      "country": "ABW",
+      "year": 1997
+    },
+    {
+      "country": "ABW",
+      "year": 1996
+    },
+    {
+      "country": "ABW",
+      "year": 1995
+    },
+    {
+      "country": "ABW",
+      "year": 1994
+    },
+    {
+      "country": "ABW",
+      "year": 1993
+    },
+    {
+      "country": "ABW",
+      "year": 1992
+    },
+    {
+      "country": "ABW",
+      "year": 1991
+    },
+    {
+      "country": "ABW",
+      "year": 1990
+    },
+    {
+      "country": "ABW",
+      "year": 1989
+    },
+    {
+      "country": "ABW",
+      "year": 1988
+    },
+    {
+      "country": "ABW",
+      "year": 1987
+    },
+    {
+      "country": "ABW",
+      "year": 1986
+    },
+    {
+      "country": "ABW",
+      "year": 1985
+    },
+    {
+      "country": "ABW",
+      "year": 1984
+    },
+    {
+      "country": "ABW",
+      "year": 1983
+    },
+    {
+      "country": "ABW",
+      "year": 1982
+    },
+    {
+      "country": "ABW",
+      "year": 1981
+    },
+    {
+      "country": "ABW",
+      "year": 1980
+    },
+    {
+      "country": "AZE",
+      "year": 1989
+    },
+    {
+      "country": "AZE",
+      "year": 1988
+    },
+    {
+      "country": "AZE",
+      "year": 1987
+    },
+    {
+      "country": "AZE",
+      "year": 1986
+    },
+    {
+      "country": "AZE",
+      "year": 1985
+    },
+    {
+      "country": "AZE",
+      "year": 1984
+    },
+    {
+      "country": "AZE",
+      "year": 1983
+    },
+    {
+      "country": "AZE",
+      "year": 1982
+    },
+    {
+      "country": "AZE",
+      "year": 1981
+    },
+    {
+      "country": "AZE",
+      "year": 1980
+    },
+    {
+      "country": "BHS",
+      "year": 2024
+    },
+    {
+      "country": "BHS",
+      "year": 2023
+    },
+    {
+      "country": "BHS",
+      "year": 2022
+    },
+    {
+      "country": "BHS",
+      "year": 2021
+    },
+    {
+      "country": "BHS",
+      "year": 2020
+    },
+    {
+      "country": "BHS",
+      "year": 2019
+    },
+    {
+      "country": "BHS",
+      "year": 2018
+    },
+    {
+      "country": "BHS",
+      "year": 2017
+    },
+    {
+      "country": "BHS",
+      "year": 2016
+    },
+    {
+      "country": "BHS",
+      "year": 2015
+    },
+    {
+      "country": "BHS",
+      "year": 2014
+    },
+    {
+      "country": "BHS",
+      "year": 2013
+    },
+    {
+      "country": "BHS",
+      "year": 2012
+    },
+    {
+      "country": "BHS",
+      "year": 2011
+    },
+    {
+      "country": "BHS",
+      "year": 2010
+    },
+    {
+      "country": "BHS",
+      "year": 2009
+    },
+    {
+      "country": "BHS",
+      "year": 2008
+    },
+    {
+      "country": "BHS",
+      "year": 2007
+    },
+    {
+      "country": "BHS",
+      "year": 2006
+    },
+    {
+      "country": "BHS",
+      "year": 2005
+    },
+    {
+      "country": "BHS",
+      "year": 2004
+    },
+    {
+      "country": "BHS",
+      "year": 2003
+    },
+    {
+      "country": "BHS",
+      "year": 2002
+    },
+    {
+      "country": "BHS",
+      "year": 2001
+    },
+    {
+      "country": "BHS",
+      "year": 2000
+    },
+    {
+      "country": "BHS",
+      "year": 1999
+    },
+    {
+      "country": "BHS",
+      "year": 1998
+    },
+    {
+      "country": "BHS",
+      "year": 1997
+    },
+    {
+      "country": "BHS",
+      "year": 1996
+    },
+    {
+      "country": "BHS",
+      "year": 1995
+    },
+    {
+      "country": "BHS",
+      "year": 1994
+    },
+    {
+      "country": "BHS",
+      "year": 1993
+    },
+    {
+      "country": "BHS",
+      "year": 1992
+    },
+    {
+      "country": "BHS",
+      "year": 1991
+    },
+    {
+      "country": "BHS",
+      "year": 1990
+    },
+    {
+      "country": "BHS",
+      "year": 1989
+    },
+    {
+      "country": "BHS",
+      "year": 1988
+    },
+    {
+      "country": "BHS",
+      "year": 1987
+    },
+    {
+      "country": "BHS",
+      "year": 1986
+    },
+    {
+      "country": "BHS",
+      "year": 1985
+    },
+    {
+      "country": "BHS",
+      "year": 1984
+    },
+    {
+      "country": "BHS",
+      "year": 1983
+    },
+    {
+      "country": "BHS",
+      "year": 1982
+    },
+    {
+      "country": "BHS",
+      "year": 1981
+    },
+    {
+      "country": "BHS",
+      "year": 1980
+    },
+    {
+      "country": "BLR",
+      "year": 1990
+    },
+    {
+      "country": "BLR",
+      "year": 1989
+    },
+    {
+      "country": "BLR",
+      "year": 1988
+    },
+    {
+      "country": "BLR",
+      "year": 1987
+    },
+    {
+      "country": "BLR",
+      "year": 1986
+    },
+    {
+      "country": "BLR",
+      "year": 1985
+    },
+    {
+      "country": "BLR",
+      "year": 1984
+    },
+    {
+      "country": "BLR",
+      "year": 1983
+    },
+    {
+      "country": "BLR",
+      "year": 1982
+    },
+    {
+      "country": "BLR",
+      "year": 1981
+    },
+    {
+      "country": "BLR",
+      "year": 1980
+    },
+    {
+      "country": "BLZ",
+      "year": 1980
+    },
+    {
+      "country": "BIH",
+      "year": 1991
+    },
+    {
+      "country": "BIH",
+      "year": 1990
+    },
+    {
+      "country": "BIH",
+      "year": 1989
+    },
+    {
+      "country": "BIH",
+      "year": 1988
+    },
+    {
+      "country": "BIH",
+      "year": 1987
+    },
+    {
+      "country": "BIH",
+      "year": 1986
+    },
+    {
+      "country": "BIH",
+      "year": 1985
+    },
+    {
+      "country": "BIH",
+      "year": 1984
+    },
+    {
+      "country": "BIH",
+      "year": 1983
+    },
+    {
+      "country": "BIH",
+      "year": 1982
+    },
+    {
+      "country": "BIH",
+      "year": 1981
+    },
+    {
+      "country": "BIH",
+      "year": 1980
+    },
+    {
+      "country": "HRV",
+      "year": 1991
+    },
+    {
+      "country": "HRV",
+      "year": 1990
+    },
+    {
+      "country": "HRV",
+      "year": 1989
+    },
+    {
+      "country": "HRV",
+      "year": 1988
+    },
+    {
+      "country": "HRV",
+      "year": 1987
+    },
+    {
+      "country": "HRV",
+      "year": 1986
+    },
+    {
+      "country": "HRV",
+      "year": 1985
+    },
+    {
+      "country": "HRV",
+      "year": 1984
+    },
+    {
+      "country": "HRV",
+      "year": 1983
+    },
+    {
+      "country": "HRV",
+      "year": 1982
+    },
+    {
+      "country": "HRV",
+      "year": 1981
+    },
+    {
+      "country": "HRV",
+      "year": 1980
+    },
+    {
+      "country": "CUW",
+      "year": 1992
+    },
+    {
+      "country": "CUW",
+      "year": 1991
+    },
+    {
+      "country": "CUW",
+      "year": 1990
+    },
+    {
+      "country": "CUW",
+      "year": 1989
+    },
+    {
+      "country": "CUW",
+      "year": 1988
+    },
+    {
+      "country": "CUW",
+      "year": 1987
+    },
+    {
+      "country": "CUW",
+      "year": 1986
+    },
+    {
+      "country": "CUW",
+      "year": 1985
+    },
+    {
+      "country": "CUW",
+      "year": 1984
+    },
+    {
+      "country": "CUW",
+      "year": 1983
+    },
+    {
+      "country": "CUW",
+      "year": 1982
+    },
+    {
+      "country": "CUW",
+      "year": 1981
+    },
+    {
+      "country": "CUW",
+      "year": 1980
+    },
+    {
+      "country": "ERI",
+      "year": 1992
+    },
+    {
+      "country": "ERI",
+      "year": 1991
+    },
+    {
+      "country": "ERI",
+      "year": 1990
+    },
+    {
+      "country": "ERI",
+      "year": 1989
+    },
+    {
+      "country": "ERI",
+      "year": 1988
+    },
+    {
+      "country": "ERI",
+      "year": 1987
+    },
+    {
+      "country": "ERI",
+      "year": 1986
+    },
+    {
+      "country": "ERI",
+      "year": 1985
+    },
+    {
+      "country": "ERI",
+      "year": 1984
+    },
+    {
+      "country": "ERI",
+      "year": 1983
+    },
+    {
+      "country": "ERI",
+      "year": 1982
+    },
+    {
+      "country": "ERI",
+      "year": 1981
+    },
+    {
+      "country": "ERI",
+      "year": 1980
+    },
+    {
+      "country": "GEO",
+      "year": 1990
+    },
+    {
+      "country": "GEO",
+      "year": 1989
+    },
+    {
+      "country": "GEO",
+      "year": 1988
+    },
+    {
+      "country": "GEO",
+      "year": 1987
+    },
+    {
+      "country": "GEO",
+      "year": 1986
+    },
+    {
+      "country": "GEO",
+      "year": 1985
+    },
+    {
+      "country": "GEO",
+      "year": 1984
+    },
+    {
+      "country": "GEO",
+      "year": 1983
+    },
+    {
+      "country": "GEO",
+      "year": 1982
+    },
+    {
+      "country": "GEO",
+      "year": 1981
+    },
+    {
+      "country": "GEO",
+      "year": 1980
+    },
+    {
+      "country": "KAZ",
+      "year": 1990
+    },
+    {
+      "country": "KAZ",
+      "year": 1989
+    },
+    {
+      "country": "KAZ",
+      "year": 1988
+    },
+    {
+      "country": "KAZ",
+      "year": 1987
+    },
+    {
+      "country": "KAZ",
+      "year": 1986
+    },
+    {
+      "country": "KAZ",
+      "year": 1985
+    },
+    {
+      "country": "KAZ",
+      "year": 1984
+    },
+    {
+      "country": "KAZ",
+      "year": 1983
+    },
+    {
+      "country": "KAZ",
+      "year": 1982
+    },
+    {
+      "country": "KAZ",
+      "year": 1981
+    },
+    {
+      "country": "KAZ",
+      "year": 1980
+    },
+    {
+      "country": "XKX",
+      "year": 2007
+    },
+    {
+      "country": "XKX",
+      "year": 2006
+    },
+    {
+      "country": "XKX",
+      "year": 2005
+    },
+    {
+      "country": "XKX",
+      "year": 2004
+    },
+    {
+      "country": "XKX",
+      "year": 2003
+    },
+    {
+      "country": "XKX",
+      "year": 2002
+    },
+    {
+      "country": "XKX",
+      "year": 2001
+    },
+    {
+      "country": "XKX",
+      "year": 2000
+    },
+    {
+      "country": "XKX",
+      "year": 1999
+    },
+    {
+      "country": "XKX",
+      "year": 1998
+    },
+    {
+      "country": "XKX",
+      "year": 1997
+    },
+    {
+      "country": "XKX",
+      "year": 1996
+    },
+    {
+      "country": "XKX",
+      "year": 1995
+    },
+    {
+      "country": "XKX",
+      "year": 1994
+    },
+    {
+      "country": "XKX",
+      "year": 1993
+    },
+    {
+      "country": "XKX",
+      "year": 1992
+    },
+    {
+      "country": "XKX",
+      "year": 1991
+    },
+    {
+      "country": "XKX",
+      "year": 1990
+    },
+    {
+      "country": "XKX",
+      "year": 1989
+    },
+    {
+      "country": "XKX",
+      "year": 1988
+    },
+    {
+      "country": "XKX",
+      "year": 1987
+    },
+    {
+      "country": "XKX",
+      "year": 1986
+    },
+    {
+      "country": "XKX",
+      "year": 1985
+    },
+    {
+      "country": "XKX",
+      "year": 1984
+    },
+    {
+      "country": "XKX",
+      "year": 1983
+    },
+    {
+      "country": "XKX",
+      "year": 1982
+    },
+    {
+      "country": "XKX",
+      "year": 1981
+    },
+    {
+      "country": "XKX",
+      "year": 1980
+    },
+    {
+      "country": "KGZ",
+      "year": 1990
+    },
+    {
+      "country": "KGZ",
+      "year": 1989
+    },
+    {
+      "country": "KGZ",
+      "year": 1988
+    },
+    {
+      "country": "KGZ",
+      "year": 1987
+    },
+    {
+      "country": "KGZ",
+      "year": 1986
+    },
+    {
+      "country": "KGZ",
+      "year": 1985
+    },
+    {
+      "country": "KGZ",
+      "year": 1984
+    },
+    {
+      "country": "KGZ",
+      "year": 1983
+    },
+    {
+      "country": "KGZ",
+      "year": 1982
+    },
+    {
+      "country": "KGZ",
+      "year": 1981
+    },
+    {
+      "country": "KGZ",
+      "year": 1980
+    },
+    {
+      "country": "LVA",
+      "year": 1990
+    },
+    {
+      "country": "LVA",
+      "year": 1989
+    },
+    {
+      "country": "LVA",
+      "year": 1988
+    },
+    {
+      "country": "LVA",
+      "year": 1987
+    },
+    {
+      "country": "LVA",
+      "year": 1986
+    },
+    {
+      "country": "LVA",
+      "year": 1985
+    },
+    {
+      "country": "LVA",
+      "year": 1984
+    },
+    {
+      "country": "LVA",
+      "year": 1983
+    },
+    {
+      "country": "LVA",
+      "year": 1982
+    },
+    {
+      "country": "LVA",
+      "year": 1981
+    },
+    {
+      "country": "LVA",
+      "year": 1980
+    },
+    {
+      "country": "LBY",
+      "year": 2010
+    },
+    {
+      "country": "LBY",
+      "year": 2009
+    },
+    {
+      "country": "LBY",
+      "year": 2007
+    },
+    {
+      "country": "LTU",
+      "year": 1991
+    },
+    {
+      "country": "LTU",
+      "year": 1990
+    },
+    {
+      "country": "LTU",
+      "year": 1989
+    },
+    {
+      "country": "LTU",
+      "year": 1988
+    },
+    {
+      "country": "LTU",
+      "year": 1987
+    },
+    {
+      "country": "LTU",
+      "year": 1986
+    },
+    {
+      "country": "LTU",
+      "year": 1985
+    },
+    {
+      "country": "LTU",
+      "year": 1984
+    },
+    {
+      "country": "LTU",
+      "year": 1983
+    },
+    {
+      "country": "LTU",
+      "year": 1982
+    },
+    {
+      "country": "LTU",
+      "year": 1981
+    },
+    {
+      "country": "LTU",
+      "year": 1980
+    },
+    {
+      "country": "MYS",
+      "year": 2024
+    },
+    {
+      "country": "MYS",
+      "year": 2023
+    },
+    {
+      "country": "MYS",
+      "year": 2022
+    },
+    {
+      "country": "MYS",
+      "year": 2021
+    },
+    {
+      "country": "MYS",
+      "year": 2020
+    },
+    {
+      "country": "MYS",
+      "year": 2019
+    },
+    {
+      "country": "MYS",
+      "year": 2018
+    },
+    {
+      "country": "MYS",
+      "year": 2017
+    },
+    {
+      "country": "MYS",
+      "year": 2016
+    },
+    {
+      "country": "MYS",
+      "year": 2015
+    },
+    {
+      "country": "MYS",
+      "year": 2014
+    },
+    {
+      "country": "MYS",
+      "year": 2013
+    },
+    {
+      "country": "MYS",
+      "year": 2012
+    },
+    {
+      "country": "MYS",
+      "year": 2011
+    },
+    {
+      "country": "MYS",
+      "year": 2010
+    },
+    {
+      "country": "MYS",
+      "year": 2009
+    },
+    {
+      "country": "MYS",
+      "year": 2008
+    },
+    {
+      "country": "MYS",
+      "year": 2007
+    },
+    {
+      "country": "MYS",
+      "year": 2006
+    },
+    {
+      "country": "MYS",
+      "year": 2005
+    },
+    {
+      "country": "MYS",
+      "year": 2004
+    },
+    {
+      "country": "MYS",
+      "year": 2003
+    },
+    {
+      "country": "MYS",
+      "year": 2002
+    },
+    {
+      "country": "MYS",
+      "year": 2001
+    },
+    {
+      "country": "MYS",
+      "year": 2000
+    },
+    {
+      "country": "MYS",
+      "year": 1999
+    },
+    {
+      "country": "MYS",
+      "year": 1998
+    },
+    {
+      "country": "MYS",
+      "year": 1997
+    },
+    {
+      "country": "MYS",
+      "year": 1996
+    },
+    {
+      "country": "MYS",
+      "year": 1995
+    },
+    {
+      "country": "MYS",
+      "year": 1994
+    },
+    {
+      "country": "MYS",
+      "year": 1993
+    },
+    {
+      "country": "MYS",
+      "year": 1992
+    },
+    {
+      "country": "MYS",
+      "year": 1991
+    },
+    {
+      "country": "MYS",
+      "year": 1990
+    },
+    {
+      "country": "MYS",
+      "year": 1989
+    },
+    {
+      "country": "MYS",
+      "year": 1988
+    },
+    {
+      "country": "MYS",
+      "year": 1987
+    },
+    {
+      "country": "MYS",
+      "year": 1986
+    },
+    {
+      "country": "MYS",
+      "year": 1985
+    },
+    {
+      "country": "MYS",
+      "year": 1984
+    },
+    {
+      "country": "MYS",
+      "year": 1983
+    },
+    {
+      "country": "MYS",
+      "year": 1982
+    },
+    {
+      "country": "MYS",
+      "year": 1981
+    },
+    {
+      "country": "MYS",
+      "year": 1980
+    },
+    {
+      "country": "MDV",
+      "year": 2003
+    },
+    {
+      "country": "MHL",
+      "year": 2024
+    },
+    {
+      "country": "MHL",
+      "year": 2023
+    },
+    {
+      "country": "MHL",
+      "year": 2022
+    },
+    {
+      "country": "MHL",
+      "year": 2021
+    },
+    {
+      "country": "MHL",
+      "year": 2020
+    },
+    {
+      "country": "MHL",
+      "year": 2019
+    },
+    {
+      "country": "MHL",
+      "year": 2018
+    },
+    {
+      "country": "MHL",
+      "year": 2017
+    },
+    {
+      "country": "MHL",
+      "year": 2016
+    },
+    {
+      "country": "MHL",
+      "year": 2015
+    },
+    {
+      "country": "MHL",
+      "year": 2014
+    },
+    {
+      "country": "MHL",
+      "year": 2013
+    },
+    {
+      "country": "MHL",
+      "year": 2012
+    },
+    {
+      "country": "MHL",
+      "year": 2011
+    },
+    {
+      "country": "MHL",
+      "year": 2010
+    },
+    {
+      "country": "MHL",
+      "year": 2009
+    },
+    {
+      "country": "MHL",
+      "year": 2008
+    },
+    {
+      "country": "MHL",
+      "year": 2007
+    },
+    {
+      "country": "MHL",
+      "year": 2006
+    },
+    {
+      "country": "MHL",
+      "year": 2005
+    },
+    {
+      "country": "MHL",
+      "year": 2004
+    },
+    {
+      "country": "MHL",
+      "year": 2003
+    },
+    {
+      "country": "MHL",
+      "year": 2002
+    },
+    {
+      "country": "MHL",
+      "year": 2001
+    },
+    {
+      "country": "MHL",
+      "year": 2000
+    },
+    {
+      "country": "MHL",
+      "year": 1999
+    },
+    {
+      "country": "MHL",
+      "year": 1998
+    },
+    {
+      "country": "MHL",
+      "year": 1997
+    },
+    {
+      "country": "MHL",
+      "year": 1996
+    },
+    {
+      "country": "MHL",
+      "year": 1995
+    },
+    {
+      "country": "MHL",
+      "year": 1994
+    },
+    {
+      "country": "MHL",
+      "year": 1993
+    },
+    {
+      "country": "MHL",
+      "year": 1992
+    },
+    {
+      "country": "MHL",
+      "year": 1991
+    },
+    {
+      "country": "MHL",
+      "year": 1990
+    },
+    {
+      "country": "MHL",
+      "year": 1989
+    },
+    {
+      "country": "MHL",
+      "year": 1988
+    },
+    {
+      "country": "MHL",
+      "year": 1987
+    },
+    {
+      "country": "MHL",
+      "year": 1986
+    },
+    {
+      "country": "MHL",
+      "year": 1985
+    },
+    {
+      "country": "MHL",
+      "year": 1984
+    },
+    {
+      "country": "MHL",
+      "year": 1983
+    },
+    {
+      "country": "MHL",
+      "year": 1982
+    },
+    {
+      "country": "MHL",
+      "year": 1981
+    },
+    {
+      "country": "MHL",
+      "year": 1980
+    },
+    {
+      "country": "FSM",
+      "year": 2024
+    },
+    {
+      "country": "FSM",
+      "year": 2023
+    },
+    {
+      "country": "FSM",
+      "year": 2022
+    },
+    {
+      "country": "FSM",
+      "year": 2021
+    },
+    {
+      "country": "FSM",
+      "year": 2020
+    },
+    {
+      "country": "FSM",
+      "year": 2019
+    },
+    {
+      "country": "FSM",
+      "year": 2018
+    },
+    {
+      "country": "FSM",
+      "year": 2017
+    },
+    {
+      "country": "FSM",
+      "year": 2016
+    },
+    {
+      "country": "FSM",
+      "year": 2015
+    },
+    {
+      "country": "FSM",
+      "year": 2014
+    },
+    {
+      "country": "FSM",
+      "year": 2013
+    },
+    {
+      "country": "FSM",
+      "year": 2012
+    },
+    {
+      "country": "FSM",
+      "year": 2011
+    },
+    {
+      "country": "FSM",
+      "year": 2010
+    },
+    {
+      "country": "FSM",
+      "year": 2009
+    },
+    {
+      "country": "FSM",
+      "year": 2008
+    },
+    {
+      "country": "FSM",
+      "year": 2007
+    },
+    {
+      "country": "FSM",
+      "year": 2006
+    },
+    {
+      "country": "FSM",
+      "year": 2005
+    },
+    {
+      "country": "FSM",
+      "year": 2004
+    },
+    {
+      "country": "FSM",
+      "year": 2003
+    },
+    {
+      "country": "FSM",
+      "year": 2002
+    },
+    {
+      "country": "FSM",
+      "year": 2001
+    },
+    {
+      "country": "FSM",
+      "year": 2000
+    },
+    {
+      "country": "FSM",
+      "year": 1999
+    },
+    {
+      "country": "FSM",
+      "year": 1998
+    },
+    {
+      "country": "FSM",
+      "year": 1997
+    },
+    {
+      "country": "FSM",
+      "year": 1996
+    },
+    {
+      "country": "FSM",
+      "year": 1995
+    },
+    {
+      "country": "FSM",
+      "year": 1994
+    },
+    {
+      "country": "FSM",
+      "year": 1993
+    },
+    {
+      "country": "FSM",
+      "year": 1992
+    },
+    {
+      "country": "FSM",
+      "year": 1991
+    },
+    {
+      "country": "FSM",
+      "year": 1990
+    },
+    {
+      "country": "FSM",
+      "year": 1989
+    },
+    {
+      "country": "FSM",
+      "year": 1988
+    },
+    {
+      "country": "FSM",
+      "year": 1987
+    },
+    {
+      "country": "FSM",
+      "year": 1986
+    },
+    {
+      "country": "FSM",
+      "year": 1985
+    },
+    {
+      "country": "FSM",
+      "year": 1984
+    },
+    {
+      "country": "FSM",
+      "year": 1983
+    },
+    {
+      "country": "FSM",
+      "year": 1982
+    },
+    {
+      "country": "FSM",
+      "year": 1981
+    },
+    {
+      "country": "FSM",
+      "year": 1980
+    },
+    {
+      "country": "MDA",
+      "year": 1990
+    },
+    {
+      "country": "MDA",
+      "year": 1989
+    },
+    {
+      "country": "MDA",
+      "year": 1988
+    },
+    {
+      "country": "MDA",
+      "year": 1987
+    },
+    {
+      "country": "MDA",
+      "year": 1986
+    },
+    {
+      "country": "MDA",
+      "year": 1985
+    },
+    {
+      "country": "MDA",
+      "year": 1984
+    },
+    {
+      "country": "MDA",
+      "year": 1983
+    },
+    {
+      "country": "MDA",
+      "year": 1982
+    },
+    {
+      "country": "MDA",
+      "year": 1981
+    },
+    {
+      "country": "MDA",
+      "year": 1980
+    },
+    {
+      "country": "MNG",
+      "year": 1991
+    },
+    {
+      "country": "MNG",
+      "year": 1990
+    },
+    {
+      "country": "MNG",
+      "year": 1989
+    },
+    {
+      "country": "MNG",
+      "year": 1988
+    },
+    {
+      "country": "MNG",
+      "year": 1987
+    },
+    {
+      "country": "MNG",
+      "year": 1986
+    },
+    {
+      "country": "MNG",
+      "year": 1985
+    },
+    {
+      "country": "MNG",
+      "year": 1984
+    },
+    {
+      "country": "MNG",
+      "year": 1983
+    },
+    {
+      "country": "MNG",
+      "year": 1982
+    },
+    {
+      "country": "MNG",
+      "year": 1981
+    },
+    {
+      "country": "MNG",
+      "year": 1980
+    },
+    {
+      "country": "MNE",
+      "year": 2002
+    },
+    {
+      "country": "MNE",
+      "year": 2001
+    },
+    {
+      "country": "MNE",
+      "year": 2000
+    },
+    {
+      "country": "MNE",
+      "year": 1999
+    },
+    {
+      "country": "MNE",
+      "year": 1998
+    },
+    {
+      "country": "MNE",
+      "year": 1997
+    },
+    {
+      "country": "MNE",
+      "year": 1996
+    },
+    {
+      "country": "MNE",
+      "year": 1995
+    },
+    {
+      "country": "MNE",
+      "year": 1994
+    },
+    {
+      "country": "MNE",
+      "year": 1993
+    },
+    {
+      "country": "MNE",
+      "year": 1992
+    },
+    {
+      "country": "MNE",
+      "year": 1991
+    },
+    {
+      "country": "MNE",
+      "year": 1990
+    },
+    {
+      "country": "MNE",
+      "year": 1989
+    },
+    {
+      "country": "MNE",
+      "year": 1988
+    },
+    {
+      "country": "MNE",
+      "year": 1987
+    },
+    {
+      "country": "MNE",
+      "year": 1986
+    },
+    {
+      "country": "MNE",
+      "year": 1985
+    },
+    {
+      "country": "MNE",
+      "year": 1984
+    },
+    {
+      "country": "MNE",
+      "year": 1983
+    },
+    {
+      "country": "MNE",
+      "year": 1982
+    },
+    {
+      "country": "MNE",
+      "year": 1981
+    },
+    {
+      "country": "MNE",
+      "year": 1980
+    },
+    {
+      "country": "NAM",
+      "year": 1989
+    },
+    {
+      "country": "NAM",
+      "year": 1988
+    },
+    {
+      "country": "NAM",
+      "year": 1987
+    },
+    {
+      "country": "NAM",
+      "year": 1986
+    },
+    {
+      "country": "NAM",
+      "year": 1985
+    },
+    {
+      "country": "NAM",
+      "year": 1984
+    },
+    {
+      "country": "NAM",
+      "year": 1983
+    },
+    {
+      "country": "NAM",
+      "year": 1982
+    },
+    {
+      "country": "NAM",
+      "year": 1981
+    },
+    {
+      "country": "NAM",
+      "year": 1980
+    },
+    {
+      "country": "MKD",
+      "year": 1991
+    },
+    {
+      "country": "MKD",
+      "year": 1990
+    },
+    {
+      "country": "MKD",
+      "year": 1989
+    },
+    {
+      "country": "MKD",
+      "year": 1988
+    },
+    {
+      "country": "MKD",
+      "year": 1987
+    },
+    {
+      "country": "MKD",
+      "year": 1986
+    },
+    {
+      "country": "MKD",
+      "year": 1985
+    },
+    {
+      "country": "MKD",
+      "year": 1984
+    },
+    {
+      "country": "MKD",
+      "year": 1983
+    },
+    {
+      "country": "MKD",
+      "year": 1982
+    },
+    {
+      "country": "MKD",
+      "year": 1981
+    },
+    {
+      "country": "MKD",
+      "year": 1980
+    },
+    {
+      "country": "PLW",
+      "year": 2024
+    },
+    {
+      "country": "PLW",
+      "year": 2023
+    },
+    {
+      "country": "PLW",
+      "year": 2022
+    },
+    {
+      "country": "PLW",
+      "year": 2021
+    },
+    {
+      "country": "PLW",
+      "year": 2020
+    },
+    {
+      "country": "PLW",
+      "year": 2019
+    },
+    {
+      "country": "PLW",
+      "year": 2018
+    },
+    {
+      "country": "PLW",
+      "year": 2017
+    },
+    {
+      "country": "PLW",
+      "year": 2016
+    },
+    {
+      "country": "PLW",
+      "year": 2015
+    },
+    {
+      "country": "PLW",
+      "year": 2014
+    },
+    {
+      "country": "PLW",
+      "year": 2013
+    },
+    {
+      "country": "PLW",
+      "year": 2012
+    },
+    {
+      "country": "PLW",
+      "year": 2011
+    },
+    {
+      "country": "PLW",
+      "year": 2010
+    },
+    {
+      "country": "PLW",
+      "year": 2009
+    },
+    {
+      "country": "PLW",
+      "year": 2008
+    },
+    {
+      "country": "PLW",
+      "year": 2007
+    },
+    {
+      "country": "PLW",
+      "year": 2006
+    },
+    {
+      "country": "PLW",
+      "year": 2005
+    },
+    {
+      "country": "PLW",
+      "year": 2004
+    },
+    {
+      "country": "PLW",
+      "year": 2003
+    },
+    {
+      "country": "PLW",
+      "year": 2002
+    },
+    {
+      "country": "PLW",
+      "year": 2001
+    },
+    {
+      "country": "PLW",
+      "year": 2000
+    },
+    {
+      "country": "PLW",
+      "year": 1999
+    },
+    {
+      "country": "PLW",
+      "year": 1998
+    },
+    {
+      "country": "PLW",
+      "year": 1997
+    },
+    {
+      "country": "PLW",
+      "year": 1996
+    },
+    {
+      "country": "PLW",
+      "year": 1995
+    },
+    {
+      "country": "PLW",
+      "year": 1994
+    },
+    {
+      "country": "PLW",
+      "year": 1993
+    },
+    {
+      "country": "PLW",
+      "year": 1992
+    },
+    {
+      "country": "PLW",
+      "year": 1991
+    },
+    {
+      "country": "PLW",
+      "year": 1990
+    },
+    {
+      "country": "PLW",
+      "year": 1989
+    },
+    {
+      "country": "PLW",
+      "year": 1988
+    },
+    {
+      "country": "PLW",
+      "year": 1987
+    },
+    {
+      "country": "PLW",
+      "year": 1986
+    },
+    {
+      "country": "PLW",
+      "year": 1985
+    },
+    {
+      "country": "PLW",
+      "year": 1984
+    },
+    {
+      "country": "PLW",
+      "year": 1983
+    },
+    {
+      "country": "PLW",
+      "year": 1982
+    },
+    {
+      "country": "PLW",
+      "year": 1981
+    },
+    {
+      "country": "PLW",
+      "year": 1980
+    },
+    {
+      "country": "SRB",
+      "year": 1991
+    },
+    {
+      "country": "SRB",
+      "year": 1990
+    },
+    {
+      "country": "SRB",
+      "year": 1989
+    },
+    {
+      "country": "SRB",
+      "year": 1988
+    },
+    {
+      "country": "SRB",
+      "year": 1987
+    },
+    {
+      "country": "SRB",
+      "year": 1986
+    },
+    {
+      "country": "SRB",
+      "year": 1985
+    },
+    {
+      "country": "SRB",
+      "year": 1984
+    },
+    {
+      "country": "SRB",
+      "year": 1983
+    },
+    {
+      "country": "SRB",
+      "year": 1982
+    },
+    {
+      "country": "SRB",
+      "year": 1981
+    },
+    {
+      "country": "SRB",
+      "year": 1980
+    },
+    {
+      "country": "SXM",
+      "year": 1992
+    },
+    {
+      "country": "SXM",
+      "year": 1991
+    },
+    {
+      "country": "SXM",
+      "year": 1990
+    },
+    {
+      "country": "SXM",
+      "year": 1989
+    },
+    {
+      "country": "SXM",
+      "year": 1988
+    },
+    {
+      "country": "SXM",
+      "year": 1987
+    },
+    {
+      "country": "SXM",
+      "year": 1986
+    },
+    {
+      "country": "SXM",
+      "year": 1985
+    },
+    {
+      "country": "SXM",
+      "year": 1984
+    },
+    {
+      "country": "SXM",
+      "year": 1983
+    },
+    {
+      "country": "SXM",
+      "year": 1982
+    },
+    {
+      "country": "SXM",
+      "year": 1981
+    },
+    {
+      "country": "SXM",
+      "year": 1980
+    },
+    {
+      "country": "SVK",
+      "year": 2024
+    },
+    {
+      "country": "SVK",
+      "year": 2023
+    },
+    {
+      "country": "SVK",
+      "year": 2022
+    },
+    {
+      "country": "SVK",
+      "year": 2021
+    },
+    {
+      "country": "SVK",
+      "year": 2020
+    },
+    {
+      "country": "SVK",
+      "year": 2019
+    },
+    {
+      "country": "SVK",
+      "year": 2018
+    },
+    {
+      "country": "SVK",
+      "year": 2017
+    },
+    {
+      "country": "SVK",
+      "year": 2016
+    },
+    {
+      "country": "SVK",
+      "year": 2015
+    },
+    {
+      "country": "SVK",
+      "year": 2014
+    },
+    {
+      "country": "SVK",
+      "year": 2013
+    },
+    {
+      "country": "SVK",
+      "year": 2012
+    },
+    {
+      "country": "SVK",
+      "year": 2011
+    },
+    {
+      "country": "SVK",
+      "year": 2010
+    },
+    {
+      "country": "SVK",
+      "year": 2009
+    },
+    {
+      "country": "SVK",
+      "year": 2008
+    },
+    {
+      "country": "SVK",
+      "year": 2007
+    },
+    {
+      "country": "SVK",
+      "year": 2006
+    },
+    {
+      "country": "SVK",
+      "year": 2005
+    },
+    {
+      "country": "SVK",
+      "year": 2004
+    },
+    {
+      "country": "SVK",
+      "year": 2003
+    },
+    {
+      "country": "SVK",
+      "year": 2002
+    },
+    {
+      "country": "SVK",
+      "year": 2001
+    },
+    {
+      "country": "SVK",
+      "year": 2000
+    },
+    {
+      "country": "SVK",
+      "year": 1999
+    },
+    {
+      "country": "SVK",
+      "year": 1998
+    },
+    {
+      "country": "SVK",
+      "year": 1997
+    },
+    {
+      "country": "SVK",
+      "year": 1996
+    },
+    {
+      "country": "SVK",
+      "year": 1995
+    },
+    {
+      "country": "SVK",
+      "year": 1994
+    },
+    {
+      "country": "SVK",
+      "year": 1993
+    },
+    {
+      "country": "SVK",
+      "year": 1992
+    },
+    {
+      "country": "SVK",
+      "year": 1991
+    },
+    {
+      "country": "SVK",
+      "year": 1990
+    },
+    {
+      "country": "SVK",
+      "year": 1989
+    },
+    {
+      "country": "SVK",
+      "year": 1988
+    },
+    {
+      "country": "SVK",
+      "year": 1987
+    },
+    {
+      "country": "SVK",
+      "year": 1986
+    },
+    {
+      "country": "SVK",
+      "year": 1985
+    },
+    {
+      "country": "SVK",
+      "year": 1984
+    },
+    {
+      "country": "SVK",
+      "year": 1983
+    },
+    {
+      "country": "SVK",
+      "year": 1982
+    },
+    {
+      "country": "SVK",
+      "year": 1981
+    },
+    {
+      "country": "SVK",
+      "year": 1980
+    },
+    {
+      "country": "SVN",
+      "year": 1991
+    },
+    {
+      "country": "SVN",
+      "year": 1990
+    },
+    {
+      "country": "SVN",
+      "year": 1989
+    },
+    {
+      "country": "SVN",
+      "year": 1988
+    },
+    {
+      "country": "SVN",
+      "year": 1987
+    },
+    {
+      "country": "SVN",
+      "year": 1986
+    },
+    {
+      "country": "SVN",
+      "year": 1985
+    },
+    {
+      "country": "SVN",
+      "year": 1984
+    },
+    {
+      "country": "SVN",
+      "year": 1983
+    },
+    {
+      "country": "SVN",
+      "year": 1982
+    },
+    {
+      "country": "SVN",
+      "year": 1981
+    },
+    {
+      "country": "SVN",
+      "year": 1980
+    },
+    {
+      "country": "SSD",
+      "year": 2009
+    },
+    {
+      "country": "SSD",
+      "year": 2008
+    },
+    {
+      "country": "SSD",
+      "year": 2007
+    },
+    {
+      "country": "SSD",
+      "year": 2006
+    },
+    {
+      "country": "SSD",
+      "year": 2005
+    },
+    {
+      "country": "SSD",
+      "year": 2004
+    },
+    {
+      "country": "SSD",
+      "year": 2003
+    },
+    {
+      "country": "SSD",
+      "year": 2002
+    },
+    {
+      "country": "SSD",
+      "year": 2001
+    },
+    {
+      "country": "SSD",
+      "year": 2000
+    },
+    {
+      "country": "SSD",
+      "year": 1999
+    },
+    {
+      "country": "SSD",
+      "year": 1998
+    },
+    {
+      "country": "SSD",
+      "year": 1997
+    },
+    {
+      "country": "SSD",
+      "year": 1996
+    },
+    {
+      "country": "SSD",
+      "year": 1995
+    },
+    {
+      "country": "SSD",
+      "year": 1994
+    },
+    {
+      "country": "SSD",
+      "year": 1993
+    },
+    {
+      "country": "SSD",
+      "year": 1992
+    },
+    {
+      "country": "SSD",
+      "year": 1991
+    },
+    {
+      "country": "SSD",
+      "year": 1990
+    },
+    {
+      "country": "SSD",
+      "year": 1989
+    },
+    {
+      "country": "SSD",
+      "year": 1988
+    },
+    {
+      "country": "SSD",
+      "year": 1987
+    },
+    {
+      "country": "SSD",
+      "year": 1986
+    },
+    {
+      "country": "SSD",
+      "year": 1985
+    },
+    {
+      "country": "SSD",
+      "year": 1984
+    },
+    {
+      "country": "SSD",
+      "year": 1983
+    },
+    {
+      "country": "SSD",
+      "year": 1982
+    },
+    {
+      "country": "SSD",
+      "year": 1981
+    },
+    {
+      "country": "SSD",
+      "year": 1980
+    },
+    {
+      "country": "KNA",
+      "year": 1982
+    },
+    {
+      "country": "KNA",
+      "year": 1981
+    },
+    {
+      "country": "KNA",
+      "year": 1980
+    },
+    {
+      "country": "SYR",
+      "year": 2007
+    },
+    {
+      "country": "SYR",
+      "year": 2006
+    },
+    {
+      "country": "TJK",
+      "year": 1990
+    },
+    {
+      "country": "TJK",
+      "year": 1989
+    },
+    {
+      "country": "TJK",
+      "year": 1988
+    },
+    {
+      "country": "TJK",
+      "year": 1987
+    },
+    {
+      "country": "TJK",
+      "year": 1986
+    },
+    {
+      "country": "TJK",
+      "year": 1985
+    },
+    {
+      "country": "TJK",
+      "year": 1984
+    },
+    {
+      "country": "TJK",
+      "year": 1983
+    },
+    {
+      "country": "TJK",
+      "year": 1982
+    },
+    {
+      "country": "TJK",
+      "year": 1981
+    },
+    {
+      "country": "TJK",
+      "year": 1980
+    },
+    {
+      "country": "TKM",
+      "year": 1990
+    },
+    {
+      "country": "TKM",
+      "year": 1989
+    },
+    {
+      "country": "TKM",
+      "year": 1988
+    },
+    {
+      "country": "TKM",
+      "year": 1987
+    },
+    {
+      "country": "TKM",
+      "year": 1986
+    },
+    {
+      "country": "TKM",
+      "year": 1985
+    },
+    {
+      "country": "TKM",
+      "year": 1984
+    },
+    {
+      "country": "TKM",
+      "year": 1983
+    },
+    {
+      "country": "TKM",
+      "year": 1982
+    },
+    {
+      "country": "TKM",
+      "year": 1981
+    },
+    {
+      "country": "TKM",
+      "year": 1980
+    },
+    {
+      "country": "TUV",
+      "year": 2024
+    },
+    {
+      "country": "TUV",
+      "year": 2023
+    },
+    {
+      "country": "TUV",
+      "year": 2022
+    },
+    {
+      "country": "TUV",
+      "year": 2021
+    },
+    {
+      "country": "TUV",
+      "year": 2020
+    },
+    {
+      "country": "TUV",
+      "year": 2019
+    },
+    {
+      "country": "TUV",
+      "year": 2018
+    },
+    {
+      "country": "TUV",
+      "year": 2017
+    },
+    {
+      "country": "TUV",
+      "year": 2016
+    },
+    {
+      "country": "TUV",
+      "year": 2015
+    },
+    {
+      "country": "TUV",
+      "year": 2014
+    },
+    {
+      "country": "TUV",
+      "year": 2013
+    },
+    {
+      "country": "TUV",
+      "year": 2012
+    },
+    {
+      "country": "TUV",
+      "year": 2011
+    },
+    {
+      "country": "TUV",
+      "year": 2010
+    },
+    {
+      "country": "TUV",
+      "year": 2009
+    },
+    {
+      "country": "TUV",
+      "year": 2008
+    },
+    {
+      "country": "TUV",
+      "year": 2007
+    },
+    {
+      "country": "TUV",
+      "year": 2006
+    },
+    {
+      "country": "TUV",
+      "year": 2005
+    },
+    {
+      "country": "TUV",
+      "year": 2004
+    },
+    {
+      "country": "TUV",
+      "year": 2003
+    },
+    {
+      "country": "TUV",
+      "year": 2002
+    },
+    {
+      "country": "TUV",
+      "year": 2001
+    },
+    {
+      "country": "TUV",
+      "year": 2000
+    },
+    {
+      "country": "TUV",
+      "year": 1999
+    },
+    {
+      "country": "TUV",
+      "year": 1998
+    },
+    {
+      "country": "TUV",
+      "year": 1997
+    },
+    {
+      "country": "TUV",
+      "year": 1996
+    },
+    {
+      "country": "TUV",
+      "year": 1995
+    },
+    {
+      "country": "TUV",
+      "year": 1994
+    },
+    {
+      "country": "TUV",
+      "year": 1993
+    },
+    {
+      "country": "TUV",
+      "year": 1992
+    },
+    {
+      "country": "TUV",
+      "year": 1991
+    },
+    {
+      "country": "TUV",
+      "year": 1990
+    },
+    {
+      "country": "TUV",
+      "year": 1989
+    },
+    {
+      "country": "TUV",
+      "year": 1988
+    },
+    {
+      "country": "TUV",
+      "year": 1987
+    },
+    {
+      "country": "TUV",
+      "year": 1986
+    },
+    {
+      "country": "TUV",
+      "year": 1985
+    },
+    {
+      "country": "TUV",
+      "year": 1984
+    },
+    {
+      "country": "TUV",
+      "year": 1983
+    },
+    {
+      "country": "TUV",
+      "year": 1982
+    },
+    {
+      "country": "TUV",
+      "year": 1981
+    },
+    {
+      "country": "TUV",
+      "year": 1980
+    },
+    {
+      "country": "UKR",
+      "year": 1990
+    },
+    {
+      "country": "UKR",
+      "year": 1989
+    },
+    {
+      "country": "UKR",
+      "year": 1988
+    },
+    {
+      "country": "UKR",
+      "year": 1987
+    },
+    {
+      "country": "UKR",
+      "year": 1986
+    },
+    {
+      "country": "UKR",
+      "year": 1985
+    },
+    {
+      "country": "UKR",
+      "year": 1984
+    },
+    {
+      "country": "UKR",
+      "year": 1983
+    },
+    {
+      "country": "UKR",
+      "year": 1982
+    },
+    {
+      "country": "UKR",
+      "year": 1981
+    },
+    {
+      "country": "UKR",
+      "year": 1980
+    },
+    {
+      "country": "UZB",
+      "year": 1990
+    },
+    {
+      "country": "UZB",
+      "year": 1989
+    },
+    {
+      "country": "UZB",
+      "year": 1988
+    },
+    {
+      "country": "UZB",
+      "year": 1987
+    },
+    {
+      "country": "UZB",
+      "year": 1986
+    },
+    {
+      "country": "UZB",
+      "year": 1985
+    },
+    {
+      "country": "UZB",
+      "year": 1984
+    },
+    {
+      "country": "UZB",
+      "year": 1983
+    },
+    {
+      "country": "UZB",
+      "year": 1982
+    },
+    {
+      "country": "UZB",
+      "year": 1981
+    },
+    {
+      "country": "UZB",
+      "year": 1980
+    },
+    {
+      "country": "PSE",
+      "year": 2024
+    },
+    {
+      "country": "PSE",
+      "year": 2023
+    },
+    {
+      "country": "PSE",
+      "year": 2022
+    },
+    {
+      "country": "PSE",
+      "year": 2021
+    },
+    {
+      "country": "PSE",
+      "year": 2020
+    },
+    {
+      "country": "PSE",
+      "year": 2019
+    },
+    {
+      "country": "PSE",
+      "year": 2018
+    },
+    {
+      "country": "PSE",
+      "year": 2017
+    },
+    {
+      "country": "PSE",
+      "year": 2016
+    },
+    {
+      "country": "PSE",
+      "year": 2015
+    },
+    {
+      "country": "PSE",
+      "year": 2014
+    },
+    {
+      "country": "PSE",
+      "year": 2013
+    },
+    {
+      "country": "PSE",
+      "year": 2012
+    },
+    {
+      "country": "PSE",
+      "year": 2011
+    },
+    {
+      "country": "PSE",
+      "year": 2010
+    },
+    {
+      "country": "PSE",
+      "year": 2009
+    },
+    {
+      "country": "PSE",
+      "year": 2008
+    },
+    {
+      "country": "PSE",
+      "year": 2007
+    },
+    {
+      "country": "PSE",
+      "year": 2006
+    },
+    {
+      "country": "PSE",
+      "year": 2005
+    },
+    {
+      "country": "PSE",
+      "year": 2004
+    },
+    {
+      "country": "PSE",
+      "year": 2003
+    },
+    {
+      "country": "PSE",
+      "year": 2002
+    },
+    {
+      "country": "PSE",
+      "year": 2001
+    },
+    {
+      "country": "PSE",
+      "year": 2000
+    },
+    {
+      "country": "PSE",
+      "year": 1999
+    },
+    {
+      "country": "PSE",
+      "year": 1998
+    },
+    {
+      "country": "PSE",
+      "year": 1997
+    },
+    {
+      "country": "PSE",
+      "year": 1996
+    },
+    {
+      "country": "PSE",
+      "year": 1995
+    },
+    {
+      "country": "PSE",
+      "year": 1994
+    },
+    {
+      "country": "PSE",
+      "year": 1993
+    },
+    {
+      "country": "PSE",
+      "year": 1992
+    },
+    {
+      "country": "PSE",
+      "year": 1991
+    },
+    {
+      "country": "PSE",
+      "year": 1990
+    },
+    {
+      "country": "PSE",
+      "year": 1989
+    },
+    {
+      "country": "PSE",
+      "year": 1988
+    },
+    {
+      "country": "PSE",
+      "year": 1987
+    },
+    {
+      "country": "PSE",
+      "year": 1986
+    },
+    {
+      "country": "PSE",
+      "year": 1985
+    },
+    {
+      "country": "PSE",
+      "year": 1984
+    },
+    {
+      "country": "PSE",
+      "year": 1983
+    },
+    {
+      "country": "PSE",
+      "year": 1982
+    },
+    {
+      "country": "PSE",
+      "year": 1981
+    },
+    {
+      "country": "PSE",
+      "year": 1980
+    }
+  ],
+  "panelSha256": "0d69b08d87234fee4023428782e575d98104b473532078b03c7451d6697b2b9e",
+  "limitations": [
+    "Current revised World Bank data, not point-in-time historical vintages.",
+    "Annual total debt-in-default stock; not a rating-agency event panel.",
+    "No synthetic observations, interpolation, or cross-country sequence concatenation."
+  ]
+}

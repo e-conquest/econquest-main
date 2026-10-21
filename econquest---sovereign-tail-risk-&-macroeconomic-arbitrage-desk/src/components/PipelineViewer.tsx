@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { SovereignEntity, LayerOutputs, MacroScenario } from '../types/riskEngine';
+import { ANNUAL_FEATURE_LABELS, ANNUAL_FEATURES, FITTED_MODELS, getAnnualHistory } from '../math/fittedModels';
 
 interface PipelineViewerProps {
   sovereign: SovereignEntity;
@@ -19,6 +20,8 @@ export const PipelineViewer: React.FC<PipelineViewerProps> = ({
   onNavigateToTab
 }) => {
   const [activeLayer, setActiveLayer] = useState<number>(1);
+  const history = getAnnualHistory(sovereign);
+  const annualObservation = history[history.length - 1];
 
   return (
     <div className="space-y-6">
@@ -63,6 +66,15 @@ export const PipelineViewer: React.FC<PipelineViewerProps> = ({
         </div>
       </div>
 
+      <div className="rounded border border-amber-500/30 bg-amber-950/20 p-4 text-xs text-amber-200">
+        Model {output.annualModel.version} · observed {output.annualModel.observationYear} ·
+        target year {output.annualModel.forecastYear} (not a current forecast).
+        {' '}Onset hazard is conditional on no existing default.
+        {output.annualModel.inDefault && <strong> This country was already in default in the source year: the hazard is an out-of-scope diagnostic, not a usable default forecast.</strong>}
+        {output.annualModel.imputedFeatures.length > 0 &&
+          <span> Missing predictors imputed from training medians: {output.annualModel.imputedFeatures.join(', ')}.</span>}
+      </div>
+
       {/* 6-Layer Navigation Bar */}
       <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
         {[
@@ -104,16 +116,19 @@ export const PipelineViewer: React.FC<PipelineViewerProps> = ({
                 </span>
               </div>
               <p className="text-xs text-slate-400 mt-1">
-                Panel logistic regression across 1950–2026 with King & Zeng (2001) / Firth (1993) penalized maximum
-                likelihood correction for severe rare-event class imbalance, challenged by monotonic LightGBM trees.
+                Firth Jeffreys-penalized logistic regression and a monotonic LightGBM challenger fitted offline to
+                observed World Bank annual predictors and BoC–BoE default-onset labels.
+                Training predictors: {FITTED_MODELS.hazard.trainingPredictorYears.join('–')};
+                {' '}{FITTED_MODELS.hazard.trainingRows} at-risk country-years,
+                {' '}{FITTED_MODELS.hazard.trainingEvents} onsets. Revised data are not point-in-time vintages.
               </p>
             </div>
 
             {/* Formula Block */}
             <div className="p-4 bg-[#090d16] border border-[#1a2438] rounded font-mono text-xs text-slate-300 overflow-x-auto space-y-2">
-              <div className="text-slate-400 text-[11px]">Hazard Logit Equation (Section 3.1 & 7.1):</div>
+              <div className="text-slate-400 text-[11px]">Fitted hazard on standardized asinh-transformed predictors:</div>
               <div className="text-emerald-300">
-                z = -4.8512 + 0.0382·(Debt/GDP) + 0.0415·(ShortTermFX/Res) - 0.3120·(NetRes/Imp) + 0.1854·(DeficitGap) + 0.4210·(PITF) - 0.2241·(CommodityShock)
+                z = {FITTED_MODELS.hazard.firth.coefficients[0].toFixed(4)} + Σ βⱼ · standardized(asinh(xⱼ / scaleⱼ))
               </div>
               <div className="text-slate-400 text-[11px] pt-1">
                 Pr(E = 1 | x) = 1 / [1 + exp(-z)] = <span className="text-cyan-300 font-bold">{(output.baselineProbLogit * 100).toFixed(2)}%</span>
@@ -122,53 +137,17 @@ export const PipelineViewer: React.FC<PipelineViewerProps> = ({
 
             {/* Ingested Macro Metrics Grid */}
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              <div className="p-3 bg-[#111726] border border-[#1a2438] rounded">
-                <div className="text-[11px] text-slate-400">Public Debt / GDP</div>
-                <div className="text-lg font-mono font-bold text-slate-100">
-                  {sovereign.publicDebtToGdp.toFixed(1)}%
+              {ANNUAL_FEATURES.map((feature, index) => (
+                <div key={feature} className="p-3 bg-[#111726] border border-[#1a2438] rounded">
+                  <div className="text-[11px] text-slate-400">{ANNUAL_FEATURE_LABELS[feature]}</div>
+                  <div className="text-lg font-mono font-bold text-slate-100">
+                    {annualObservation.values[index]?.toFixed(2) ?? 'Missing / imputed'}
+                  </div>
+                  <div className="text-[10px] text-slate-500 font-mono">
+                    Observed {annualObservation.year}; fitted standardized β = {FITTED_MODELS.hazard.firth.coefficients[index + 1].toFixed(4)}
+                  </div>
                 </div>
-                <div className="text-[10px] text-slate-500 font-mono">β = +0.0382 (z = 5.38)</div>
-              </div>
-
-              <div className="p-3 bg-[#111726] border border-[#1a2438] rounded">
-                <div className="text-[11px] text-slate-400">Short-Term FX Debt / Reserves</div>
-                <div className="text-lg font-mono font-bold text-slate-100">
-                  {sovereign.shortTermFxDebtToReserves.toFixed(1)}%
-                </div>
-                <div className="text-[10px] text-slate-500 font-mono">β = +0.0415 (z = 5.00)</div>
-              </div>
-
-              <div className="p-3 bg-[#111726] border border-[#1a2438] rounded">
-                <div className="text-[11px] text-slate-400">Net Reserves / Imports</div>
-                <div className="text-lg font-mono font-bold text-slate-100">
-                  {sovereign.netReservesToImportsMonths.toFixed(1)} mos
-                </div>
-                <div className="text-[10px] text-slate-500 font-mono">β = -0.3120 (z = -5.76)</div>
-              </div>
-
-              <div className="p-3 bg-[#111726] border border-[#1a2438] rounded">
-                <div className="text-[11px] text-slate-400">Primary Deficit Gap</div>
-                <div className="text-lg font-mono font-bold text-slate-100">
-                  {sovereign.primaryDeficitGap.toFixed(1)} pp
-                </div>
-                <div className="text-[10px] text-slate-500 font-mono">β = +0.1854 (z = 4.40)</div>
-              </div>
-
-              <div className="p-3 bg-[#111726] border border-[#1a2438] rounded">
-                <div className="text-[11px] text-slate-400">Political Instability (PITF)</div>
-                <div className="text-lg font-mono font-bold text-slate-100">
-                  {sovereign.politicalInstabilityPitf.toFixed(1)} / 10
-                </div>
-                <div className="text-[10px] text-slate-500 font-mono">β = +0.4210 (z = 4.62)</div>
-              </div>
-
-              <div className="p-3 bg-[#111726] border border-[#1a2438] rounded">
-                <div className="text-[11px] text-slate-400">Commodity Shock Index</div>
-                <div className="text-lg font-mono font-bold text-slate-100">
-                  {sovereign.commodityExportShock > 0 ? `+${sovereign.commodityExportShock.toFixed(1)}` : sovereign.commodityExportShock.toFixed(1)}
-                </div>
-                <div className="text-[10px] text-slate-500 font-mono">β = -0.2241 (z = -3.84)</div>
-              </div>
+              ))}
             </div>
 
             {/* Monotonic LightGBM Challenger Section */}
@@ -177,8 +156,10 @@ export const PipelineViewer: React.FC<PipelineViewerProps> = ({
                 Monotonic Gradient-Boosted Decision Tree (LightGBM) Challenger
               </div>
               <p className="text-xs text-slate-400">
-                Monotonic constraints are strictly enforced: ∂ŷ/∂(Debt/GDP) ≥ 0 and ∂ŷ/∂(Reserves/Imports) ≤ 0 to prevent
-                non-economic over-fitting in the presence of rare defaults.
+                {FITTED_MODELS.hazard.lightgbm.trees.length} genuinely fitted trees, with nondecreasing external-debt,
+                short-term-debt and inflation effects, and nonincreasing reserves, growth and current-account effects.
+                Missing predictors use training medians. Stress scenarios perturb the terminal annual observation using
+                illustrative assumptions; the cards above show unshocked source observations.
               </p>
               <div className="flex items-center gap-6 pt-1 text-xs font-mono">
                 <div>
@@ -188,8 +169,10 @@ export const PipelineViewer: React.FC<PipelineViewerProps> = ({
                   </span>
                 </div>
                 <div>
-                  <span className="text-slate-400">Cross-Validation Weighting: </span>
-                  <span className="text-slate-200">0.60 Logit + 0.40 LightGBM</span>
+                  <span className="text-slate-400">Temporal Validation Weighting: </span>
+                  <span className="text-slate-200">
+                    {(1 - FITTED_MODELS.hazard.lightgbmWeight).toFixed(2)} Firth + {FITTED_MODELS.hazard.lightgbmWeight.toFixed(2)} LightGBM
+                  </span>
                 </div>
                 <div>
                   <span className="text-slate-400">Final Layer 1 Prior: </span>
@@ -333,8 +316,11 @@ export const PipelineViewer: React.FC<PipelineViewerProps> = ({
                 </span>
               </div>
               <p className="text-xs text-slate-400 mt-1">
-                Sovereign risk transitions discretely across structural regimes (Calm, Stressed, Crisis). Transitions
-                dynamically rescale base hazard rates and joint loss severities.
+                Three-state diagonal-Gaussian HMM fitted by Baum–Welch through {FITTED_MODELS.hmm.trainingThrough} on
+                {' '}{FITTED_MODELS.hmm.trainingObservations} observed annual reserves/growth/inflation observations
+                in {FITTED_MODELS.hmm.trainingSequences} separate consecutive country sequences.
+                Causal forward filtering uses learned transition and emission parameters, not hazard thresholds.
+                State names order fitted emissions by macro stress; they are not supervised crisis diagnoses.
               </p>
             </div>
 
@@ -346,7 +332,7 @@ export const PipelineViewer: React.FC<PipelineViewerProps> = ({
                   {(output.regimeProbabilities.calm * 100).toFixed(1)}%
                 </div>
                 <div className="text-[11px] text-slate-500 mt-1">
-                  Normal liquidity, baseline copula degrees of freedom (ν = 12)
+                  Lowest fitted annual macro-stress state; illustrative downstream copula ν = 12
                 </div>
               </div>
 
@@ -356,7 +342,7 @@ export const PipelineViewer: React.FC<PipelineViewerProps> = ({
                   {(output.regimeProbabilities.stressed * 100).toFixed(1)}%
                 </div>
                 <div className="text-[11px] text-slate-500 mt-1">
-                  Elevated FX vol, widening bid-ask spread, tail coupling (ν = 6)
+                  Intermediate fitted annual macro-stress state; illustrative downstream copula ν = 6
                 </div>
               </div>
 
@@ -366,7 +352,7 @@ export const PipelineViewer: React.FC<PipelineViewerProps> = ({
                   {(output.regimeProbabilities.crisis * 100).toFixed(1)}%
                 </div>
                 <div className="text-[11px] text-slate-500 mt-1">
-                  Extreme tail clustering (ν = 4), L-VaR spreads doubled
+                  Highest fitted annual macro-stress state; illustrative downstream copula ν = 4
                 </div>
               </div>
             </div>
@@ -375,27 +361,26 @@ export const PipelineViewer: React.FC<PipelineViewerProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="p-4 bg-[#111726] border border-[#1a2438] rounded space-y-2">
                 <div className="text-xs font-semibold text-slate-200">
-                  NLP Text Stress Index (TSI) — FinBERT & GeoBERT
+                  Illustrative Text Stress Index (not an HMM input)
                 </div>
                 <div className="text-lg font-mono font-bold text-cyan-400">
                   {output.tsiShockZScore >= 0 ? `+${output.tsiShockZScore.toFixed(2)}σ` : `${output.tsiShockZScore.toFixed(2)}σ`}
                 </div>
                 <p className="text-xs text-slate-400">
-                  Real-time sentiment telemetry tracking policy volatility, unrest indicators, and emergency regulatory
-                  filings.
+                  Legacy scenario metadata. The fitted annual HMM uses observed reserves, GDP growth and inflation,
+                  not this illustrative sentiment indicator.
                 </p>
               </div>
 
               <div className="p-4 bg-[#111726] border border-[#1a2438] rounded space-y-2">
                 <div className="text-xs font-semibold text-slate-200">
-                  AIS Maritime Vessel-Tracking Telemetry
+                  Illustrative Maritime Scenario Status (not live AIS)
                 </div>
                 <div className="text-xs font-mono font-semibold text-slate-300">
                   {output.aisChokepointStatus}
                 </div>
                 <p className="text-xs text-slate-400">
-                  Physical vessel throughput and dark-fleet activity monitoring key choke points (Strait of Malacca,
-                  Bab-el-Mandeb, Panama Canal).
+                  Scenario description only, not an observed vessel-tracking feed or an input to the fitted HMM.
                 </p>
               </div>
             </div>

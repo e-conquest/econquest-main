@@ -3,6 +3,8 @@
  * Based on: "EconQuest Geopolitical-Macroeconomic Risk Methodology White Paper"
  */
 
+import type { AnnualObservation, annualModelProvenance } from '../math/fittedModels';
+
 export type RegimeType = 'Calm' | 'Stressed' | 'Crisis';
 
 export type MacroScenario =
@@ -41,6 +43,7 @@ export interface CustomScenarioParams {
 }
 
 export interface SovereignEntity {
+  annualMacroHistory?: AnnualObservation[];
   id: string;
   name: string;
   code: string;
@@ -123,6 +126,7 @@ export interface PillarBreakdown {
 }
 
 export interface LayerOutputs {
+  annualModel: ReturnType<typeof annualModelProvenance>;
   // Layer 1
   baselineLogit: number;
   baselineProbLogit: number;
@@ -164,18 +168,6 @@ export interface LayerOutputs {
   lossDistributionPoints: { lossPercent: number; density: number }[];
 }
 
-export interface BacktestValidation {
-  kupiecPValue: number;
-  kupiecExceedances: number;
-  kupiecPassed: boolean;
-  christoffersenPValue: number;
-  christoffersenPassed: boolean;
-  acerbiSzekelyZ2: number;
-  acerbiSzekelyPassed: boolean;
-  auroc: number;
-  brierScore: number;
-}
-
 export interface DataFeedConfig {
   id: string;
   name: string;
@@ -188,15 +180,24 @@ export interface DataFeedConfig {
     | 'Yahoo Finance (yfinance)'
     | 'Custom Feed';
   targetPipelineLayer:
+    | 'FRED / ALFRED'
+    | 'BIS research'
+    | 'IDS research'
+    | 'UN Comtrade'
+    | 'GDELT research'
+    | 'ACLED research'
+    | 'World Bank research'
+    | 'WEO research'
+    | 'Monthly IMF'
     | 'Layer 1: Hazard'
     | 'Layer 2: Bayesian Log-Odds'
     | 'Layer 3: HMM Regime'
     | 'Layer 4: Structural CCA'
     | 'Layer 5: Copula'
     | 'Pillar 1-7 Scorecard';
-  protocol: 'REST (JSON)' | 'WebSocket (WSS)' | 'Server-Sent Events (SSE)' | 'gRPC Web' | 'Webhook Push';
+  protocol: 'REST (JSON)' | 'SDMX (XML)' | 'WebSocket (WSS)' | 'Server-Sent Events (SSE)' | 'gRPC Web' | 'Webhook Push';
   endpointUrl: string;
-  cadence: 'Streaming (<1s)' | '1-Minute Tick' | '5-Minute' | '15-Minute' | 'Hourly' | 'Daily Batch';
+  cadence: 'Manual' | 'Streaming (<1s)' | '1-Minute Tick' | '5-Minute' | '15-Minute' | 'Hourly' | 'Daily Batch';
   status: 'Connected' | 'Idle' | 'Syncing' | 'Error';
   latencyMs: number;
   enabled: boolean;
@@ -223,4 +224,3 @@ export interface YFinanceQuote {
   linkedSovereignId?: string;
   historicalSparkline: number[];
 }
-

@@ -2,6 +2,202 @@
 
 This document provides a technical and mathematical deep-dive into the internal architecture of **EconQuest — Sovereign Tail-Risk & Macroeconomic Arbitrage Desk**.
 
+> Current implementation: [fitted annual model guide](../README.md#fitted-annual-models-training-data-and-limitations).
+> Offline Python training in `quant/` exports versioned coefficients, LightGBM trees, Gaussian HMM parameters and observed
+> country histories to `src/data/fittedAnnualModels.json`. TypeScript performs deterministic inference, not fitting.
+> Runtime Layer 1 uses six observed WDI macro predictors; runtime Layer 3 is a learned annual HMM with causal filtering.
+> The old coefficients, six demo predictor definitions and threshold regime descriptions below are legacy specifications,
+> not the fitted implementation. The fitted snapshot is research-only and fails to beat a constant-rate holdout baseline.
+> Other risk layers and monthly chart generators remain illustrative.
+>
+> Historical evaluation in [`src/math/backtesting.ts`](../src/math/backtesting.ts) runs the fitted classifiers on
+> [`historicalEvaluation.json`](../src/data/historicalEvaluation.json), exported from the observed, embargoed test split.
+> Brier, log loss, ROC AUC and average precision are calculated from these rows, not display constants.
+> Kupiec/Christoffersen statistics require a separately imported, validated forecast/loss archive; without it they are
+> unavailable. ES reports a statistic only, without an uncalibrated p-value or pass claim.
+> See [historical loss imports](../README.md#historical-loss-import) for the schema and limitations.
+
+---
+
+## Local research service
+
+The default [app shell](../src/App.tsx) renders [ResearchDashboard](../src/components/ResearchDashboard.tsx).
+The old full pipeline lives in the lazy-loaded [experimental sandbox](../src/ExperimentalApp.tsx); it is not
+an input to observed monitoring, research alerts or research exports.
+
+The [data API client](../src/services/dataApi.ts) validates backend contracts and reports failures explicitly.
+The [ACLED adapter](../backend/acled.py) and [schema-12 store](../backend/acled_storage.py)
+provide independent private core-event snapshots: global account-accessible records for
+30 completed UTC event-date days, with OAuth secrets held only in the backend. The installed
+`acled==1.0.2` core client uses an instance-local bounded transport and native parser, without
+automatic retries, cookie fallback or token persistence. Exact pagination totals and matching
+native-event fingerprints across two complete reads precede staging; immutable originals are
+rechecked before activation. Account entitlements, reporting lag, revisions/deletions, approximate
+dates/locations and reported fatality uncertainty are explicit. There is no GDELT merge,
+deduplication claim, CAST forecast, risk conversion or fitted-model input. See
+[the backend contract](../backend/README.md#acled-core-events-contract).
+
+The [GDELT adapter](../backend/gdelt.py) and [separate store](../backend/gdelt_storage.py)
+add schema-11 daily global Events research snapshots: all 96 quarter-hour exports of the
+latest completed UTC day, immutable ZIP originals and lossless 61-field native records.
+The pinned gdeltPyR archive worker runs in a key-free isolated subprocess with strict
+ZIP/TSV validation and no network fallback. Complete-day transport/count gates precede
+manual staging/activation; interruption never promotes partial data. Filters retain native
+GDELT geography/CAMEO identities, not guessed ISO mappings. Machine-coded media records,
+event ingestion time and coded event date are not verified incidents, publication times,
+headlines, unique incident counts or sovereign-risk predictions. Models and other provider
+selections are unchanged. See [the contract](../backend/README.md#gdelt-daily-events-contract).
+
+The local [Python service](../backend/) owns SQLite migrations, raw uploaded files, validated immutable revisions,
+staged/quarantined runs, active-version selection and backups. Development requests proxy through Vite;
+built assets can be served by the backend on the same loopback origin.
+
+[Research calculations](../src/math/researchMonitoring.ts) use only fitted annual inference or comparable
+timestamped observed values. Annual imports overlay the bundled history explicitly, not prior user imports.
+Training and holdout artifacts remain unchanged. Market changes are descriptive absolute changes, not portfolio returns.
+
+File publication time may be unknown; upload time is not historical release time.
+File freshness uses source observation age and an explicit user-supplied maximum age, independent of import age.
+The [Yahoo adapter](../backend/yahoo.py) manually retrieves five years of daily EMB/PCY/ECH/TUR ETF Close
+history through an isolated yfinance worker. It validates fund identity, USD units, OHLCV/actions and complete
+US ETF session coverage using exchange_calendars/XNYS, with a 30-minute post-close buffer. Every batch is
+staged for review before activation; invalid/partial histories quarantine the entire batch. SQLite schema 3
+persists provider job state, reports and captured library-response snapshots (not raw HTTP), including
+source hashes and settings. It recovers interrupted jobs and preserves prior active data on failure.
+Session-close UTC times are distinct from daily local-midnight source labels and unknown publication times.
+Calendar freshness requires the latest eligible session for every ETF, with local UI expiry at the next
+eligible close. No provider scheduler, connection latency or live event is simulated. No Yahoo key is needed;
+future privileged source credentials must remain server-side. See [the backend contract](../backend/README.md#yahoo-data-contract)
+for usage restrictions, timeouts and limitations. Market observations never feed the annual models.
+
+The [IMF adapter](../backend/imf.py) queries version-checked CPI/ER/IL/MFS_IR monthly data,
+using all-items CPI (`_T`, not food category `CP01`) and an explicit current-economy/territory
+mapping. [MacroStore](../backend/macro_storage.py) owns separate schema-4 revisions, raw HTTP
+response manifests, source hashes, coverage matrices, retrieved-vintage comparisons and activation.
+UN Comtrade is independent research storage at schema 10: immutable per-request originals,
+bilateral annual rows, completed task chunks and an append-only quota ledger. Only explicit
+bounded passes run; manual resume continues a frozen global availability/data plan after
+pause or restart. No partial acquisition can activate. Original HS/SITC classifications,
+native values and flags are retained; historical and unreviewed area identities are not
+guessed or mapped to successors. Per-chunk source metadata checks do not establish one
+global point-in-time vintage. It never supplies fitted-model inputs or automated spillover
+analytics. See [the Comtrade contract](../backend/README.md#un-comtrade-contract).
+
+The **Monthly IMF** v2 contract permits disclosed absent pairs without dropping the global
+coverage universe. Unknown-status observations are individually excluded with raw values,
+flags and exclusion reasons preserved; unrelated valid rows in a response are no longer lost.
+Parse/transport/definition failures and entirely unusable baskets still block activation.
+Versioned activation validates stored counts and retains the strict gate for legacy v1 snapshots;
+reprocessing creates a new immutable revision, not a status rewrite. A supervised cancellable
+thread performs only user-triggered acquisition; last valid data remains selected after failure.
+The [IMF client](../src/services/imfApi.ts), [macro workspace](../src/components/MacroMonitoring.tsx)
+and [native monthly helpers](../src/math/macroMonitoring.ts) do not touch annual or Yahoo observations.
+Bounded pages keep the global panel out of the main state payload. Charts break at missing months
+and definition/base discontinuities. Native values and `SCALE` are retained without unverified
+rescaling. Monetary conversion, cross-country policy/CPI-level comparability, release-lag freshness
+and historical publication availability are not asserted. See the
+[IMF contract](../backend/README.md#imf-monthly-contract).
+
+The [WEO adapter](../backend/weo.py) is a separate IMF.RES annual-release path. It retrieves
+every indicator in the verified WEO catalog for individual economies, retaining all available
+years and group-inherited units, methodology and `LATEST_ACTUAL_ANNUAL_DATA` metadata.
+The [WEO store](../backend/weo_storage.py) uses schema-5 independent runs/active selection,
+immutable series/rows and raw-response manifests. Series metadata is stored once, not repeated
+across every annual row; paginated queries keep the global panel out of `/api/state`.
+Missing coverage is explicitly allowed for WEO and separately for the versioned Monthly IMF v2 contract.
+Consistent release publication/update metadata is required across chunks; failures never activate.
+
+The [WEO workspace](../src/components/WeoMonitoring.tsx) and [annual chart helper](../src/math/weoMonitoring.ts)
+separate source-classified actuals (revisable), IMF estimates/projections and unknown boundaries.
+Unmapped fiscal cutoffs are not guessed from today's year. Missing years/classification breaks
+disconnect chart segments. No unit rescaling, cross-country level comparability, current
+freshness or historical publication availability is asserted. This path does not enter the
+annual fitted-model overlay or mutate training/holdout artifacts. See the
+[WEO contract](../backend/README.md#weo-annual-contract).
+
+The [IDS adapter](../backend/ids.py) reuses the bounded, library-locked World Bank
+transport but fixes source 6 and the four-dimensional advanced `WLD` creditor-total
+route. Eighteen external-debt indicators and source-specific individual economy metadata
+are verified separately from WDI. Schema-9 IDS runs/series/rows/source manifests and
+activation remain independent. [The shared World Bank workspace](../src/components/WorldBankMonitoring.tsx)
+and [client](../src/services/worldbankApi.ts) use an explicit provider namespace and reject
+WDI-shaped IDS observations, mixed sources, invented flags and truncated series.
+Native numeric/null values and all supplied source attributes are preserved; absent
+actual/estimate/status/precision metadata remains unknown. Future-dated numeric/null
+cells are counted and kept only in originals, but retained nonfuture dates are not
+asserted actuals. Three overlapping WDI indicators are shared-source evidence, not
+independent corroboration. No filling, component aggregation, model inputs or historical
+availability claims. See [the IDS contract](../backend/README.md#world-bank-ids-contract).
+
+The [World Bank adapter](../backend/worldbank.py) uses pinned `wbgapi.fetch` for the
+reviewed 17-indicator WDI source-2 basket and complete annual history. The public
+low-level fetch preserves flags/footnotes discarded by the high-level data helper.
+A library-scoped, locked transport reference supplies HTTP timeouts, byte/request/deadline
+budgets, source capture and strict pagination/error-envelope validation. It does not
+patch shared `requests.get`, mutate installed dependencies or use wbgapi metadata caches.
+WDI-specific economy membership is intersected with explicit country aggregate metadata;
+blank ISO3 aggregate aliases are accepted only with a matching captured code/name/classification.
+
+Schema 6 uses the same immutable annual-provider table definitions and
+[namespace-whitelisted persistence](../backend/weo_storage.py) as WEO, but separate tables,
+jobs, revision history, activation and rollback. WDI native records do not use WEO actual-data
+boundaries or forecast classifications. [The workspace](../src/components/WorldBankMonitoring.tsx)
+and [chart helper](../src/math/worldbankMonitoring.ts) show native values/definitions, missing pairs/years,
+flags and footnotes with no interpolation. Failed selections retain explicitly identified
+previous reviews, never relabeled as newly requested data. Source-level update/retrieval dates
+do not imply publication-time availability or current freshness. No WDI provider snapshot
+enters the fitted-model overlay. See [the World Bank contract](../backend/README.md#world-bank-wdi-contract).
+
+The [FRED/ALFRED adapter](../backend/fred.py) uses the same official API for current
+and explicitly dated historical snapshots, not an SDK or a full revision-archive download.
+Its fixed 18-series basket retains native frequency/units/seasonal adjustment, exact
+numeric text, missing dots and query-clipped real-time bounds. Full vintage-date lists
+gate historical archive availability: absent earlier vintages do not get current values.
+Native metadata is fetched for available historical snapshots; current reference metadata
+on an unavailable historical series is explicitly labeled.
+
+Backend-only `FRED_API_KEY` is absent from stored request URLs and browser state. The
+bounded standard-library HTTPS transport avoids URL-logging clients, redirects and retries;
+responses echoing the credential are deliberately not persisted. A hidden terminal prompt
+and [VS Code task](../.vscode/tasks.json) allow entry without a tracked file or shell-history
+literal. Provider errors, pagination/count/identity failures, changes in current metadata,
+cancellation and deadlines preserve prior active selections.
+
+Schema 7 and [FredStore](../backend/fred_storage.py) use immutable native-dated rows and
+**separate current/historical** active selections and rollback chains, reusing only
+whitelisted common manifest/source/progress primitives from annual-provider persistence.
+The [FRED workspace](../src/components/FredMonitoring.tsx) validates all observation pages
+before replacing a chart and labels retained reviews with their original snapshot/date.
+Charts do not interpolate nulls or nonconsecutive native periods. Date-level real-time
+bounds do not establish intraday or original per-observation release availability.
+No new model overlay, cross-series transactional source guarantee, freshness policy,
+curve fitting or vintage-aware backtest is claimed.
+
+The [BIS adapter](../backend/bis.py) captures public SDMX XML from fixed LBS v1.0
+and total-credit v2.0 contracts. It checks source identities, dimension order and
+code definitions, inherits dataset/group/series/observation attributes, validates
+native units and free/public classification, and retains exact numeric text,
+break/status flags, pre-break values and source hashes. Six fixed quarterly
+indicators cover all current individual ISO economies in the union of flow
+metadata; each query uses its own flow's membership. Unavailable pairs are
+explicit catalog entries, not synthetic observations. No package changes:
+`bis-fetcher` extracts speech PDFs and is not a statistics adapter.
+
+Schema 8 and [BisStore](../backend/bis_storage.py) add independent immutable quarterly
+rows, series and original manifests, using shared manifest/source/progress primitives
+but separate staging, period-aware pages, revision comparison and rollback.
+The [BIS workspace](../src/components/BisMonitoring.tsx) assembles full selected histories,
+retains failed reviews with their snapshot identity and disconnects chart lines at
+missing quarters/nulls, flagged observations and unit changes. Native USD-millions
+values are not multiplied again. No derived analytics are claimed.
+LBS all-reporting-location totals are residence-based, not consolidated, bilateral
+or sovereign-only exposures. Credit sectors overlap. Retrieval dates and current
+revised snapshots are not historical publication vintages or point-in-time backtest
+inputs. Models, contagion calculations and other provider selections are unchanged.
+See [the BIS API contract](../backend/README.md#bis-quarterly-contract).
+
+The mathematical specifications below describe the experimental desks, not the production research path.
+
 ---
 
 ## 1. Architectural Design Principles
@@ -244,4 +440,3 @@ $$\text{EfficiencyScore}_i = \frac{\text{MVaR}_i}{\text{CDS}_{5\text{Y}, i} / 10
 - [**`docs/DATA_API_ARCHITECTURE.md`**](./DATA_API_ARCHITECTURE.md) — Multi-Tier Live Data Ingestion (FRED, IMF SDMX 3.0, BIS, Bloomberg B-PIPE, Markit CDS, Polymarket CLOB, GDELT/ACLED, AIS Maritime, and Point-in-Time TimescaleDB store).
 - [**`docs/AI_AGENT_ARCHITECTURE.md`**](./AI_AGENT_ARCHITECTURE.md) — Deterministic Function-Calling Quantitative Risk Agent schemas, Automated IMF Article IV / Central Bank NLP Parser, and Multi-Agent IC Debate Simulator.
 - [**`docs/MOBILE_AND_ENTERPRISE_SPECS.md`**](./MOBILE_AND_ENTERPRISE_SPECS.md) — Offline-First PWA, Native iOS/Android Push Companion, Rust/WASM Monte Carlo acceleration, and Federal Reserve **SR 11-7** Model Risk Governance.
-

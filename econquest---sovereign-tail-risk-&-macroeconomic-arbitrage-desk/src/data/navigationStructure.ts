@@ -115,9 +115,9 @@ export const WORKSPACE_CLUSTERS: NavCluster[] = [
       },
       {
         id: 'governance',
-        name: 'FRTB Governance',
+        name: 'Historical Model Evaluation',
         shortName: 'Governance',
-        subtitle: 'Basel III / FRTB Validation, Kupiec & Acerbi-Szekely',
+        subtitle: 'Observed default holdout and imported historical VaR / ES tests',
         category: 'quant_models',
         icon: '⚖️'
       },
@@ -157,7 +157,7 @@ export const WORKSPACE_CLUSTERS: NavCluster[] = [
         id: 'yfinance',
         name: 'Yahoo Finance Telemetry',
         shortName: 'yfinance',
-        subtitle: 'Live Sovereign Bond ETFs, FX, Rates & Commodities',
+        subtitle: 'Experimental quote fixtures - no API connector',
         category: 'alpha_markets',
         icon: '📈'
       }
@@ -172,7 +172,7 @@ export const WORKSPACE_CLUSTERS: NavCluster[] = [
         id: 'feeds',
         name: 'API Data Feeds',
         shortName: 'API Feeds',
-        subtitle: 'Custom Endpoints, Polling Cadence & Layer Mappings',
+        subtitle: 'Unconfigured provider catalog - no live connectors',
         category: 'data_ingest',
         icon: '🔌'
       },
@@ -180,7 +180,7 @@ export const WORKSPACE_CLUSTERS: NavCluster[] = [
         id: 'ingest',
         name: 'CSV / Excel Ingest',
         shortName: 'File Ingest',
-        subtitle: 'Upload Custom Macro Data & Caldara-Iacoviello GPR',
+        subtitle: 'Validated imports are available in the research workspace',
         category: 'data_ingest',
         icon: '📥'
       }

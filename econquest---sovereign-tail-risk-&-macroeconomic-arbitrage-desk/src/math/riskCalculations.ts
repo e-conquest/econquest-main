@@ -1,11 +1,12 @@
 /**
  * Quantitative VaR & Econometric Risk Calculations
- * Rigorously implementing all formulas from the EconQuest White Paper
+ * Fitted annual hazard/HMM models with illustrative downstream risk calculations.
  */
 
-import { SovereignEntity, LayerOutputs, MacroScenario, BacktestValidation, RegimeType, CustomScenarioParams } from '../types/riskEngine';
+import { SovereignEntity, LayerOutputs, MacroScenario, RegimeType, CustomScenarioParams } from '../types/riskEngine';
 import { PILLARS_METADATA } from '../data/indicatorMatrix';
 import { DEFAULT_CUSTOM_SCENARIO } from '../data/defaultCustomScenarios';
+import { annualModelProvenance, filterAnnualRegimes, getScenarioHistory, predictAnnualHazard } from './fittedModels';
 
 // Math helper functions
 export function standardNormalCdf(x: number): number {
@@ -33,7 +34,7 @@ function studentTCdf(t: number, nu: number): number {
 
 /**
  * Layer 1: Base Event Probability via Discrete-Time Hazard Modeling
- * Specification: Firth penalized logistic regression + LightGBM challenger
+ * Observed annual macro panel: fitted Firth regression + LightGBM challenger.
  */
 export function computeLayer1Hazard(
   entity: SovereignEntity,
@@ -45,96 +46,8 @@ export function computeLayer1Hazard(
   lightgbmProb: number;
   reconciledHazard: number;
 } {
-  const custom = customParams || DEFAULT_CUSTOM_SCENARIO;
-  let debtGdp = entity.publicDebtToGdp;
-  let fxDebt = entity.shortTermFxDebtToReserves;
-  let reservesImports = entity.netReservesToImportsMonths;
-  let deficitGap = entity.primaryDeficitGap;
-  let pitf = entity.politicalInstabilityPitf;
-  let commodityShock = entity.commodityExportShock;
-
-  // Apply scenario shocks to Layer 1 variables
-  if (scenario === 'scenarioA_fedTightening') {
-    // Foreign-currency heavy sovereigns debt weights shift by +1.4x
-    fxDebt *= 1.4;
-    debtGdp *= 1.08;
-    if (entity.fxRegime !== 'Floating') {
-      reservesImports *= 0.75; // Non-floating suffers reserve drain
-    }
-  } else if (scenario === 'scenarioB_commodityCollapse') {
-    // Deficits widen 3.5-5.0% of GDP for commodity mono-exporters
-    deficitGap += 3.8;
-    commodityShock -= 3.5;
-    if (entity.fxRegime !== 'Floating') {
-      reservesImports *= 0.65;
-    }
-  } else if (scenario === 'scenarioC_malaccaBlockade') {
-    // Malacca chokepoint supply shock
-    if (entity.maritimeChokepointExposure === 'Critical' || entity.maritimeChokepointExposure === 'High') {
-      deficitGap += 1.8;
-      pitf += 1.2;
-    }
-  } else if (scenario === 'custom') {
-    // Custom Macro Scenario Builder user-calibrated shocks
-    const usdMultiplier = Math.max(0.6, 1 + (custom.broadUsdAppreciation / 100) * 1.4);
-    fxDebt *= usdMultiplier;
-    debtGdp *= (1 + (custom.sovereignSpreadWideningBps + Math.max(0, custom.usYieldCurveShiftBps)) * 0.00015);
-    
-    if (entity.fxRegime !== 'Floating') {
-      const drainFactor = Math.max(0.2, 1 + custom.reserveDrainPercent / 100);
-      reservesImports *= drainFactor;
-    }
-
-    if (custom.commodityPriceShockPercent < 0) {
-      deficitGap += Math.abs(custom.commodityPriceShockPercent) * 0.08;
-    }
-    deficitGap += (custom.sovereignSpreadWideningBps + Math.max(0, custom.usYieldCurveShiftBps)) * 0.003;
-    commodityShock += custom.commodityPriceShockPercent / 12;
-    pitf += Math.max(0, custom.textStressIndexShockSigma * 0.35);
-
-    if ((entity.maritimeChokepointExposure === 'Critical' || entity.maritimeChokepointExposure === 'High') && custom.aisChokepointDisruptionPct > 20) {
-      deficitGap += (custom.aisChokepointDisruptionPct / 100) * 2.0;
-      pitf += (custom.aisChokepointDisruptionPct / 100) * 1.4;
-    }
-  }
-
-  // Section 7.1 Panel Logistic Regression Coefficients
-  const beta0 = -4.8512;
-  const betaDebt = 0.0382;
-  const betaFxDebt = 0.0415;
-  const betaReserves = -0.3120;
-  const betaDeficit = 0.1854;
-  const betaPitf = 0.4210;
-  const betaCommodity = -0.2241;
-
-  const z =
-    beta0 +
-    betaDebt * debtGdp +
-    betaFxDebt * fxDebt +
-    betaReserves * reservesImports +
-    betaDeficit * deficitGap +
-    betaPitf * pitf +
-    betaCommodity * commodityShock;
-
-  const firthProb = invLogit(z);
-
-  // LightGBM monotonic decision tree challenger evaluates non-linear thresholds:
-  // Strictly enforces dY/dDebt >= 0 and dY/dReserves <= 0
-  let nonLinearTerm = 0;
-  if (debtGdp > 80) nonLinearTerm += 0.012;
-  if (fxDebt > 120) nonLinearTerm += 0.018;
-  if (reservesImports < 2.5) nonLinearTerm += 0.015;
-  const lightgbmProb = Math.min(0.99, firthProb * 1.05 + nonLinearTerm);
-
-  // Cross-validation penalization reconciles Layer 1 baseline hazard
-  const reconciledHazard = 0.6 * firthProb + 0.4 * lightgbmProb;
-
-  return {
-    logitValue: z,
-    firthLogitProb: firthProb,
-    lightgbmProb: lightgbmProb,
-    reconciledHazard: reconciledHazard
-  };
+  const history = getScenarioHistory(entity, scenario, customParams);
+  return predictAnnualHazard(history[history.length - 1].values);
 }
 
 /**
@@ -325,7 +238,6 @@ export function computeLayer2Bayesian(
  */
 export function computeLayer3Regime(
   entity: SovereignEntity,
-  posteriorProb: number,
   scenario: MacroScenario,
   customParams?: CustomScenarioParams
 ): {
@@ -335,50 +247,7 @@ export function computeLayer3Regime(
   tsiShockZScore: number;
 } {
   const custom = customParams || DEFAULT_CUSTOM_SCENARIO;
-  let calmP = 0.70;
-  let stressedP = 0.22;
-  let crisisP = 0.08;
-
-  if (posteriorProb > 0.18) {
-    calmP = 0.08;
-    stressedP = 0.32;
-    crisisP = 0.60;
-  } else if (posteriorProb > 0.08) {
-    calmP = 0.25;
-    stressedP = 0.55;
-    crisisP = 0.20;
-  }
-
-  if (scenario === 'scenarioA_fedTightening') {
-    // 32% of frontier economies shift from Stressed to Crisis
-    calmP *= 0.5;
-    stressedP *= 0.8;
-    crisisP = 1.0 - calmP - stressedP;
-  } else if (scenario === 'scenarioB_commodityCollapse') {
-    crisisP += 0.25;
-    stressedP += 0.10;
-    calmP = Math.max(0.02, 1 - crisisP - stressedP);
-  } else if (scenario === 'scenarioC_malaccaBlockade') {
-    if (entity.maritimeChokepointExposure === 'Critical' || entity.maritimeChokepointExposure === 'High') {
-      crisisP = 0.78;
-      stressedP = 0.18;
-      calmP = 0.04;
-    }
-  } else if (scenario === 'custom') {
-    const rateShock = Math.max(0, custom.sovereignSpreadWideningBps) / 1000;
-    const fxShock = Math.max(0, custom.fxImpliedVolSkewJump) / 45;
-    const commShock = Math.max(0, -custom.commodityPriceShockPercent) / 60;
-    const chokepointShock = custom.aisChokepointDisruptionPct / 80;
-    const compositeShock = Math.min(1.0, 0.3 * rateShock + 0.25 * fxShock + 0.25 * commShock + 0.2 * chokepointShock);
-    
-    crisisP = Math.min(0.85, crisisP + compositeShock * 0.45);
-    stressedP = Math.min(0.60, stressedP + compositeShock * 0.25);
-    calmP = Math.max(0.02, 1 - crisisP - stressedP);
-  }
-
-  let regime: RegimeType = 'Calm';
-  if (crisisP > stressedP && crisisP > calmP) regime = 'Crisis';
-  else if (stressedP > calmP) regime = 'Stressed';
+  const fitted = filterAnnualRegimes(getScenarioHistory(entity, scenario, custom));
 
   let chokepointStatus = 'Normal Marine Flow (AIS Latency < 15m)';
   if (scenario === 'scenarioC_malaccaBlockade') {
@@ -398,8 +267,7 @@ export function computeLayer3Regime(
       : 0);
 
   return {
-    regime,
-    regimeProbabilities: { calm: calmP, stressed: stressedP, crisis: crisisP },
+    ...fitted,
     aisChokepointStatus: chokepointStatus,
     tsiShockZScore: tsiShock
   };
@@ -598,12 +466,13 @@ export function runRiskPipeline(
     precisionRatio,
     custom
   );
-  const layer3 = computeLayer3Regime(entity, layer2.posteriorProb, scenario, custom);
+  const layer3 = computeLayer3Regime(entity, scenario, custom);
   const layer4 = computeLayer4Severity(entity, scenario, custom);
   const layer5 = computeLayer5Copula(layer3.regime, scenario, custom);
   const layer6 = computeLayer6TailMetrics(layer2.posteriorProb, layer4.compositeSeverityLge, layer3.regime, scenario, custom);
 
   return {
+    annualModel: annualModelProvenance(entity),
     baselineLogit: layer1.logitValue,
     baselineProbLogit: layer1.firthLogitProb,
     lightgbmChallengerProb: layer1.lightgbmProb,
@@ -640,19 +509,4 @@ export function runRiskPipeline(
   };
 }
 
-/**
- * Formal Model Governance & Backtesting Results (Section 4.3 & 7.3)
- */
-export function getBacktestValidation(): BacktestValidation {
-  return {
-    kupiecPValue: 0.421, // Kupiec unconditional coverage test p-value failing to reject null
-    kupiecExceedances: 102, // across 10,000 observations at 99%
-    kupiecPassed: true,
-    christoffersenPValue: 0.385, // Independence test p-value confirming no clustering
-    christoffersenPassed: true,
-    acerbiSzekelyZ2: -0.142, // Within critical bounds [-1.96, +1.96]
-    acerbiSzekelyPassed: true,
-    auroc: 0.892, // Combined 7-Layer engine vs 0.741 rating agencies
-    brierScore: 0.019 // Brier score accuracy improvement from 0.048
-  };
-}
+export { getBacktestValidation } from './backtesting';

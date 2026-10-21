@@ -1,0 +1,57 @@
+name: EconQuest research verification
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: econquest---sovereign-tail-risk-&-macroeconomic-arbitrage-desk
+
+jobs:
+  verify:
+    name: Research tests and build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: econquest---sovereign-tail-risk-&-macroeconomic-arbitrage-desk/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install backend and model test dependencies
+        run: python -m pip install -r backend/requirements.txt -r quant/requirements.txt
+
+      - name: Test Python backend
+        run: python -m unittest discover -s backend/tests -p 'test_*.py' -v
+
+      - name: Test fitted models
+        run: python -m unittest discover -s quant -p 'test_*.py' -v
+
+      - name: Test TypeScript, typecheck and build
+        run: npm run verify
+
+      - name: Install browser test runtime
+        run: npx playwright install --with-deps chromium
+
+      - name: Test research source-to-screen workflow
+        run: npm run test:e2e
+        env:
+          ECONQUEST_TEST_PYTHON: python

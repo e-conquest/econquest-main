@@ -72,7 +72,7 @@ export const YFinanceMarketPanel: React.FC<YFinanceMarketPanelProps> = ({
       setSelectedSymbol(fetched.symbol);
       setCustomTickerInput('');
     } catch {
-      setQueryError(`Unable to fetch quote for "${customTickerInput}". Verify ticker syntax.`);
+      setQueryError('No API connector is configured. These sandbox quotes are fixed illustrative fixtures. Use research file ingestion for observed data.');
     } finally {
       setIsLoadingCustom(false);
     }
@@ -99,15 +99,14 @@ export const YFinanceMarketPanel: React.FC<YFinanceMarketPanelProps> = ({
         <div>
           <div className="flex items-center gap-2">
             <span className="font-mono text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">
-              yfinance API Gateway
+              Experimental quote fixtures - no API connection
             </span>
             <h2 className="text-lg font-bold text-slate-100">
-              Yahoo Finance Real-Time Market Metrics &amp; Macro Benchmarks
+              Illustrative Market Sandbox
             </h2>
           </div>
           <p className="text-xs text-slate-400 mt-1">
-            Live sovereign ETF benchmarks, FX currency spot cushions, commodity terms-of-trade futures, and US Treasury yields
-            calibrating Layer 2 High-Frequency signals and Pillar 2 external vulnerability.
+            Fixed demonstration quotes only. These are not observed monitoring data and do not calibrate the fitted annual models.
           </p>
         </div>
 

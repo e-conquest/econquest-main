@@ -51,7 +51,7 @@ export const BENCHMARK_YFINANCE_QUOTES: YFinanceQuote[] = [
     volume: '850K',
     impliedVol: 19.2,
     relevanceToDesk: 'White Paper Section 8 benchmark: Chilean equity and terms-of-trade sentiment proxy',
-    linkedSovereignId: 'paper-walkthrough',
+    linkedSovereignId: 'chile',
     historicalSparkline: [25.4, 25.8, 26.2, 26.7, 27.3, 27.5, 27.2, 27.3, 27.1]
   },
   {
@@ -123,7 +123,7 @@ export const BENCHMARK_YFINANCE_QUOTES: YFinanceQuote[] = [
     volume: '2.4B USD',
     impliedVol: 13.5,
     relevanceToDesk: 'Section 4.2 Forensic Rule 2: Floating FX shock absorption cushion without reserve depletion',
-    linkedSovereignId: 'paper-walkthrough',
+    linkedSovereignId: 'chile',
     historicalSparkline: [910, 918, 925, 930, 938, 940, 939, 941, 942.5]
   },
   {
@@ -214,7 +214,7 @@ export const BENCHMARK_YFINANCE_QUOTES: YFinanceQuote[] = [
     volume: '68.5K',
     impliedVol: 24.6,
     relevanceToDesk: 'White Paper Section 8: Chilean export revenue driver (52% export concentration indicator 2.11)',
-    linkedSovereignId: 'paper-walkthrough',
+    linkedSovereignId: 'chile',
     historicalSparkline: [4.15, 4.22, 4.30, 4.38, 4.42, 4.45, 4.44, 4.46, 4.48]
   },
   {
@@ -341,110 +341,8 @@ export const BENCHMARK_YFINANCE_QUOTES: YFinanceQuote[] = [
 ];
 
 /**
- * Live / Simulated yfinance Quote Fetcher
- * Queries Yahoo Finance API or returns calibrated quantitative proxy for arbitrary symbols
+ * Fixtures above are sandbox-only; manual observed history belongs to the research backend.
  */
 export async function fetchYFinanceQuote(symbolInput: string): Promise<YFinanceQuote> {
-  const symbol = symbolInput.trim().toUpperCase();
-
-  // 1. Check if symbol already exists in benchmark quotes
-  const existing = BENCHMARK_YFINANCE_QUOTES.find((q) => q.symbol.toUpperCase() === symbol);
-  if (existing) {
-    // Add realistic subtle jitter to simulate live tick updates
-    const jitter = (Math.random() - 0.48) * 0.004 * existing.price;
-    const newPrice = Math.round((existing.price + jitter) * 100) / 100;
-    const newChange = Math.round((existing.change + jitter) * 100) / 100;
-    const newChangePct = Math.round((newChange / (newPrice - newChange)) * 10000) / 100;
-
-    return {
-      ...existing,
-      price: newPrice,
-      change: newChange,
-      changePercent: newChangePct,
-      historicalSparkline: [...existing.historicalSparkline.slice(1), newPrice]
-    };
-  }
-
-  // 2. Query public Yahoo Finance chart endpoint (best-effort CORS or fallback)
-  try {
-    const res = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1d&range=5d`, {
-      method: 'GET',
-      headers: { Accept: 'application/json' }
-    });
-
-    if (res.ok) {
-      const data = await res.json();
-      const meta = data?.chart?.result?.[0]?.meta;
-      const quote = data?.chart?.result?.[0]?.indicators?.quote?.[0];
-
-      if (meta && quote) {
-        const regularMarketPrice = meta.regularMarketPrice || 100.0;
-        const previousClose = meta.chartPreviousClose || regularMarketPrice;
-        const change = Math.round((regularMarketPrice - previousClose) * 100) / 100;
-        const changePercent = Math.round((change / previousClose) * 10000) / 100;
-        const closeArray = (quote.close || []).filter((v: number | null) => typeof v === 'number');
-
-        return {
-          symbol,
-          name: meta.shortName || meta.symbol || symbol,
-          category: symbol.includes('=X')
-            ? 'FX Currency'
-            : symbol.includes('=F')
-            ? 'Commodity'
-            : symbol.startsWith('^')
-            ? 'Rates & Volatility'
-            : 'Sovereign ETF',
-          price: regularMarketPrice,
-          change,
-          changePercent,
-          currency: meta.currency || 'USD',
-          dayHigh: meta.regularMarketDayHigh || regularMarketPrice * 1.01,
-          dayLow: meta.regularMarketDayLow || regularMarketPrice * 0.99,
-          yearHigh: meta.fiftyTwoWeekHigh || regularMarketPrice * 1.15,
-          yearLow: meta.fiftyTwoWeekLow || regularMarketPrice * 0.85,
-          volume: meta.regularMarketVolume ? `${(meta.regularMarketVolume / 1e6).toFixed(1)}M` : 'N/A',
-          relevanceToDesk: `User ingested ticker ${symbol} for cross-asset macro correlation`,
-          historicalSparkline: closeArray.length >= 5 ? closeArray.slice(-9) : [regularMarketPrice * 0.98, regularMarketPrice]
-        };
-      }
-    }
-  } catch {
-    // Client-side CORS or offline fallback: generate a realistic institutional quote
-  }
-
-  // 3. Realistic institutional generation for custom arbitrary symbols
-  const isFx = symbol.includes('=X') || symbol.includes('USD') || symbol.includes('EUR');
-  const isCommodity = symbol.includes('=F') || ['OIL', 'BRENT', 'GOLD', 'WHEAT'].some((k) => symbol.includes(k));
-  const isIndex = symbol.startsWith('^') || ['VIX', 'DXY', 'TNX'].some((k) => symbol.includes(k));
-
-  const basePrice = isFx ? 18.5 : isCommodity ? 84.2 : isIndex ? 22.4 : 64.8;
-  const change = Math.round((Math.random() * 2 - 0.95) * 100) / 100;
-  const changePercent = Math.round((change / basePrice) * 10000) / 100;
-
-  return {
-    symbol,
-    name: `${symbol} (yfinance Feed)`,
-    category: isFx ? 'FX Currency' : isCommodity ? 'Commodity' : isIndex ? 'Rates & Volatility' : 'Sovereign ETF',
-    price: basePrice,
-    change,
-    changePercent,
-    currency: isFx ? 'FX' : 'USD',
-    dayHigh: Math.round(basePrice * 1.015 * 100) / 100,
-    dayLow: Math.round(basePrice * 0.985 * 100) / 100,
-    yearHigh: Math.round(basePrice * 1.25 * 100) / 100,
-    yearLow: Math.round(basePrice * 0.75 * 100) / 100,
-    volume: '1.45M',
-    impliedVol: 18.5,
-    relevanceToDesk: `Custom financial instrument ${symbol} linked to macro transmission pipeline`,
-    historicalSparkline: [
-      basePrice * 0.96,
-      basePrice * 0.97,
-      basePrice * 0.98,
-      basePrice * 0.99,
-      basePrice * 0.995,
-      basePrice * 1.01,
-      basePrice * 1.005,
-      basePrice
-    ]
-  };
+  throw new Error(`No browser quote connector configured for ${symbolInput.trim().toUpperCase()}. Use the research dashboard's manual Yahoo ETF pull or file ingestion.`);
 }

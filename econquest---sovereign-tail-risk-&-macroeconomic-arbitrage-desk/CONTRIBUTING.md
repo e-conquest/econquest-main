@@ -55,8 +55,12 @@ src/
 ```bash
 git clone https://github.com/<your-username>/econquest-sovereign-risk-desk.git
 cd econquest-sovereign-risk-desk
-npm install
+npm ci
 ```
+
+Use Node 22 from `.nvmrc`. See the [local research quickstart](./README.md#4-quickstart--local-development)
+for the separate Python backend environment and persistent SQLite service. Research monitoring must not consume
+experimental pipeline outputs or synthetic quote fallbacks. Provider selection and activation are separate acceptance gates.
 
 ### 2. Create a Descriptive Feature Branch
 - `feat/sovereign-egypt-profile`
@@ -75,9 +79,15 @@ npm install
 ### 4. Verification Before Submitting a PR
 Run the verification suite locally and ensure zero TypeScript or Vite bundling errors:
 ```bash
-npm run lint
-npm run build
+npm run verify
+.backend-venv/bin/python -m unittest discover -s backend -p 'test_*.py' -v
+.venv/bin/python -m unittest discover -s quant -p 'test_*.py' -v
+npm run test:e2e
 ```
+
+Install dependencies for each Python environment and `npx playwright install chromium` before running those suites.
+Browser tests own temporary local services/databases; do not run them against user data. External provider checks,
+when implemented, must remain separate from deterministic CI tests.
 
 ---
 

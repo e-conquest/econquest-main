@@ -245,18 +245,12 @@ export function generate12MonthMapProgression(
         historicalCds = Math.max(20, Math.round(historicalCds));
       }
 
-      // Regime classification
-      let regime: 'Calm' | 'Stressed' | 'Crisis' = 'Calm';
-      if (historicalHazard >= 20 || historicalVar >= 25) {
-        regime = 'Crisis';
-        crisisCount++;
-      } else if (historicalHazard >= 8 || historicalVar >= 15) {
-        regime = 'Stressed';
-        stressedCount++;
-      } else {
-        regime = 'Calm';
-        calmCount++;
-      }
+      // Replay values are illustrative; do not invent monthly HMM states from them.
+      if (!liveOutput) throw new Error(`Missing fitted annual output for ${sov.code}.`);
+      const regime = liveOutput.regime;
+      if (regime === 'Crisis') crisisCount++;
+      else if (regime === 'Stressed') stressedCount++;
+      else calmCount++;
 
       const delta = Math.round((historicalHazard - liveHazard) * 10) / 10;
       totalModelSum += historicalHazard;

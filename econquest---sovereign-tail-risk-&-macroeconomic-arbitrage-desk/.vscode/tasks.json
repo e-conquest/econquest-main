@@ -1,0 +1,69 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "EconQuest: backend with hidden FRED, Comtrade and ACLED prompts",
+			"type": "shell",
+			"command": ".backend-venv/bin/python",
+			"args": [
+				"-m",
+				"backend",
+				"serve",
+				"--port",
+				"8768",
+				"--prompt-fred-key",
+				"--prompt-comtrade-key",
+				"--prompt-acled"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "EconQuest: backend with hidden FRED key prompt",
+			"type": "shell",
+			"command": ".backend-venv/bin/python",
+			"args": [
+				"-m",
+				"backend",
+				"serve",
+				"--port",
+				"8768",
+				"--prompt-fred-key"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "EconQuest: backend with hidden FRED and Comtrade key prompts",
+			"type": "shell",
+			"command": ".backend-venv/bin/python",
+			"args": [
+				"-m",
+				"backend",
+				"serve",
+				"--port",
+				"8768",
+				"--prompt-fred-key",
+				"--prompt-comtrade-key"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "EconQuest: sign in to GitHub for source push",
+			"type": "shell",
+			"command": "gh",
+			"args": [
+				"auth",
+				"login",
+				"--hostname",
+				"github.com",
+				"--git-protocol",
+				"https",
+				"--web"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		}
+	]
+}

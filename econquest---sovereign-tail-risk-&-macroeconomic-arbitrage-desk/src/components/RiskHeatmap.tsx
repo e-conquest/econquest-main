@@ -31,7 +31,7 @@ export const RiskHeatmap: React.FC<RiskHeatmapProps> = ({
   activeScenario
 }) => {
   const [selectedMetric, setSelectedMetric] = useState<HeatmapMetric>('es975');
-  const [selectedEntityId, setSelectedEntityId] = useState<string>('paper-walkthrough');
+  const [selectedEntityId, setSelectedEntityId] = useState<string>(sovereigns[0].id);
   const [matrixHoverPair, setMatrixHoverPair] = useState<{ row: string; col: string } | null>(null);
   const [systemicShockFactor, setSystemicShockFactor] = useState<number>(activeScenario === 'baseline' ? 1.0 : 1.35);
 

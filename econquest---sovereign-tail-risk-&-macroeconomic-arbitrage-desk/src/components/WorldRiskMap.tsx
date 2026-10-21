@@ -326,6 +326,10 @@ export const WorldRiskMap: React.FC<WorldRiskMapProps> = ({
 
       {/* 12-Month Historical Time-Series Replay Control Deck */}
       <div className="p-4 bg-[#0d1424] border border-[#1b273e] rounded-xl space-y-3.5 shadow-xl">
+        <p className="text-xs text-amber-300">
+          Illustrative monthly replay, not observed model history. Regime labels carry the latest fitted annual HMM
+          state throughout the replay; no monthly HMM has been fitted. These charts are not training or backtest data.
+        </p>
         {/* Top Control Bar: Replay Transport Buttons & Global Aggregate Readouts */}
         <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
           {/* Left: Replay Status & Controls */}

@@ -726,10 +726,9 @@ export interface PortfolioAnalyticsSummary {
 
 export const PRESET_INSTITUTIONAL_BOOKS: Record<string, { name: string; description: string; positions: PortfolioPosition[] }> = {
   em_distressed_alpha: {
-    name: 'EM High-Yield & Special Situations Book ($250M)',
+    name: 'EM High-Yield & Special Situations Book ($195M)',
     description: 'Concentrated high-carry frontier & distressed sovereign mandate with selective CDS tail hedges',
     positions: [
-      { sovereignId: 'paper-walkthrough', notionalUsdMillions: 55, instrument: '5Y USD Eurobond', cdsHedgeRatioPct: 35 },
       { sovereignId: 'argentina', notionalUsdMillions: 45, instrument: '5Y USD Eurobond', cdsHedgeRatioPct: 40 },
       { sovereignId: 'sri-lanka', notionalUsdMillions: 35, instrument: '5Y USD Eurobond', cdsHedgeRatioPct: 30 },
       { sovereignId: 'pakistan', notionalUsdMillions: 35, instrument: '5Y USD Eurobond', cdsHedgeRatioPct: 35 },
@@ -739,14 +738,13 @@ export const PRESET_INSTITUTIONAL_BOOKS: Record<string, { name: string; descript
     ]
   },
   global_macro_core: {
-    name: 'Global Macro Core Sovereign Mandate ($500M)',
+    name: 'Global Macro Core Sovereign Mandate ($440M)',
     description: 'Balanced investment-grade and BB-tier sovereign allocation anchored by Chile, Indonesia, and South Africa',
     positions: [
       { sovereignId: 'chile', notionalUsdMillions: 140, instrument: '10Y USD Eurobond', cdsHedgeRatioPct: 10 },
       { sovereignId: 'indonesia', notionalUsdMillions: 130, instrument: '10Y USD Eurobond', cdsHedgeRatioPct: 10 },
       { sovereignId: 'south-africa', notionalUsdMillions: 95, instrument: '5Y USD Eurobond', cdsHedgeRatioPct: 20 },
-      { sovereignId: 'turkey', notionalUsdMillions: 75, instrument: '5Y USD Eurobond', cdsHedgeRatioPct: 25 },
-      { sovereignId: 'paper-walkthrough', notionalUsdMillions: 60, instrument: '5Y USD Eurobond', cdsHedgeRatioPct: 45 }
+      { sovereignId: 'turkey', notionalUsdMillions: 75, instrument: '5Y USD Eurobond', cdsHedgeRatioPct: 25 }
     ]
   },
   frontier_barbell: {

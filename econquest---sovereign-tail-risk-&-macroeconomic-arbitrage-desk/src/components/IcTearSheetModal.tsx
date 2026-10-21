@@ -94,12 +94,15 @@ export const IcTearSheetModal: React.FC<IcTearSheetModalProps> = ({
   const handleExportJson = () => {
     const payload = {
       metadata: {
+        workspace: 'experimental-sandbox',
+        warning: 'ILLUSTRATIVE OUTPUTS: not observed monitoring, investment advice or validated portfolio risk.',
         reportTitle:
           reportScope === 'single_sovereign'
             ? `EconQuest IC Sovereign Risk Memo - ${selectedSovereign.name} (${selectedSovereign.code})`
             : 'EconQuest Global Macro Risk Committee Pack',
         generatedAtIso: new Date().toISOString(),
         activeMacroScenario: activeScenario,
+        modelStatus: 'EXPERIMENTAL: annual fitted hazard/HMM; other layers and market inputs remain illustrative',
         methodology: 'EconQuest 6-Layer VaR + Nelson-Siegel + Augmented Taylor Rule'
       },
       focusSovereign: {
@@ -123,6 +126,7 @@ export const IcTearSheetModal: React.FC<IcTearSheetModalProps> = ({
           (pipelineOutputs[s.id]?.arbitrageDivergence || 0).toFixed(2)
         ),
         regime: pipelineOutputs[s.id]?.regime,
+        annualModel: pipelineOutputs[s.id]?.annualModel,
         lVar99Pct: Number((pipelineOutputs[s.id]?.lVar99 || 0).toFixed(2)),
         es975Pct: Number((pipelineOutputs[s.id]?.es975 || 0).toFixed(2))
       })),
@@ -139,11 +143,17 @@ export const IcTearSheetModal: React.FC<IcTearSheetModalProps> = ({
 
   const handleExportCsv = () => {
     const headers = [
+      'Workspace_Warning',
       'Code',
       'Sovereign',
       'Region',
       'FX_Regime',
       'Scenario',
+      'Model_Version',
+      'Observed_Year',
+      'Target_Year',
+      'Already_In_Default',
+      'Model_Status',
       'L1_Hazard_Pct',
       'Posterior_12M_PD_Pct',
       'Polymarket_Implied_Pct',
@@ -168,11 +178,17 @@ export const IcTearSheetModal: React.FC<IcTearSheetModalProps> = ({
       const cb = computeCentralBankPolicyProfile(s, pOut, activeScenario);
 
       return [
+        '"EXPERIMENTAL SANDBOX - illustrative, not observed monitoring or validated risk"',
         s.code,
         `"${s.name}"`,
         `"${s.region}"`,
         `"${s.fxRegime}"`,
         activeScenario,
+        pOut?.annualModel.version,
+        pOut?.annualModel.observationYear,
+        pOut?.annualModel.forecastYear,
+        pOut?.annualModel.inDefault,
+        pOut?.annualModel.status,
         ((pOut?.layer1ReconciledHazard || 0) * 100).toFixed(2),
         ((pOut?.calibratedPosteriorHazard || 0) * 100).toFixed(2),
         s.predictionMarket.impliedProbPercent.toFixed(2),
@@ -323,6 +339,11 @@ export const IcTearSheetModal: React.FC<IcTearSheetModalProps> = ({
               </div>
 
               {/* 3-Column Diagnostic Breakdown */}
+              <p className="text-xs text-amber-300">
+                Research-only fit · observed {out?.annualModel.observationYear} · target {out?.annualModel.forecastYear} ·
+                {' '}{out?.annualModel.version}. Onset hazard assumes no current default; not usable as a default
+                forecast for countries already in default. Other layers remain illustrative.
+              </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono tabular-nums">
                 <div className="p-4 bg-[#0e1524] border border-[#1a2438] rounded-lg space-y-2">
                   <div className="font-sans font-bold text-slate-100 border-b border-[#1a2438] pb-1.5">
