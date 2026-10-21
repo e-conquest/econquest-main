@@ -399,7 +399,7 @@ class FredApiTests(unittest.TestCase):
     def test_schema6_migration_preserves_other_provider_state(self):
         legacy = self.work / "v6.sqlite3"; legacy.write_bytes(self.store.snapshot())
         with closing(connect(legacy)) as conn:
-            for table in ("acled_rows", "acled_chunks", "acled_sources", "acled_runs",
+            for table in ("analysis_bundles", "acled_rows", "acled_chunks", "acled_sources", "acled_runs",
                           "gdelt_rows", "gdelt_chunks", "gdelt_sources", "gdelt_runs",
                           "comtrade_rows", "comtrade_sources", "comtrade_tasks", "comtrade_requests", "comtrade_runs",
                           "ids_rows", "ids_series", "ids_sources", "ids_runs", "bis_rows", "bis_series", "bis_sources", "bis_runs"):

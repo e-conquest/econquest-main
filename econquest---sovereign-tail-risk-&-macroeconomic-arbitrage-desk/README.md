@@ -23,6 +23,35 @@ scenario adjustments, portfolio risk and trading labels are not observed monitor
 
 ### Research workflow and boundaries
 
+**New local first slice: Macro trend desk.** The default Annual research screen is
+unchanged; open the **Macro trend desk** tab explicitly. Choose a completed stored
+WEO snapshot, **Preview source evidence**, inspect the global table/country dossiers,
+then enter a review note and acknowledge authorized local research use to
+**Save reviewed local bundle**. No provider is activated, no new acquisition starts,
+and annual fitted-model inputs are unchanged. Load saved bundles to reproduce the
+same evidence after refresh/restart, regardless of later active-provider changes.
+
+The initial four annual indicators are real GDP growth (`NGDP_RPCH`), annual-average
+CPI inflation (`PCPIPCH`), general government gross debt/GDP (`GGXWDG_NGDP`) and
+current account/GDP (`BCA_NGDPD`). The initial focused watchlist is USA, CHN, JPN,
+DEU, GBR, IND, BRA, MEX, ZAF, TUR, RUS and UKR. The global table covers the selected
+WEO individual-economy catalog, not a synchronized global aggregate. Every value
+shows its reporting year; changes are **percentage points** between consecutive
+comparable actual years, not percent returns. Actuals remain revisable and may
+be fiscal-year observations. Missing years, source breaks, incompatible units/
+definitions, unverified classifications and freshness are explicit. Projections
+are visible separately in dossiers and never used as the latest actual or its
+comparison. Source originals, native metadata and checksums remain inspectable.
+
+This is **local/private research**, not the hosted multi-user roadmap completed:
+no OIDC/user roles, public publishing, geopolitical fusion, generated briefings,
+threshold alerts, instrument valuations or promoted predictive scores are added.
+Public display/redistribution rights and GPL dependency obligations are **not
+cleared**; the bundle policy explicitly blocks publication. See
+[the bundle contract and rights gate](./backend/README.md#reviewed-macro-evidence-bundles).
+An already-running older backend requires a separately approved backup/restart to
+load schema 13; do not restart solely to bypass a quarantined source.
+
 1. Start the backend and frontend as described in [Quickstart](#4-quickstart--local-development).
 2. Open **Provider pulls** for provider acquisition, **Monthly IMF** for monthly IMF data,
    **WEO research** for the annual IMF outlook, **World Bank research** for WDI history,

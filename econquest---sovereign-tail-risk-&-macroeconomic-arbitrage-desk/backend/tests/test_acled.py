@@ -292,7 +292,7 @@ class AcledTests(unittest.TestCase):
     def test_schema11_upgrade_and_backup_gate(self):
         self.store.close()
         with closing(sqlite3.connect(self.path)) as conn:
-            for table in ("acled_rows", "acled_chunks", "acled_sources", "acled_runs"):
+            for table in ("analysis_bundles", "acled_rows", "acled_chunks", "acled_sources", "acled_runs"):
                 conn.execute(f"DROP TABLE {table}")
             conn.execute("PRAGMA user_version=11")
             conn.commit()

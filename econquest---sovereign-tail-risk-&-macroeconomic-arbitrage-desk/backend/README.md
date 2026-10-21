@@ -45,6 +45,71 @@ python3 -m venv .backend-venv
 
 ## API
 
+### Reviewed macro evidence bundles
+
+Schema **13** adds immutable `analysis_bundles`; all provider tables/activation
+semantics remain unchanged. The first analysis contract is `weo-macro-desk-v1`.
+
+- `GET /api/analysis/preview/{weo_run_id}`: read-only preview of an explicitly
+  selected completed staged/committed `weo-annual-native-v1` snapshot. Validates
+  source checksums, row count, country crosswalk uniqueness and retained lineage.
+  A quarantined/interrupted/unknown-contract source is rejected.
+- `POST /api/analysis/bundles`: requires the existing loopback mutation token and
+  exactly `runId`, `expectedDigest` (preview SHA-256), `reviewNote` (1-400 non-control
+  characters) and `researchUse: true`. Body limit is 4 KiB. Recomputes evidence
+  transactionally and rejects a digest mismatch. Stores a frozen payload and
+  review note plus an append-only audit entry; no provider activation/model change.
+- `GET /api/analysis/bundles`: saved bundle metadata.
+- `GET /api/analysis/bundles/{bundle_id}`: immutable saved evidence and results.
+- All routes return `Cache-Control: no-store`. No public/export/publish route is added.
+
+The evidence digest covers canonical sorted-key compact UTF-8 JSON of the analysis
+payload **excluding its digest field**. It includes source manifest/checksums,
+source run/acquisition timestamp, contract/formula version, rights policy, source
+country-to-ISO3 crosswalk, watchlist, native series/rows and calculated metrics.
+Bundle ID, save timestamp and review note are separate envelope metadata.
+`acquisitionStartedAt` and the provider report's `retrievedAt` (nullable) are separate;
+neither is a historical observation publication time. WEO publication is a release
+timestamp, not historical observation availability. Bundle reads and backup validation
+recheck the canonical evidence digest and envelope consistency.
+
+The four native indicators are `NGDP_RPCH`, `PCPIPCH`, `GGXWDG_NGDP` and
+`BCA_NGDPD`. Native annual `PT`, SCALE `0`, a verified actual boundary and
+consecutive actual values are required for percentage-point changes. Status
+`B`/`D`/`F` or changed effective observation definitions block comparison.
+No interpolation, monetary scaling, world aggregate or directional risk score.
+The latest **available** actual is labeled with its own reporting year and missing
+actual years remain visible. Estimates/projections remain separately classified.
+Freshness is `unverified` until a reviewed release-lag policy is implemented.
+
+The bundled watchlist is USA/CHN/JPN/DEU/GBR/IND/BRA/MEX/ZAF/TUR/RUS/UKR. Missing or
+unmapped members are disclosed; native WEO country codes are preserved. Watchlists
+are fixed/versioned for this slice, not authenticated user preferences.
+
+#### Rights and access gate
+
+Policy `local-research-only-publication-blocked-v1` always returns
+`publicAllowed: false`. Authorized local research acknowledgment is not legal
+clearance for internal organizational sharing or public redistribution.
+
+| Provider/dataset family | Existing local acquisition | Multi-user/public display, excerpts, exports and derived-data redistribution |
+|---|---|---|
+| Yahoo/yfinance | Explicit personal-research acknowledgment | Unreviewed; blocked for publication |
+| Monthly IMF / WEO | Native captured SDMX snapshots | Unreviewed; blocked for publication |
+| World Bank WDI / IDS | Native `wbgapi` snapshots; overlapping series retained | Unreviewed; blocked for publication |
+| FRED / ALFRED | Account/key and underlying-source conditions apply | Unreviewed; blocked for publication |
+| BIS | Captured native SDMX | Unreviewed; blocked for publication |
+| UN Comtrade | Account/key, authorized bounded discovery/data requests | Unreviewed; blocked for publication |
+| GDELT | Machine-coded Events, not rights to linked articles | Unreviewed; blocked for publication |
+| ACLED | Account-accessible licensed scope; current data access blocked by 403 | Unreviewed; blocked for publication |
+
+Before hosted/public deployment, review dataset-specific attribution, retention,
+sharing, revocation, excerpt and export permissions and GPL application/dependency
+obligations. Unknown rights must remain blocked, not inferred from a public API.
+The process token is **not user identity**, and the local service must not be
+exposed publicly. OIDC/roles, shared storage/concurrency, publication sanitization,
+backups/restores and rights-policy enforcement are separate roadmap gates.
+
 ### ACLED core events contract
 
 See [the private research workflow](../README.md#acled-conflict-and-protest-research).

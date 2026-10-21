@@ -291,7 +291,7 @@ class StorageTests(unittest.TestCase):
     def test_schema10_upgrade_keeps_existing_providers(self):
         self.store.close()
         with sqlite3.connect(self.path) as conn:
-            for table in ("acled_rows", "acled_chunks", "acled_sources", "acled_runs",
+            for table in ("analysis_bundles", "acled_rows", "acled_chunks", "acled_sources", "acled_runs",
                           "gdelt_rows", "gdelt_chunks", "gdelt_sources", "gdelt_runs"):
                 conn.execute(f"DROP TABLE {table}")
             conn.execute("PRAGMA user_version=10")

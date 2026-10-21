@@ -26,6 +26,17 @@ The old full pipeline lives in the lazy-loaded [experimental sandbox](../src/Exp
 an input to observed monitoring, research alerts or research exports.
 
 The [data API client](../src/services/dataApi.ts) validates backend contracts and reports failures explicitly.
+The opt-in [macro desk](../src/components/MacroDesk.tsx) uses
+[typed evidence contracts](../src/services/analysisApi.ts) and the
+[analysis store](../backend/analysis.py). Schema 13 adds immutable reviewed WEO
+bundles above, not inside, the native provider stores. An explicit preview/save
+workflow freezes source IDs/checksums, country mappings, formulas, native rows,
+classifications and review metadata. Only comparable consecutive actual annual
+values produce percentage-point changes. Provider activation and fitted models
+are untouched. All bundles are local/private with publication blocked pending
+rights review; this is not a public API or multi-user authentication implementation.
+See [the contract](../backend/README.md#reviewed-macro-evidence-bundles).
+
 The [ACLED adapter](../backend/acled.py) and [schema-12 store](../backend/acled_storage.py)
 provide independent private core-event snapshots: global account-accessible records for
 30 completed UTC event-date days, with OAuth secrets held only in the backend. The installed

@@ -288,7 +288,7 @@ class IdsApiTests(unittest.TestCase):
         finally:
             other.close()
         with closing(connect(backup)) as c:
-            for table in ("acled_rows", "acled_chunks", "acled_sources", "acled_runs",
+            for table in ("analysis_bundles", "acled_rows", "acled_chunks", "acled_sources", "acled_runs",
                           "gdelt_rows", "gdelt_chunks", "gdelt_sources", "gdelt_runs",
                           "comtrade_rows", "comtrade_sources", "comtrade_tasks", "comtrade_requests", "comtrade_runs",
                           "ids_rows", "ids_series", "ids_sources", "ids_runs"):

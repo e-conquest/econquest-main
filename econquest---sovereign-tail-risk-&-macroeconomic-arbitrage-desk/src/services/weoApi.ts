@@ -64,13 +64,13 @@ function validRun(v: unknown): v is WeoRun {
   return validWeoSummary(v) && 'sources' in v && Array.isArray(v.sources) && v.sources.every(s => object(s) &&
     integer(s.ordinal) && typeof s.path === 'string' && integer(s.httpStatus) && integer(s.bytes) && hash(s.sha256));
 }
-function validRow(v: unknown): v is WeoRow {
+export function validRow(v: unknown): v is WeoRow {
   return object(v) && typeof v.country === 'string' && typeof v.indicator === 'string' && year(v.year) &&
     (v.value === null || (typeof v.value === 'number' && Number.isFinite(v.value))) && (v.rawValue === null || typeof v.rawValue === 'string') &&
     ['actual', 'estimate_projection', 'unknown'].includes(String(v.classification)) && (v.status === null || typeof v.status === 'string') &&
     hash(v.sourceHash) && strings(v.attributes);
 }
-function validSeries(v: unknown): v is WeoSeries {
+export function validSeries(v: unknown): v is WeoSeries {
   return object(v) && ['country', 'indicator', 'unitLabel', 'scaleLabel'].every(k => typeof v[k] === 'string') &&
     ['unit', 'scale'].every(k => v[k] === null || typeof v[k] === 'string') && nullableYear(v.latestActualYear) &&
     integer(v.validCount) && integer(v.missingCount) && years(v.missingYears) &&

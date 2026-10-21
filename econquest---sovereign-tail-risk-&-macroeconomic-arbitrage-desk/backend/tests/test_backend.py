@@ -587,7 +587,7 @@ class BackendTests(unittest.TestCase):
         legacy.write_bytes(self.app.state.store.snapshot())
         with closing(connect(legacy)) as conn:
             conn.execute("DROP TABLE health")
-            for table in ("acled_rows", "acled_chunks", "acled_sources", "acled_runs",
+            for table in ("analysis_bundles", "acled_rows", "acled_chunks", "acled_sources", "acled_runs",
                           "gdelt_rows", "gdelt_chunks", "gdelt_sources", "gdelt_runs",
                           "comtrade_rows", "comtrade_sources", "comtrade_tasks", "comtrade_requests", "comtrade_runs"):
                 conn.execute(f"DROP TABLE {table}")

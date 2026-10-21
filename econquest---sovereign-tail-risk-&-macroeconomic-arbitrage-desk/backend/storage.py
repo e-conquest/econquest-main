@@ -12,7 +12,7 @@ from pathlib import Path
 from .models import Dataset, ImportPreview, Observation, Run, State
 from .validation import BatchError, utc_now, validate_annual_overlay
 
-DB_VERSION = 12
+DB_VERSION = 13
 MIGRATIONS = {
     1: [
         """CREATE TABLE originals (
@@ -225,6 +225,17 @@ MIGRATIONS[12] = [
     *[f"""CREATE TRIGGER {table}_no_{operation.lower()} BEFORE {operation} ON {table}
         BEGIN SELECT RAISE(ABORT, 'ACLED originals, verified pages and rows are immutable'); END"""
       for table in ("acled_sources", "acled_chunks", "acled_rows") for operation in ("UPDATE", "DELETE")],
+]
+
+
+MIGRATIONS[13] = [
+    """CREATE TABLE analysis_bundles (
+        id TEXT PRIMARY KEY, created_at TEXT NOT NULL,
+        weo_run_id TEXT NOT NULL REFERENCES weo_runs(id),
+        digest TEXT NOT NULL, review_note TEXT NOT NULL, payload TEXT NOT NULL)""",
+    *[f"""CREATE TRIGGER analysis_bundles_no_{operation.lower()} BEFORE {operation} ON analysis_bundles
+        BEGIN SELECT RAISE(ABORT, 'reviewed analysis bundles are immutable'); END"""
+      for operation in ("UPDATE", "DELETE")],
 ]
 
 
@@ -783,12 +794,18 @@ def verify_backup(path: Path) -> None:
             required.update({"gdelt_runs", "gdelt_sources", "gdelt_chunks", "gdelt_rows"})
         if version >= 12:
             required.update({"acled_runs", "acled_sources", "acled_chunks", "acled_rows"})
+        if version >= 13:
+            required.add("analysis_bundles")
         tables = {r[0] for r in conn.execute("SELECT name FROM sqlite_master WHERE type='table'")}
         if not required.issubset(tables):
             raise Conflict("Backup is not a research database")
         for row in conn.execute("SELECT sha256,content FROM originals"):
             if hashlib.sha256(row["content"]).hexdigest() != row["sha256"]:
                 raise Conflict("Original upload checksum mismatch")
+        if version >= 13:
+            from .analysis import read_bundle
+            for row in conn.execute("SELECT * FROM analysis_bundles"):
+                read_bundle(row)
     finally:
         conn.close()
 

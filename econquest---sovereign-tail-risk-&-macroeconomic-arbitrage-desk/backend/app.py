@@ -12,6 +12,8 @@ from threading import Event, Lock
 from urllib.parse import urlsplit
 
 from fastapi import FastAPI, HTTPException, Query, Request
+from pydantic import BaseModel, ConfigDict, Field
+from typing import Literal
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse, Response, StreamingResponse
 from starlette.datastructures import UploadFile
@@ -68,7 +70,7 @@ class LocalGuard:
         async def guarded_send(message):
             nonlocal started
             if message["type"] == "http.response.start":
-                if scope["path"].startswith(("/api/macro/", "/api/weo/", "/api/worldbank/", "/api/fred/", "/api/providers/fred", "/api/bis/", "/api/providers/bis", "/api/ids/", "/api/providers/ids", "/api/comtrade/", "/api/providers/comtrade", "/api/gdelt/", "/api/providers/gdelt", "/api/acled/", "/api/providers/acled")):
+                if scope["path"].startswith(("/api/analysis/", "/api/macro/", "/api/weo/", "/api/worldbank/", "/api/fred/", "/api/providers/fred", "/api/bis/", "/api/providers/bis", "/api/ids/", "/api/providers/ids", "/api/comtrade/", "/api/providers/comtrade", "/api/gdelt/", "/api/providers/gdelt", "/api/acled/", "/api/providers/acled")):
                     message.setdefault("headers", []).append((b"cache-control", b"no-store"))
                 started = True
             await send(message)
@@ -111,8 +113,8 @@ class LocalGuard:
                 supplied[0].encode("latin-1"), SESSION_TOKEN.encode("ascii")
             ):
                 return await reject(403, "A valid X-Research-Token is required")
-        if (scope["path"] in {"/api/imports", "/api/providers/yfinance/pull", "/api/providers/imf/pull", "/api/providers/imf-weo/pull", "/api/providers/worldbank/pull", "/api/providers/fred/pull", "/api/providers/bis/pull", "/api/providers/ids/pull", "/api/providers/gdelt/pull", "/api/providers/acled/pull"} or scope["path"].startswith("/api/providers/comtrade/")) and method == "POST":
-            body_limit = MAX_BODY if scope["path"] == "/api/imports" else 1024
+        if (scope["path"] in {"/api/imports", "/api/analysis/bundles", "/api/providers/yfinance/pull", "/api/providers/imf/pull", "/api/providers/imf-weo/pull", "/api/providers/worldbank/pull", "/api/providers/fred/pull", "/api/providers/bis/pull", "/api/providers/ids/pull", "/api/providers/gdelt/pull", "/api/providers/acled/pull"} or scope["path"].startswith("/api/providers/comtrade/")) and method == "POST":
+            body_limit = MAX_BODY if scope["path"] == "/api/imports" else 4096 if scope["path"] == "/api/analysis/bundles" else 1024
             lengths = headers.get(b"content-length", [])
             try:
                 if lengths and (len(lengths) != 1 or int(lengths[0]) > body_limit or int(lengths[0]) < 0):
@@ -157,6 +159,14 @@ def _field(form, name: str, *, required=True, limit=200) -> str | None:
     if not value or len(value) > limit or any(ord(c) < 32 for c in value):
         raise HTTPException(422, f"{name} is missing or invalid")
     return value
+
+
+class AnalysisReview(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True, str_strip_whitespace=True)
+    runId: str = Field(min_length=1, max_length=80)
+    expectedDigest: str = Field(pattern=r"^[a-f0-9]{64}$")
+    reviewNote: str = Field(min_length=1, max_length=400, pattern=r"^[^\x00-\x1f\x7f]+$")
+    researchUse: Literal[True]
 
 
 def create_app(db_path: str | Path | None = None, dist_path: str | Path | None = None) -> FastAPI:
@@ -247,6 +257,25 @@ def create_app(db_path: str | Path | None = None, dist_path: str | Path | None =
     @app.get("/api/state", response_model=State, response_model_exclude_none=True)
     def state():
         return _state(store)
+
+    from .analysis import AnalysisStore
+    analysis = AnalysisStore(store)
+
+    @app.get("/api/analysis/preview/{run_id}")
+    def preview_analysis(run_id: str):
+        return analysis.preview(run_id)
+
+    @app.get("/api/analysis/bundles")
+    def analysis_bundles():
+        return analysis.summaries()
+
+    @app.get("/api/analysis/bundles/{bundle_id}")
+    def analysis_bundle(bundle_id: str):
+        return analysis.get(bundle_id)
+
+    @app.post("/api/analysis/bundles", status_code=201)
+    def review_analysis(review: AnalysisReview):
+        return analysis.create(review.runId, review.expectedDigest, review.reviewNote)
 
     @app.post("/api/imports", response_model=ImportPreview, response_model_exclude_none=True)
     async def stage(request: Request):

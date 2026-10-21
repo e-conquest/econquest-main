@@ -12,11 +12,12 @@ const BisMonitoring = lazy(() => import('./BisMonitoring').then(module => ({ def
 const ComtradeMonitoring = lazy(() => import('./ComtradeMonitoring').then(module => ({ default: module.ComtradeMonitoring })));
 const GdeltMonitoring = lazy(() => import('./GdeltMonitoring').then(module => ({ default: module.GdeltMonitoring })));
 const AcledMonitoring = lazy(() => import('./AcledMonitoring').then(module => ({ default: module.AcledMonitoring })));
+const MacroDesk = lazy(() => import('./MacroDesk').then(module => ({ default: module.MacroDesk })));
 
 const panel = 'rounded-lg border border-slate-700 bg-[#0e1524] p-5 space-y-3';
 const button = 'rounded border border-slate-500 px-3 py-2 text-sm disabled:opacity-40';
 const input = 'rounded border border-slate-500 bg-slate-950 px-3 py-2';
-type Tab = 'Annual research' | 'Observed monitoring' | 'Monthly IMF' | 'WEO research' | 'World Bank research' | 'IDS research' | 'FRED / ALFRED' | 'BIS research' | 'UN Comtrade' | 'GDELT research' | 'ACLED research' | 'Provider pulls' | 'File ingestion' | 'Data health' | 'Historical evaluation';
+type Tab = 'Macro trend desk' | 'Annual research' | 'Observed monitoring' | 'Monthly IMF' | 'WEO research' | 'World Bank research' | 'IDS research' | 'FRED / ALFRED' | 'BIS research' | 'UN Comtrade' | 'GDELT research' | 'ACLED research' | 'Provider pulls' | 'File ingestion' | 'Data health' | 'Historical evaluation';
 
 function ProviderReport({ report }: { report: YahooReport }) {
   return <div className="space-y-3">
@@ -237,9 +238,13 @@ export function ResearchDashboard() {
       </section>
 
       <nav className="flex flex-wrap gap-2" aria-label="Research views">
-        {(['Annual research', 'Observed monitoring', 'Monthly IMF', 'WEO research', 'World Bank research', 'IDS research', 'FRED / ALFRED', 'BIS research', 'UN Comtrade', 'GDELT research', 'ACLED research', 'Provider pulls', 'File ingestion', 'Data health', 'Historical evaluation'] as Tab[]).map(name =>
+        {(['Macro trend desk', 'Annual research', 'Observed monitoring', 'Monthly IMF', 'WEO research', 'World Bank research', 'IDS research', 'FRED / ALFRED', 'BIS research', 'UN Comtrade', 'GDELT research', 'ACLED research', 'Provider pulls', 'File ingestion', 'Data health', 'Historical evaluation'] as Tab[]).map(name =>
           <button key={name} aria-pressed={tab === name} className={`${button} ${tab === name ? 'bg-slate-700' : ''}`} onClick={() => setTab(name)}>{name}</button>)}
       </nav>
+
+      {tab === 'Macro trend desk' && <Suspense fallback={<p>Loading macro desk…</p>}>
+        <MacroDesk summaries={state?.weo ?? []} online={online} />
+      </Suspense>}
 
       {tab === 'Annual research' && <section className={panel}>
         <h2 className="text-xl">Fitted annual default-onset estimates and HMM</h2>

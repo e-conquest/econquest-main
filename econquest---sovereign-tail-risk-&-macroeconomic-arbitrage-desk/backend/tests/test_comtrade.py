@@ -291,7 +291,7 @@ class ComtradeStorageTests(unittest.TestCase):
         with self.store.connection() as conn:
             before = conn.execute("SELECT count(*) FROM originals").fetchone()[0]
         with closing(connect(old)) as conn:
-            for table in ("acled_rows", "acled_chunks", "acled_sources", "acled_runs",
+            for table in ("analysis_bundles", "acled_rows", "acled_chunks", "acled_sources", "acled_runs",
                           "gdelt_rows", "gdelt_chunks", "gdelt_sources", "gdelt_runs",
                           "comtrade_rows", "comtrade_sources", "comtrade_tasks", "comtrade_requests", "comtrade_runs"):
                 conn.execute(f"DROP TABLE {table}")
