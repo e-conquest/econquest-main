@@ -1,0 +1,25 @@
+{
+  "id": "cftc_crowding",
+  "version": 1,
+  "registeredOn": "2026-11-05",
+  "registeredBy": "Sam (owner); no run made before this file was committed",
+  "hypothesis": "When leveraged-fund positioning in a currency future becomes crowded (top or bottom 10% of the past three years), it comes back by 3 points of open interest within 8 weeks more often than after any week.",
+  "method": "cftc_crowding",
+  "params": {
+    "lookbackWeeks": 156,
+    "minLookbackWeeks": 52,
+    "highPct": 90,
+    "lowPct": 10,
+    "windowWeeks": 8,
+    "unwindPts": 3,
+    "minGapWeeks": 8
+  },
+  "sample": { "from": "2007-06-01" },
+  "passMark": { "minCases": 30, "minLiftPts": 10, "maxPValue": 0.05 },
+  "knownLimits": [
+    "Only currencies with a CME future in the CFTC Traders in Financial Futures report.",
+    "Bands use only the weeks before each week (no hindsight), so the first year of each future is not tested.",
+    "An unwind is measured in positioning, not in the exchange rate: it says crowding eases, not that the currency moves.",
+    "Cases are treated as independent in the p-value; entries the same way in one future are at least 8 weeks apart."
+  ]
+}

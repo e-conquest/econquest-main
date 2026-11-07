@@ -1,0 +1,16 @@
+node_modules
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+data/live/
+data/archive/
+data/local/
+deploy/home-server/.env
+deploy/home-server/data/
+deploy/home-server/ollama/
+
+tests/fixtures/recorded/

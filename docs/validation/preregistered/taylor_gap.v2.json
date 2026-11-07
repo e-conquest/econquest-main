@@ -1,0 +1,32 @@
+{
+  "id": "taylor_gap",
+  "version": 2,
+  "registeredOn": "2026-11-05",
+  "registeredBy": "Sam (owner); registered before any run of this version",
+  "hypothesis": "With an output gap in the rule, when the policy rate sits more than 1 point above it (tight) the central bank cuts within 6 months more often than in any month, and when it sits more than 1 point below (loose) it hikes within 6 months more often than in any month; the edge survives counting cases in the same year as one block and holds in most countries.",
+  "method": "taylor_gap",
+  "framework": 2,
+  "retestOf": {
+    "version": 1,
+    "verdict": "failed (61 of 161 = 37.9% against 34.8%, lift 3.1 points, p 0.23)",
+    "change": "Adds the output-gap term of Taylor (1993), 0.5 x gap, that version 1 left out and listed as its first known limit. The gap is the app's real-time estimate (one-sided Hodrick-Prescott, lambda 100, on IMF real GDP growth outturns up to each year), and year t is used only from April of t+1. Everything else is as in version 1, and the verdict is by method 2."
+  },
+  "params": {
+    "publicationLagMonths": 2,
+    "windowMonths": 6,
+    "bandPts": 1,
+    "rStar": 2,
+    "inflationWeight": 0.5,
+    "outputWeight": 0.5,
+    "gapPublishMonth": 4
+  },
+  "sample": { "from": "2000-01" },
+  "passMark": { "minCases": 30, "minLiftPts": 10, "maxPValue": 0.05, "minSeriesShare": 0.5, "minYears": 8 },
+  "knownLimits": [
+    "Re-test of a failed rule: version 1 failed, and this version was written after seeing that result. The change is the term version 1 named as missing, with the textbook weight, not a weight chosen to fit.",
+    "The output gap is annual and lagged: in a month of year t+1 before April, the latest gap is for year t-1. Gaps from GDP alone are rough and the newest year moves most.",
+    "GDP growth and inflation are today's vintages: the filter uses only past years, but revisions to past data are not undone.",
+    "Neutral real rate fixed at 2% for every country, as in version 1; emerging markets with higher neutral rates read loose more often.",
+    "Same dated target table, exclusions (Turkey, pegs, no numeric target) and first-month-of-run calls as version 1."
+  ]
+}

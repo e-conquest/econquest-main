@@ -1,0 +1,25 @@
+{
+  "id": "rule_family",
+  "version": 1,
+  "registeredOn": "2026-11-06",
+  "registeredBy": "Drafted under Sam's signal standard (2026-11-06); registered before any run",
+  "hypothesis": "When the policy rate sits more than 1 point above every rule in the Policy rules panel (Taylor 1993, balanced approach, inflation only, inertial 0.85, first difference), the central bank cuts within 6 months more often than after any month; when it sits more than 1 point below every rule, it hikes within 6 months more often than after any month. The edge survives counting cases in the same year as one block and holds in most countries.",
+  "method": "rule_family",
+  "framework": 2,
+  "params": {
+    "publicationLagMonths": 2,
+    "windowMonths": 6,
+    "rStar": 2,
+    "gapPublishMonth": 4
+  },
+  "sample": { "from": "2000-01" },
+  "passMark": { "minCases": 30, "minLiftPts": 10, "maxPValue": 0.05, "minSeriesShare": 0.5, "minYears": 8 },
+  "knownLimits": [
+    "Close to the policy rule check (taylor_gap), whose version 2 with an output gap failed; this test was written after that result. It tests the panel exactly as it reads (outside the whole range of five rules, 1-point band), with no weight or band chosen to fit.",
+    "The inertial rule (0.85 x current rate + 0.15 x Taylor) sits close to the current rate, so 'outside every rule' needs the rate far from the Taylor rule; there may be too few cases, and that verdict would stand.",
+    "The output gap is the app's real-time estimate (one-sided HP, lambda 100, on IMF real GDP growth outturns), year t used from April of t+1; the first-difference rule uses the gap of the year before that. GDP and inflation are today's vintages.",
+    "Neutral real rate fixed at 2% for every country; emerging markets with higher neutral rates read loose more often.",
+    "Same dated target table, exclusions (pegs, no numeric target) and first-month-of-run cases as the policy rule check.",
+    "A direction-of-move test, so the benchmark is the base rate of moves after any month and there is no trading cost; the signal standard's net-of-cost rule applies to return signals."
+  ]
+}

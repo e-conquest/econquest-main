@@ -1,0 +1,41 @@
+{
+  "id": "debt_forecast",
+  "version": 2,
+  "registeredOn": "2026-11-06",
+  "registeredBy": "Sam (owner); registered before any run of this version",
+  "hypothesis": "An AR (lag 0-2 by BIC, without drift) on the yearly change in government debt to GDP forecasts the ratio with a lower RMSE than no change, one and two years ahead.",
+  "target": "debt_gdp_a",
+  "retestOf": {
+    "version": 1,
+    "verdict": "failed (relative RMSE 1.904 at 1 year and 2.427 at 2 years against no change; better in 30 of 134 and 21 of 120 series)",
+    "change": "Drops the drift (intercept) on the yearly changes, as the policy-rate model already does: version 1 carried each country's average past change in debt forward, and past averages include one-off jumps such as restructurings and crisis years. Everything else is as in version 1."
+  },
+  "params": {
+    "maxLag": 2,
+    "d": 1,
+    "intercept": 0,
+    "window": 0,
+    "minTrain": 20
+  },
+  "benchmark": "naive",
+  "horizons": [
+    1,
+    2
+  ],
+  "sample": {
+    "from": "2008"
+  },
+  "passMark": {
+    "maxRelRmse": 0.95,
+    "maxPValue": 0.1,
+    "minSeriesShare": 0.5,
+    "minCasesPerHorizon": 300,
+    "minYears": 8
+  },
+  "knownLimits": [
+    "IMF WEO outturns only; years marked as IMF projections are never used as data or as outcomes.",
+    "Values are today's vintage (later revisions included); no real-time data vintages are free for all countries, so this is a pseudo real-time test.",
+    "Not compared with past IMF WEO forecasts: the app holds only today's WEO vintage, so an IMF benchmark cannot be scored without look-ahead. A later version can add it once past vintages are stored.",
+    "A re-test drafted after version 1 failed, so it carries less weight than a first test: one change, chosen on a stated principle, and no further versions will be tried if it fails."
+  ]
+}

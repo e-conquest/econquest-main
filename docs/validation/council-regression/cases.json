@@ -1,0 +1,381 @@
+{
+  "about": "Council regression set: fixed agent answers (or, for kind \"supreme\" and \"options\", the frozen inputs of the Supreme Council and the Policy review Options step) and the reading a good answer must give. The figures are frozen test inputs (copied once from the app's own feeds), never shown as data. Run with `npm run council:regress` against the AI model set in the app; `npm run council:record` records it on the referee model and CI replays that recording (README.md). Change a case only by adding a new id; a case that fails is not edited to pass.",
+  "version": 3,
+  "cases": [
+    {
+      "id": "brazil-tight",
+      "question": "Is monetary policy in Brazil tight?",
+      "answers": [
+        {
+          "id": "cb",
+          "name": "Central Bank Watcher",
+          "why": "the question mentions \"monetary policy\"",
+          "findings": [
+            {
+              "iso3": "BRA",
+              "countryName": "Brazil",
+              "reading": "The policy rate of 13.75% is far above inflation of 4.4%, so policy is tight.",
+              "figures": [
+                {
+                  "label": "Policy rate",
+                  "value": "13.75%",
+                  "source": "BIS policy rates, Oct 2026 (frozen test input)",
+                  "tag": "official"
+                },
+                {
+                  "label": "CPI inflation",
+                  "value": "4.4%",
+                  "source": "BCB IPCA, Sep 2026 (frozen test input)",
+                  "tag": "official"
+                }
+              ],
+              "weight": 0.8,
+              "stance": [
+                {
+                  "dim": "policy",
+                  "call": "tight"
+                }
+              ]
+            }
+          ],
+          "missing": []
+        }
+      ],
+      "expect": {
+        "headline": "\\b(tight|restrictive|yes)\\b",
+        "mention": [
+          "Brazil"
+        ],
+        "forbid": "\\bpolicy (is|looks|appears) (loose|easy|accommodative)\\b",
+        "maxRemoved": 1
+      }
+    },
+    {
+      "id": "turkey-behind",
+      "question": "Is Turkey's central bank behind the curve on inflation?",
+      "answers": [
+        {
+          "id": "cb",
+          "name": "Central Bank Watcher",
+          "why": "the question mentions \"inflation\"",
+          "findings": [
+            {
+              "iso3": "TUR",
+              "countryName": "Turkey",
+              "reading": "Inflation of 34.0% is above the policy rate, so policy looks loose.",
+              "figures": [
+                {
+                  "label": "CPI inflation",
+                  "value": "34.0%",
+                  "source": "IMF, Sep 2026 (frozen test input)",
+                  "tag": "official"
+                }
+              ],
+              "weight": 0.8,
+              "stance": [
+                {
+                  "dim": "policy",
+                  "call": "loose"
+                }
+              ]
+            }
+          ],
+          "missing": []
+        }
+      ],
+      "expect": {
+        "headline": "\\b(behind|loose|yes)\\b",
+        "mention": [
+          "Turkey"
+        ],
+        "forbid": "\\bpolicy (is|looks|appears) tight\\b",
+        "maxRemoved": 1
+      }
+    },
+    {
+      "id": "brazil-vs-mexico",
+      "question": "Which has tighter monetary policy, Brazil or Mexico?",
+      "answers": [
+        {
+          "id": "cb",
+          "name": "Central Bank Watcher",
+          "why": "the question mentions \"monetary policy\"",
+          "findings": [
+            {
+              "iso3": "BRA",
+              "countryName": "Brazil",
+              "reading": "The policy rate of 13.75% is far above inflation of 4.4%, so policy is tight.",
+              "figures": [
+                {
+                  "label": "Policy rate",
+                  "value": "13.75%",
+                  "source": "BIS policy rates, Oct 2026 (frozen test input)",
+                  "tag": "official"
+                },
+                {
+                  "label": "CPI inflation",
+                  "value": "4.4%",
+                  "source": "BCB IPCA, Sep 2026 (frozen test input)",
+                  "tag": "official"
+                }
+              ],
+              "weight": 0.8,
+              "stance": [
+                {
+                  "dim": "policy",
+                  "call": "tight"
+                }
+              ]
+            },
+            {
+              "iso3": "MEX",
+              "countryName": "Mexico",
+              "reading": "The policy rate of 7.25% is a little above inflation of 3.8%, so policy is near neutral.",
+              "figures": [
+                {
+                  "label": "Policy rate",
+                  "value": "7.25%",
+                  "source": "BIS policy rates, Oct 2026 (frozen test input)",
+                  "tag": "official"
+                },
+                {
+                  "label": "CPI inflation",
+                  "value": "3.8%",
+                  "source": "OECD CPI, Sep 2026 (frozen test input)",
+                  "tag": "official"
+                }
+              ],
+              "weight": 0.5,
+              "stance": [
+                {
+                  "dim": "policy",
+                  "call": "neutral"
+                }
+              ]
+            }
+          ],
+          "missing": []
+        }
+      ],
+      "expect": {
+        "headline": "Brazil",
+        "mention": [
+          "Brazil",
+          "Mexico"
+        ],
+        "forbid": "Mexico (has|runs) (the )?tighter",
+        "maxRemoved": 1
+      }
+    },
+    {
+      "id": "egypt-missing",
+      "question": "Is Egypt's government debt sustainable?",
+      "answers": [
+        {
+          "id": "cb",
+          "name": "Central Bank Watcher",
+          "why": "to cover reserves against debt falling due",
+          "findings": [
+            {
+              "iso3": "EGY",
+              "countryName": "Egypt",
+              "reading": "Official reserves cover 6.1 months of imports.",
+              "figures": [
+                {
+                  "label": "Reserves, months of imports",
+                  "value": "6.1",
+                  "source": "IMF IL, Aug 2026 (frozen test input)",
+                  "tag": "official"
+                }
+              ],
+              "weight": 0.4
+            }
+          ],
+          "missing": []
+        },
+        {
+          "id": "fiscal",
+          "name": "Fiscal & Debt",
+          "why": "the question mentions \"debt\"",
+          "findings": [],
+          "missing": [
+            "Egypt: government debt and the IMF projection are Missing (the IMF feed did not answer).",
+            "Egypt: external debt falling due in the next year is Missing (World Bank QEDS needs setup)."
+          ]
+        }
+      ],
+      "expect": {
+        "headline": "(cannot|can't|not enough|missing|unclear|without|no (debt )?figures|not possible|not known|insufficient)",
+        "gapsMention": "(debt|missing|not available|could not|did not answer|needs setup)",
+        "forbid": "\\b(?<!\\b(whether|if|cannot|can't|unclear|uncertain)\\b[^.]{0,40})(debt )?(is|looks|appears) (clearly )?sustainable\\b",
+        "maxRemoved": 1
+      }
+    },
+    {
+      "id": "supreme-brazil-tight",
+      "kind": "supreme",
+      "question": "Supreme Council final report: Brazil, with policy far above inflation",
+      "supreme": {
+        "iso3": "BRA",
+        "countryName": "Brazil",
+        "currencyCode": "BRL",
+        "figures": [
+          {
+            "path": "market.policyRatePct",
+            "value": 13.75,
+            "source": "BIS policy rates, Oct 2026 (frozen test input)"
+          },
+          {
+            "path": "imf.cpiInflationPct",
+            "value": 4.4,
+            "source": "BCB IPCA, Sep 2026 (frozen test input)"
+          }
+        ],
+        "feeds": [
+          "BIS policy rates",
+          "IMF"
+        ],
+        "desks": {
+          "geopolitical": "No conflict or sanctions signal for Brazil in the figures given.",
+          "sovereign": "Debt and fiscal figures were not given, so the desk makes no debt call.",
+          "macro": "The policy rate of 13.75% is far above inflation of 4.4%, so monetary policy is tight."
+        },
+        "cro": {
+          "geopoliticalRiskScore": 0.4,
+          "sovereignRiskScore": 0.45,
+          "macroRiskScore": 0.5,
+          "croNotes": "Regression check: frozen inputs only."
+        }
+      },
+      "answers": [],
+      "expect": {
+        "headline": "^(EXECUTE_TRADES|DEFENSIVE_HEDGE|HOLD_AND_MONITOR):",
+        "mention": [
+          "Brazil"
+        ],
+        "forbid": "\\b(monetary )?policy (is|looks|appears) (loose|easy|accommodative)\\b",
+        "maxRemoved": 2
+      }
+    },
+    {
+      "id": "supreme-egypt-missing",
+      "kind": "supreme",
+      "question": "Supreme Council final report: Egypt, with its debt figures missing",
+      "supreme": {
+        "iso3": "EGY",
+        "countryName": "Egypt",
+        "currencyCode": "EGP",
+        "figures": [
+          {
+            "path": "wb.fxReservesMonthsImport",
+            "value": 6.1,
+            "source": "IMF IL, Aug 2026 (frozen test input)"
+          }
+        ],
+        "feeds": [
+          "World Bank"
+        ],
+        "desks": {
+          "geopolitical": "No conflict reading was given for Egypt.",
+          "sovereign": "Government debt and the IMF projection are Missing (the IMF feed did not answer), so the desk cannot judge debt.",
+          "macro": "Official reserves cover 6.1 months of imports."
+        },
+        "cro": {
+          "geopoliticalRiskScore": 0.4,
+          "sovereignRiskScore": 0.45,
+          "macroRiskScore": 0.5,
+          "croNotes": "Regression check: frozen inputs only."
+        }
+      },
+      "answers": [],
+      "expect": {
+        "headline": "^(EXECUTE_TRADES|DEFENSIVE_HEDGE|HOLD_AND_MONITOR):",
+        "mention": [
+          "Egypt"
+        ],
+        "forbid": "\\bdebt[^.]{0,60}?\\d+(\\.\\d+)?\\s?%|\\b(?<!\\b(whether|if|cannot|can't|unclear|uncertain)\\b[^.]{0,40})(debt )?(is|looks|appears) (clearly )?sustainable\\b",
+        "maxRemoved": 1
+      }
+    },
+    {
+      "id": "options-brazil-inflation",
+      "kind": "options",
+      "question": "Policy review options: bring Brazil's inflation down",
+      "options": {
+        "frame": {
+          "iso3": "BRA",
+          "problem": "Inflation is above the central bank's target and the government wants it lower without a recession.",
+          "goal": {
+            "indicator": "Inflation",
+            "direction": "lower"
+          },
+          "constraints": [
+            "No new taxes before the next election."
+          ],
+          "asOf": "2026-10-31"
+        },
+        "figures": [
+          {
+            "field": "imf.cpiInflationPct",
+            "figure": "Inflation",
+            "value": 4.4,
+            "unit": "%",
+            "period": "Sep 2026",
+            "source": "BCB IPCA (frozen test input)"
+          },
+          {
+            "field": "market.policyRatePct",
+            "figure": "Policy rate",
+            "value": 13.75,
+            "unit": "%",
+            "period": "Oct 2026",
+            "source": "BIS policy rates (frozen test input)"
+          }
+        ]
+      },
+      "answers": [],
+      "expect": {
+        "minOptions": 2,
+        "gapsMention": "(debt|growth|fiscal|missing|not (given|available)|not in)",
+        "forbid": "\\b(raise|new|higher) taxes?\\b(?![^.]*\\b(not|no|without|ruled out|excluded)\\b)",
+        "maxRemoved": 2
+      }
+    },
+    {
+      "id": "options-egypt-missing",
+      "kind": "options",
+      "question": "Policy review options: rebuild Egypt's reserves with its debt figures missing",
+      "options": {
+        "frame": {
+          "iso3": "EGY",
+          "problem": "Reserves need rebuilding before large external payments fall due.",
+          "goal": {
+            "indicator": "Reserves",
+            "direction": "higher"
+          },
+          "constraints": [
+            "Keep the exchange rate regime unchanged."
+          ],
+          "asOf": "2026-10-31"
+        },
+        "figures": [
+          {
+            "field": "wb.fxReservesMonthsImport",
+            "figure": "Reserves",
+            "value": 6.1,
+            "unit": "months of imports",
+            "period": "Aug 2026",
+            "source": "IMF IL (frozen test input)"
+          }
+        ]
+      },
+      "answers": [],
+      "expect": {
+        "minOptions": 1,
+        "gapsMention": "(debt|missing|not (given|available)|not in)",
+        "forbid": "\\bdebt[^.]{0,60}?\\d+(\\.\\d+)?\\s?%|\\b(?<!\\b(whether|if|cannot|can't|unclear|uncertain)\\b[^.]{0,40})(debt )?(is|looks|appears) (clearly )?sustainable\\b",
+        "maxRemoved": 1
+      }
+    }
+  ]
+}

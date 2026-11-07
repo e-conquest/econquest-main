@@ -1,0 +1,135 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-sans: 'Public Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Keyboard focus is always visible (WCAG 2.4.7); mouse clicks do not show it. */
+  :focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+  }
+  .dark :focus-visible {
+    outline-color: #60a5fa;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+  }
+
+  /* Design system: one UI family (Public Sans) with tabular figures for numbers.
+     Monospace is only for code and formulas, via .font-code. */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+  .font-code {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ------------------------------------------------------------------
+   EconQuest design system: shared component classes.
+   See docs/DESIGN_SYSTEM.md. Use these (or components/ui.tsx) for new UI.
+   ------------------------------------------------------------------ */
+@layer components {
+  .ui-panel {
+    @apply bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800;
+  }
+  .ui-panel-header {
+    @apply px-4 pt-3 pb-2 border-b border-slate-100 dark:border-slate-800;
+  }
+  .ui-title {
+    @apply text-xl font-semibold text-slate-900 dark:text-white;
+  }
+  .ui-section-title {
+    @apply text-sm font-semibold text-slate-900 dark:text-white;
+  }
+  .ui-label {
+    @apply text-xs text-slate-500 dark:text-slate-400;
+  }
+  .ui-body {
+    @apply text-sm text-slate-700 dark:text-slate-300;
+  }
+  .ui-num {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ui-btn {
+    @apply inline-flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-medium whitespace-nowrap border transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800;
+  }
+  .ui-btn-primary {
+    @apply border-blue-600 bg-blue-600 text-white hover:bg-blue-500 hover:border-blue-500 dark:bg-blue-600 dark:text-white dark:hover:bg-blue-500;
+  }
+  .ui-btn-ghost {
+    @apply border-transparent bg-transparent dark:bg-transparent;
+  }
+  .ui-btn-danger {
+    @apply border-rose-600 bg-rose-600 text-white hover:bg-rose-500 dark:bg-rose-600 dark:text-white;
+  }
+
+  .ui-badge {
+    @apply inline-flex items-center gap-1 px-1.5 py-0.5 text-xs font-medium border whitespace-nowrap;
+    @apply bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700;
+  }
+  .ui-badge-accent { @apply bg-blue-50 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300 border-blue-200 dark:border-blue-800; }
+  .ui-badge-positive { @apply bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800; }
+  .ui-badge-warning { @apply bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800; }
+  .ui-badge-negative { @apply bg-rose-50 dark:bg-rose-950/50 text-rose-800 dark:text-rose-300 border-rose-200 dark:border-rose-800; }
+
+  .ui-tab {
+    @apply px-3 py-2 text-sm whitespace-nowrap border-b-2 border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors;
+  }
+  .ui-tab[aria-selected='true'], .ui-tab[aria-current='page'] {
+    @apply border-blue-600 text-blue-700 dark:text-blue-300 font-medium;
+  }
+  .ui-pill {
+    @apply px-2.5 py-1 text-xs border max-w-full transition-colors border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800;
+  }
+  .ui-pill[aria-selected='true'], .ui-pill[aria-pressed='true'] {
+    @apply bg-slate-900 text-white border-slate-900 dark:bg-white dark:text-slate-900 dark:border-white;
+  }
+}
+
+/* Rows of tabs that scroll sideways on narrow screens: the right edge fades so it is
+   clear there is more to swipe to, and the padding lets the last tab clear the fade. */
+.ui-scroll-x {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.ui-scroll-x::-webkit-scrollbar {
+  display: none;
+}
+@media (max-width: 1023px) {
+  .ui-scroll-x {
+    padding-right: 1.5rem;
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 1.5rem), transparent);
+    mask-image: linear-gradient(to right, #000 calc(100% - 1.5rem), transparent);
+  }
+}
+
+/* Touch screens: buttons, pills and tabs at least 40px tall so they are easy to tap. */
+@media (pointer: coarse) {
+  .ui-btn {
+    min-height: 40px;
+  }
+  .ui-pill {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+  .ui-tab {
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+  }
+}

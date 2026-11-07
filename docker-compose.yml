@@ -1,0 +1,131 @@
+# ==============================================================================
+# EconQuest — Sovereign Council Orchestrator
+# Cross-Platform Docker Compose (macOS Apple Silicon/Intel & Windows WSL2/GPU)
+#
+# USAGE MODES:
+# 1) Connect to Host Machine Ollama (Recommended for Mac Apple Silicon Metal & Windows Native Ollama):
+#    docker compose up -d --build
+#
+# 2) Run with Bundled Ollama Container (CPU / Cross-Platform):
+#    OLLAMA_BASE_URL=http://ollama:11434 docker compose --profile bundled-ollama up -d --build
+#
+# 3) Run with Bundled Ollama Container + NVIDIA GPU Passthrough (Windows WSL2 / Linux NVIDIA):
+#    OLLAMA_BASE_URL=http://ollama-gpu:11434 docker compose --profile bundled-ollama-gpu up -d --build
+# ==============================================================================
+
+services:
+  econquest:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: econquest-orchestrator
+    restart: unless-stopped
+    # Published on this Mac/PC only (127.0.0.1), so other machines on the network cannot reach the
+    # app or change the keys saved in Menu > Settings. To open it to your network on purpose, remove
+    # "127.0.0.1:" and set SETTINGS_ALLOW_REMOTE="false" in .env.
+    ports:
+      - "127.0.0.1:${PORT:-3737}:3000"
+    # Data keys and switches (FRED, EVDS, CDS, LSEG, Gemini) from .env; see docs/DATA_SOURCES.md.
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      - NODE_ENV=production
+      - SELF_HOSTED_DOCKER=true
+      - PORT=3000
+      - DATA_DIR=/app/data
+      # Requests reach the container from Docker's network, not 127.0.0.1; the port above is
+      # published on this computer only, so Settings may accept key changes.
+      - SETTINGS_ALLOW_REMOTE=${SETTINGS_ALLOW_REMOTE:-true}
+      - ARCHIVE_KEEP_DAYS=${ARCHIVE_KEEP_DAYS:-0}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - DEFAULT_AI_PROVIDER=${DEFAULT_AI_PROVIDER:-ollama}
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      - OLLAMA_QUICK_MODEL=${OLLAMA_QUICK_MODEL:-qwen2.5:7b}
+      - OLLAMA_DEEP_MODEL=${OLLAMA_DEEP_MODEL:-qwen2.5:32b}
+      - OPENAI_COMPATIBLE_BASE_URL=${OPENAI_COMPATIBLE_BASE_URL:-http://host.docker.internal:8000/v1}
+      - OPENAI_COMPATIBLE_MODEL=${OPENAI_COMPATIBLE_MODEL:-gpt-4o}
+    volumes:
+      - econquest_data:/app/data
+      # Menu > Settings keys live in the project folder (data/local/, not in git), shared with
+      # `npm run dev` and `npm run check:data`, so a key saved in either way of starting works in both.
+      - ./data/local:/app/data/local
+      # The dated pull archive (every weekly pull by day), shared with `npm run dev` the same way.
+      - ./data/archive:/app/data/archive
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - econquest-net
+
+  # Optional Bundled Ollama Service (Standard CPU / Universal Profile)
+  ollama:
+    image: ollama/ollama:latest
+    container_name: econquest-ollama
+    profiles:
+      - bundled-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    environment:
+      - OLLAMA_ORIGINS=*
+      - OLLAMA_KEEP_ALIVE=24h
+    volumes:
+      - ollama_models:/root/.ollama
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        /bin/ollama serve &
+        SERVER_PID=$$!
+        sleep 4
+        echo "[EconQuest Ollama] Ensuring Phase 1-2 Sub-Agent model (${OLLAMA_QUICK_MODEL:-qwen2.5:7b}) is available..."
+        /bin/ollama pull ${OLLAMA_QUICK_MODEL:-qwen2.5:7b} || true
+        echo "[EconQuest Ollama] Ensuring Phase 3 Supreme Council model (${OLLAMA_DEEP_MODEL:-qwen2.5:32b}) is available..."
+        /bin/ollama pull ${OLLAMA_DEEP_MODEL:-qwen2.5:32b} || true
+        wait $$SERVER_PID
+    networks:
+      - econquest-net
+
+  # Optional Bundled Ollama Service with NVIDIA GPU Acceleration (Windows WSL2 / Linux)
+  ollama-gpu:
+    image: ollama/ollama:latest
+    container_name: econquest-ollama-gpu
+    profiles:
+      - bundled-ollama-gpu
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    environment:
+      - OLLAMA_ORIGINS=*
+      - OLLAMA_KEEP_ALIVE=24h
+    volumes:
+      - ollama_models:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        /bin/ollama serve &
+        SERVER_PID=$$!
+        sleep 4
+        echo "[EconQuest Ollama GPU] Pulling Phase 1-2 Sub-Agent model (${OLLAMA_QUICK_MODEL:-qwen2.5:7b})..."
+        /bin/ollama pull ${OLLAMA_QUICK_MODEL:-qwen2.5:7b} || true
+        echo "[EconQuest Ollama GPU] Pulling Phase 3 Supreme Council model (${OLLAMA_DEEP_MODEL:-qwen2.5:32b})..."
+        /bin/ollama pull ${OLLAMA_DEEP_MODEL:-qwen2.5:32b} || true
+        wait $$SERVER_PID
+    networks:
+      - econquest-net
+
+volumes:
+  econquest_data:
+    name: econquest_data
+  ollama_models:
+    name: econquest_ollama_models
+
+networks:
+  econquest-net:
+    driver: bridge

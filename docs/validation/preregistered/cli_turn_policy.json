@@ -1,0 +1,21 @@
+{
+  "id": "cli_turn_policy",
+  "version": 1,
+  "registeredOn": "2026-11-05",
+  "registeredBy": "Sam (owner); no run made before this file was committed",
+  "hypothesis": "After an OECD leading-indicator peak (trough), the central bank cuts (hikes) within 6 months more often than it does after any month.",
+  "method": "cli_turn_policy",
+  "params": {
+    "confirmMonths": 2,
+    "publicationLagMonths": 1,
+    "windowMonths": 6
+  },
+  "sample": { "from": "1995-01" },
+  "passMark": { "minCases": 30, "minLiftPts": 10, "maxPValue": 0.05 },
+  "knownLimits": [
+    "The leading indicator is today's vintage: the OECD revises past months, so turns are dated with some hindsight.",
+    "A turn is two months one way then two months the other (the app's own rule), dated when the second month after it is published.",
+    "Every country the app covers with both a BIS monthly policy rate and an OECD leading indicator is pooled; countries with pegs or long holds lower the base rate.",
+    "Cases are treated as independent in the p-value; turns in the same country are months apart, but global cycles make countries move together."
+  ]
+}

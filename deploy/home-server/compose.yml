@@ -1,0 +1,93 @@
+# EconQuest on a home server (Linux box or NAS) with Ollama on the same machine.
+# Guide: docs/HOME_SERVER.md. Settings: copy env.example to .env next to this file.
+#
+#   cd deploy/home-server
+#   cp env.example .env          # then edit
+#   docker compose up -d --build
+#   docker compose exec ollama ollama pull qwen2.5:32b
+#
+# GPU (NVIDIA): docker compose -f compose.yml -f compose.gpu.yml up -d --build
+
+name: econquest
+
+services:
+  econquest:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    image: econquest:local
+    restart: unless-stopped
+    # This machine only by default. To reach it from other computers, prefer the "https" profile
+    # below; or set BIND_ADDRESS=0.0.0.0 and ALLOWED_HOSTS in .env. Either way the app then asks
+    # for the first admin account (setup code in `docker compose logs econquest`).
+    ports:
+      - "${BIND_ADDRESS:-127.0.0.1}:${PORT:-3737}:3000"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      # Inside the container the app always listens on 3000; PORT in .env is the server's port.
+      PORT: "3000"
+      DATA_DIR: /app/data
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://ollama:11434}
+      DEFAULT_AI_PROVIDER: ${DEFAULT_AI_PROVIDER:-ollama}
+      OLLAMA_QUICK_MODEL: ${OLLAMA_QUICK_MODEL:-qwen2.5:7b}
+      OLLAMA_DEEP_MODEL: ${OLLAMA_DEEP_MODEL:-qwen2.5:32b}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-}
+      # Behind the Caddy profile: trust its X-Forwarded-* headers and mark the cookie Secure.
+      TRUST_PROXY: ${TRUST_PROXY:-}
+      COOKIE_SECURE: ${COOKIE_SECURE:-}
+      SETTINGS_ALLOW_REMOTE: ${SETTINGS_ALLOW_REMOTE:-true}
+      TZ: ${TZ:-UTC}
+      # Jobs the server runs by itself (Menu > Data health > Scheduled). "off" turns one off.
+      SCHEDULE_DOWNLOAD_ALL: ${SCHEDULE_DOWNLOAD_ALL:-02:30}
+      SCHEDULE_BACKTESTS: ${SCHEDULE_BACKTESTS:-sun 03:30}
+      SCHEDULE_TZ: ${TZ:-UTC}
+    # Every bit of state: settings, keys you saved in Menu > Settings, saved data, logs, reports.
+    # Back this one folder up (see "Backups" in the guide).
+    volumes:
+      - ${DATA_PATH:-./data}:/app/data
+    stop_grace_period: 15s
+    depends_on:
+      ollama:
+        condition: service_started
+        required: false
+    networks: [econquest]
+
+  # Ollama on the same box. Started when COMPOSE_PROFILES includes "ollama" (the default in
+  # env.example). If Ollama already runs elsewhere, drop that line and set OLLAMA_BASE_URL.
+  ollama:
+    image: ${OLLAMA_IMAGE:-ollama/ollama:latest}
+    profiles: [ollama]
+    restart: unless-stopped
+    # Not published: only the app reaches it, on the private network below.
+    environment:
+      OLLAMA_KEEP_ALIVE: ${OLLAMA_KEEP_ALIVE:-30m}
+    volumes:
+      - ${OLLAMA_MODELS_PATH:-./ollama}:/root/.ollama
+    networks: [econquest]
+
+  # HTTPS in front of the app (Caddy). Started when COMPOSE_PROFILES includes "https".
+  # Set SITE_ADDRESS to the name people type (homeserver.local, or a real domain), add the same
+  # name to ALLOWED_HOSTS, and set COOKIE_SECURE=true and TRUST_PROXY=1 in .env.
+  # TLS_MODE=internal (default) uses Caddy's own certificate authority, for a home network;
+  # for a public domain set TLS_MODE to your email address and Caddy gets a Let's Encrypt
+  # certificate. Guide: docs/HOME_SERVER.md "HTTPS and sign-in".
+  caddy:
+    image: ${CADDY_IMAGE:-caddy:2.8-alpine}
+    profiles: [https]
+    restart: unless-stopped
+    ports:
+      - "${HTTPS_BIND_ADDRESS:-0.0.0.0}:80:80"
+      - "${HTTPS_BIND_ADDRESS:-0.0.0.0}:443:443"
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:-localhost}
+      TLS_MODE: ${TLS_MODE:-internal}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ${CADDY_DATA_PATH:-./caddy}:/data
+    depends_on: [econquest]
+    networks: [econquest]
+
+networks:
+  econquest: {}

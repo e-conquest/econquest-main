@@ -1,0 +1,28 @@
+{
+  "note": "SHA-256 of each pre-registered currency factor test. The runner refuses a file whose hash is not listed here; a changed test needs a new version and a new hash, committed before it is run.",
+  "files": {
+    "fx_carry.json": "e4fdfcad91ccf3f673c69e3cb0afcf56788858b246e4b05b96abbb859e01e4f0",
+    "fx_value.json": "4fae0975520efb9ae17831736259c363ad00aea5d02a19651d8776bec578ada3",
+    "fx_momentum.json": "f4d5f22fa4d96e5fd912e46e41443f473328e76bee7a047ca2c177b65ed843ad"
+  },
+  "amended": {
+    "fx_carry.json": {
+      "from": "734186a8615865b4da54058178554c28e3c20f06e093907dff8d75ce83d595dd",
+      "to": "e4fdfcad91ccf3f673c69e3cb0afcf56788858b246e4b05b96abbb859e01e4f0",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    },
+    "fx_momentum.json": {
+      "from": "fc041c36e4e88f498c8375de684f98c18364d7981d5d2fff107dd75f883a9a92",
+      "to": "f4d5f22fa4d96e5fd912e46e41443f473328e76bee7a047ca2c177b65ed843ad",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    },
+    "fx_value.json": {
+      "from": "ec39d0a3c685226fa28c13672805ea4b07f476ced12767a2b5c04c79363db369",
+      "to": "4fae0975520efb9ae17831736259c363ad00aea5d02a19651d8776bec578ada3",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    }
+  }
+}

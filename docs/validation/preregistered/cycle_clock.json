@@ -1,0 +1,21 @@
+{
+  "id": "cycle_clock",
+  "version": 1,
+  "registeredOn": "2026-11-06",
+  "registeredBy": "Sam (owner); no run made before this file was committed",
+  "hypothesis": "Once the cycle clock reads hiking (a hike after a hold or a cut), another hike follows within 6 months more often than a hike follows any month; once it reads cutting, another cut follows within 6 months more often than a cut follows any month.",
+  "method": "cycle_clock",
+  "framework": 2,
+  "params": {
+    "holdAfterMonths": 6,
+    "windowMonths": 6
+  },
+  "sample": { "from": "1995-01" },
+  "passMark": { "minCases": 30, "minLiftPts": 10, "maxPValue": 0.05, "minSeriesShare": 0.5, "minYears": 8 },
+  "knownLimits": [
+    "The idea was suggested by the leading-indicator test (cli_turn_policy v1), which failed because banks kept moving the same way after a turn. This is a new rule written after seeing that, not a re-test of it.",
+    "Hiking or cutting uses the app's own clock (src/utils/cycleClock.ts): the latest move in the past 6 months sets the state, and 6 months without a move is on hold.",
+    "Policy rates only (BIS monthly, end of month); a hike and a cut in the same month net out. Every BIS area is pooled, pegged currencies included.",
+    "Rate cycles are well known to come in runs, so a pass says the clock reads that, not that it beats a forecaster."
+  ]
+}

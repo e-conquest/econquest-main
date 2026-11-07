@@ -1,0 +1,21 @@
+EconQuest is starting as one pod with its data on {{ if .Values.persistence.enabled }}a persistent volume{{ else }}an emptyDir (NOT kept on restart){{ end }}.
+
+1. The first admin account needs the setup code from the log:
+     kubectl logs deploy/{{ include "econquest.fullname" . }} -n {{ .Release.Namespace }} | grep -i "setup code"
+
+2. Open it:
+{{- if .Values.ingress.enabled }}
+     http{{ if .Values.ingress.tlsSecretName }}s{{ end }}://{{ .Values.ingress.host }}/
+{{- else }}
+     kubectl port-forward svc/{{ include "econquest.fullname" . }} 3737:{{ .Values.service.port }} -n {{ .Release.Namespace }}
+     then http://127.0.0.1:3737/  (to use another name, add it to allowedHosts)
+{{- end }}
+
+3. Check it:
+     kubectl get pods -l app.kubernetes.io/instance={{ .Release.Name }} -n {{ .Release.Namespace }}
+
+{{- if not (or .Values.secret.existingSecret .Values.secret.values) }}
+
+No secret is set, so keys saved in Menu > Settings are not encrypted with your own master key.
+Make one (keep a copy elsewhere) and upgrade with secret.existingSecret, see docs/KUBERNETES.md.
+{{- end }}

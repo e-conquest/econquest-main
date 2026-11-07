@@ -1,0 +1,77 @@
+{
+  "note": "SHA-256 of each pre-registered test file. The runner refuses a file whose hash is not listed here; a changed test needs a new version and a new hash, committed before it is run.",
+  "files": {
+    "cftc_crowding.json": "d2f50657b535fe15bf53cc7756270bdd0b6cf3bb0b5af1b1466561a7627e15dc",
+    "cftc_crowding.v2.json": "f7d9a4599a2f16df6a78b7c9e90531e7a9f05af6778f263360b5ad4e3c66f9c5",
+    "cli_turn_policy.json": "a991477f71db05920b83b6e67d00fac77262a7a7a04932eeb20ef22505557108",
+    "cycle_clock.json": "75fe942928029a51272144c95936f2c4b10d3c58a5e91ccb423842209318ef84",
+    "regime_quadrant.json": "28f7aab1c7eb0634f70b50d3a6ddc044c608decae4a08e5aa488298421a0c983",
+    "rule_family.json": "1fffb8f01b619ff91960d3dd1abdd2933be8fe8937689d4aefc75355a6d28c2d",
+    "taylor_gap.json": "0dcd2ef9ac2917a3fcd434f00b1ec8bff888787e1193369bb37ed897cb8eba75",
+    "taylor_gap.v2.json": "eab6b716189c7258f3ad2e1861a4623187a257f161014ba936f04b7e0559b5c1",
+    "timing_agent.json": "abc80cc6cbb282a187458a3a93c979a7d9265b803167591b0cfe966c83321fa2",
+    "unrest_onset.json": "36191d40a31c0c326ef43b70355a0c44ced1aec98c078f753a3242f2cdb2b054"
+  },
+  "amended": {
+    "cftc_crowding.json": {
+      "from": "9adbe66e570e17160d416e18b7fb6d1a2c2fb577cfb46e5acd14c869998cef9a",
+      "to": "d2f50657b535fe15bf53cc7756270bdd0b6cf3bb0b5af1b1466561a7627e15dc",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    },
+    "cftc_crowding.v2.json": {
+      "from": "f37296987185d533f40d556000c52807e9fe4b2c114b463bffe7d566c8c962df",
+      "to": "f7d9a4599a2f16df6a78b7c9e90531e7a9f05af6778f263360b5ad4e3c66f9c5",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    },
+    "cli_turn_policy.json": {
+      "from": "a219b147a121f02f316d33fbfb0dee01671c1eacb26eaba0239c891b137dd9e2",
+      "to": "a991477f71db05920b83b6e67d00fac77262a7a7a04932eeb20ef22505557108",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    },
+    "cycle_clock.json": {
+      "from": "f713f531fdfa4a480b04ba74983b21293e923bfc55c3ccce399b30a020ad5b0a",
+      "to": "75fe942928029a51272144c95936f2c4b10d3c58a5e91ccb423842209318ef84",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    },
+    "regime_quadrant.json": {
+      "from": "40ba9d4f466fc74b6466e3266a3c8b068598915352f7ee618ba895b6fa4f2863",
+      "to": "28f7aab1c7eb0634f70b50d3a6ddc044c608decae4a08e5aa488298421a0c983",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    },
+    "rule_family.json": {
+      "from": "9ebb90ff9fbe3b90152d805901fac80b4556eb8c738f36771f907fd4c180a42d",
+      "to": "1fffb8f01b619ff91960d3dd1abdd2933be8fe8937689d4aefc75355a6d28c2d",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    },
+    "taylor_gap.json": {
+      "from": "960be86bbdb1f61899576f67279347a5f76d61823c19c90b7c374f7fabbcdb92",
+      "to": "0dcd2ef9ac2917a3fcd434f00b1ec8bff888787e1193369bb37ed897cb8eba75",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    },
+    "taylor_gap.v2.json": {
+      "from": "18cb3f00401c9fdf90d191b17a0ccafab09e73b2b1bfab332e4f20fa3b9ba189",
+      "to": "eab6b716189c7258f3ad2e1861a4623187a257f161014ba936f04b7e0559b5c1",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    },
+    "timing_agent.json": {
+      "from": "d4186b55db6ce925d114387aa3414826834a4ea3f7311eeaac6f37f55d5e433f",
+      "to": "abc80cc6cbb282a187458a3a93c979a7d9265b803167591b0cfe966c83321fa2",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    },
+    "unrest_onset.json": {
+      "from": "18f450717cf993d01fc3ef7ffb298a97ac6c36e1adb405de368031a32872577a",
+      "to": "36191d40a31c0c326ef43b70355a0c44ced1aec98c078f753a3242f2cdb2b054",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    }
+  }
+}

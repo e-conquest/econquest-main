@@ -1,0 +1,35 @@
+{
+  "id": "debt_forecast",
+  "version": 1,
+  "registeredOn": "2026-11-06",
+  "registeredBy": "Sam (owner); no run made before this file was committed",
+  "hypothesis": "An AR (lag 0-2 by BIC, with drift) on the yearly change in government debt to GDP forecasts the ratio with a lower RMSE than no change, one and two years ahead.",
+  "target": "debt_gdp_a",
+  "params": {
+    "maxLag": 2,
+    "d": 1,
+    "intercept": 1,
+    "window": 0,
+    "minTrain": 20
+  },
+  "benchmark": "naive",
+  "horizons": [
+    1,
+    2
+  ],
+  "sample": {
+    "from": "2008"
+  },
+  "passMark": {
+    "maxRelRmse": 0.95,
+    "maxPValue": 0.1,
+    "minSeriesShare": 0.5,
+    "minCasesPerHorizon": 300,
+    "minYears": 8
+  },
+  "knownLimits": [
+    "IMF WEO outturns only; years marked as IMF projections are never used as data or as outcomes.",
+    "Values are today's vintage (later revisions included); no real-time data vintages are free for all countries, so this is a pseudo real-time test.",
+    "Not compared with past IMF WEO forecasts: the app holds only today's WEO vintage, so an IMF benchmark cannot be scored without look-ahead. A later version can add it once past vintages are stored."
+  ]
+}

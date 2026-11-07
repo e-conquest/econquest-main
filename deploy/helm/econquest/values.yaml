@@ -1,0 +1,102 @@
+# EconQuest Helm chart. Guide: docs/KUBERNETES.md.
+#
+# The app keeps all state in files under /app/data (settings, saved keys, accounts, reports,
+# the pull archive), so it runs as ONE pod with one persistent volume. Do not raise the replica
+# count: two pods writing the same files would corrupt them.
+
+image:
+  # No public image is published. Build it from the repository root and push it to a registry
+  # your cluster can pull from (or load it into a local cluster such as k3s or kind):
+  #   docker build -t registry.example.com/econquest:main .
+  #   docker push registry.example.com/econquest:main
+  repository: econquest
+  tag: local
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+
+# Ollama (the council's local models). Point at an Ollama the cluster can reach: a service in the
+# cluster (http://ollama.ollama.svc:11434) or a machine on your network. The referee steps use the
+# deep model, which must be a 32B model (never an 8B one).
+ollama:
+  baseUrl: http://ollama:11434
+  quickModel: qwen2.5:7b
+  deepModel: qwen2.5:32b
+
+# Time zone for the morning brief and the scheduled jobs (e.g. Europe/London).
+timeZone: UTC
+
+# Jobs the server runs by itself (Menu > Data health > Scheduled). "off" turns one off.
+schedule:
+  downloadAll: "02:30"
+  backtests: "sun 03:30"
+
+# Host names people type in the browser. Required once the app is reached through an ingress or
+# a node port: the app refuses other host names (DNS rebinding guard). The ingress host is added
+# automatically when the ingress is on.
+allowedHosts: []
+
+# Extra plain settings passed as environment variables (see .env.example), for example
+#   FRED_API_KEY is a secret: put it in the secret below instead.
+extraEnv: {}
+#  ARCHIVE_KEEP_DAYS: "400"
+
+# Secrets: data keys and the master key that encrypts keys saved in Menu > Settings.
+# Either name a Secret you made yourself (recommended), or let the chart make one from `values`.
+#   kubectl create secret generic econquest-keys \
+#     --from-literal=ECONQUEST_SECRET_KEY="$(openssl rand -base64 32)"
+secret:
+  existingSecret: ""
+  values: {}
+  #  ECONQUEST_SECRET_KEY: ""
+  #  FRED_API_KEY: ""
+
+persistence:
+  enabled: true
+  # Leave empty for the cluster's default storage class.
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  size: 20Gi
+  # Use a claim you made yourself instead of one from the chart.
+  existingClaim: ""
+
+service:
+  type: ClusterIP
+  port: 3000
+
+ingress:
+  enabled: false
+  className: ""
+  host: econquest.example.com
+  annotations: {}
+  # Name of a TLS Secret for the host; empty for no TLS on the ingress.
+  tlsSecretName: ""
+
+# Behind an ingress or a TLS-terminating proxy: trust its X-Forwarded-* headers and mark the
+# sign-in cookie Secure. Set cookieSecure to false only if users reach the app over plain http.
+proxy:
+  trustProxy: "1"
+  cookieSecure: true
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    memory: 2Gi
+
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  runAsNonRoot: true
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: ["ALL"]
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+podAnnotations: {}

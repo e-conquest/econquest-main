@@ -1,0 +1,131 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "econquest.fullname" . }}
+  labels:
+    {{- include "econquest.labels" . | nindent 4 }}
+spec:
+  # Always one: the app's state is files on one volume.
+  replicas: 1
+  strategy:
+    # Stop the old pod before the new one starts, so two never write the data folder at once.
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "econquest.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "econquest.selectorLabels" . | nindent 8 }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      terminationGracePeriodSeconds: 20
+      containers:
+        - name: econquest
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: PORT
+              value: "3000"
+            - name: DATA_DIR
+              value: /app/data
+            - name: LOG_FORMAT
+              value: json
+            # A cluster is a network: sign-in is always on, and the first admin account needs the
+            # one-time setup code from the log.
+            - name: AUTH
+              value: "on"
+            - name: DEFAULT_AI_PROVIDER
+              value: ollama
+            - name: OLLAMA_BASE_URL
+              value: {{ .Values.ollama.baseUrl | quote }}
+            - name: OLLAMA_QUICK_MODEL
+              value: {{ .Values.ollama.quickModel | quote }}
+            - name: OLLAMA_DEEP_MODEL
+              value: {{ .Values.ollama.deepModel | quote }}
+            - name: TZ
+              value: {{ .Values.timeZone | quote }}
+            - name: SCHEDULE_TZ
+              value: {{ .Values.timeZone | quote }}
+            - name: SCHEDULE_DOWNLOAD_ALL
+              value: {{ .Values.schedule.downloadAll | quote }}
+            - name: SCHEDULE_BACKTESTS
+              value: {{ .Values.schedule.backtests | quote }}
+            - name: ALLOWED_HOSTS
+              value: {{ include "econquest.allowedHosts" . | quote }}
+            {{- if .Values.ingress.enabled }}
+            - name: TRUST_PROXY
+              value: {{ .Values.proxy.trustProxy | quote }}
+            - name: COOKIE_SECURE
+              value: {{ .Values.proxy.cookieSecure | quote }}
+            {{- end }}
+            {{- range $k, $v := .Values.extraEnv }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          {{- if or .Values.secret.existingSecret .Values.secret.values }}
+          envFrom:
+            - secretRef:
+                name: {{ include "econquest.secretName" . }}
+          {{- end }}
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+          # /healthz and /readyz answer before the host-name guard, so the kubelet's probes work.
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 5
+            failureThreshold: 36
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 30
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 5
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: data
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (printf "%s-data" (include "econquest.fullname" .)) }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

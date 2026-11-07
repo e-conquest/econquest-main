@@ -1,0 +1,35 @@
+{
+  "id": "cpi_forecast",
+  "version": 1,
+  "registeredOn": "2026-11-06",
+  "registeredBy": "Sam (owner); no run made before this file was committed",
+  "hypothesis": "An AR (lag 0-13 by BIC) forecast of monthly y/y inflation has a lower RMSE than carrying the newest figure on, 3 and 12 months ahead.",
+  "target": "cpi_yoy_m",
+  "params": {
+    "maxLag": 13,
+    "d": 0,
+    "intercept": 1,
+    "window": 0,
+    "minTrain": 60
+  },
+  "benchmark": "naive",
+  "horizons": [
+    3,
+    12
+  ],
+  "sample": {
+    "from": "2008-01"
+  },
+  "passMark": {
+    "maxRelRmse": 0.95,
+    "maxPValue": 0.1,
+    "minSeriesShare": 0.5,
+    "minCasesPerHorizon": 1000,
+    "minYears": 10
+  },
+  "knownLimits": [
+    "Values are today's vintage (later revisions included); no real-time data vintages are free for all countries, so this is a pseudo real-time test.",
+    "Inflation is close to a random walk in many countries over these horizons, so the naive benchmark is hard to beat.",
+    "Not compared with past IMF WEO forecasts: the app holds only today's WEO vintage, so an IMF benchmark cannot be scored without look-ahead. A later version can add it once past vintages are stored."
+  ]
+}

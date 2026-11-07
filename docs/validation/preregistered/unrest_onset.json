@@ -1,0 +1,24 @@
+{
+  "id": "unrest_onset",
+  "version": 1,
+  "registeredOn": "2026-11-06",
+  "registeredBy": "Drafted under Sam's signal standard (2026-11-06), Phase 4 of the seven-groups plan; registered before any run",
+  "hypothesis": "In a country with no state-based armed conflict this year (UCDP/PRIO), a year with an unrest spike episode (protests or violence as a share of the country's GDELT events at 3 or more standard deviations above its own previous 24 months) is followed by armed conflict located in the country the next calendar year more often than quiet country-years in general.",
+  "method": "unrest_onset",
+  "framework": 2,
+  "params": {
+    "baselineMonths": 24,
+    "zSpike": 3,
+    "sdFloorPts": 0.25,
+    "minMonthsInYear": 10
+  },
+  "sample": { "from": "2018" },
+  "passMark": { "minCases": 30, "minLiftPts": 3, "maxPValue": 0.05, "minYears": 6 },
+  "knownLimits": [
+    "UCDP's yearly files only: the outcome is armed conflict (25 or more battle deaths in the year) located in the country the next calendar year, not within 3 months as the plan first said. A monthly test would need the UCDP event dataset (GED), not on disk.",
+    "GDELT 1.0 months on disk start in 2016 (npm run gdelt:daily), so with a 24-month baseline the first year scored is 2018 and the last is the year before the latest UCDP year: about seven years, all of them recent.",
+    "The base rate is pooled over every quiet country-year in the sample, since onsets are too rare for a rate per country. Countries differ a great deal in how likely conflict is, so a pass can partly reflect which countries have spikes.",
+    "A conflict that was active in earlier years, paused for a year and restarted counts as an onset.",
+    "GDELT codes events from news reports by machine; coverage and coding errors vary by country and year. Shares are used, not counts, since volume grew many times over."
+  ]
+}

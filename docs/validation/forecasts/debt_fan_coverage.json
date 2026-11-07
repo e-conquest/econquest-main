@@ -1,0 +1,31 @@
+{
+  "id": "debt_fan_coverage",
+  "version": 1,
+  "registeredOn": "2026-11-06",
+  "registeredBy": "Sam (owner) chose the design (past IMF WEO editions as the baseline); registered before any run",
+  "hypothesis": "The debt fan chart, rebuilt at each past October WEO edition exactly as the panel builds it today (that edition's actual years as the shock history, its projections as the baseline, 2000 paths, fixed seed), holds the later government debt outturn inside its 10th-90th percentile band between 70% and 90% of the time at every horizon from 1 to 5 years.",
+  "target": "debt_fan_coverage",
+  "params": {
+    "originMonth": 10,
+    "fallbackMonth": 9,
+    "horizons": 5,
+    "resamples": 4000,
+    "seed": 20261106
+  },
+  "sample": { "from": "2005" },
+  "passMark": {
+    "minCoverage": 0.7,
+    "maxCoverage": 0.9,
+    "maxPValue": 0.1,
+    "minCasesPerHorizon": 100,
+    "minYears": 8
+  },
+  "knownLimits": [
+    "Needs the past WEO database editions saved in data/local/weo-vintages/ (one file per edition); with too few editions the verdict is too few cases, and that stands until more are saved.",
+    "Primary and overall balances come from each WEO edition (GGXONLB_NGDP, GGXCNL_NGDP); the live panel reads the Fiscal Monitor codes (GGXONLB_G01_GDP_PT, GGXCNL_G01_GDP_PT), which are the same concepts but not always the same numbers.",
+    "Outturns are those of the latest edition saved, so later revisions to debt count as part of the outcome.",
+    "Consumer price inflation stands in for the GDP deflator, as in the live panel.",
+    "Cases sharing a target year are not independent; whole target years are resampled together, and cases from overlapping origins still share shocks.",
+    "A coverage test has no do-nothing benchmark or trading cost: the claim is calibration, judged against the 80% the band states. The p entered in the Holm correction is the share of resamples in which some horizon falls outside 70-90%."
+  ]
+}

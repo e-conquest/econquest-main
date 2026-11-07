@@ -1,0 +1,12 @@
+# HTTPS for EconQuest (the "https" profile in compose.yml). Settings come from .env:
+#   SITE_ADDRESS  the name people type, e.g. homeserver.local or econquest.example.org
+#   TLS_MODE      "internal" (Caddy's own certificate authority, home network) or your email
+#                 address (Let's Encrypt, for a public domain whose ports 80 and 443 reach this box)
+{$SITE_ADDRESS} {
+	tls {$TLS_MODE}
+	encode gzip
+	header Strict-Transport-Security "max-age=31536000"
+	# Caddy passes the Host header through and adds X-Forwarded-For / -Proto, which the app
+	# trusts when TRUST_PROXY=1.
+	reverse_proxy econquest:3000
+}

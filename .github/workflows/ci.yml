@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Type check
+        run: npm run lint
+      - name: Tests
+        run: npm test
+      - name: Build
+        run: npm run build
+      # The runner image already has Chrome's system libraries. --with-deps also apt-installs
+      # font packages, and a slow Ubuntu mirror made that step run past the job limit twice on
+      # 6 Nov 2026 before any test ran.
+      - name: Install Chromium for the UI smoke test
+        timeout-minutes: 5
+        run: npx playwright install chromium
+      - name: UI smoke test (every page, all feeds down)
+        run: npm run test:smoke
+      - name: UI journeys (skip link, council chat, country sections, keys, sign-in)
+        run: npm run test:journeys
+
+  docker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Home-server compose file is valid
+        run: docker compose -f deploy/home-server/compose.yml config -q
+      # Helm comes with the GitHub Ubuntu runner image.
+      - name: Helm chart lints and renders (default, and with ingress + chart-made secret)
+        run: |
+          helm lint --strict deploy/helm/econquest
+          helm template eq deploy/helm/econquest > /tmp/default.yaml
+          helm template eq deploy/helm/econquest --set ingress.enabled=true --set ingress.host=eq.example.org \
+            --set secret.values.ECONQUEST_SECRET_KEY=0123456789abcdef0123456789abcdef > /tmp/ingress.yaml
+          grep -q 'kind: Deployment' /tmp/default.yaml
+          grep -q 'value: "eq.example.org"' /tmp/ingress.yaml
+          grep -q 'kind: Ingress' /tmp/ingress.yaml
+          ! grep -q 'kind: Ingress' /tmp/default.yaml
+      - name: Build the production image
+        run: docker build -t econquest:ci .
+      - name: Start it on an empty data volume and check it answers
+        run: |
+          docker run -d --name eq -p 127.0.0.1:3000:3000 -v eq-data:/app/data econquest:ci
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:3000/healthz && break; sleep 2; done
+          curl -sf http://127.0.0.1:3000/healthz
+          test "$(docker exec eq id -u)" = "1000"
+          curl -sf -o /dev/null http://127.0.0.1:3000/
+          curl -sf http://127.0.0.1:3000/readyz | grep -q '"ready":true'
+      - name: Stops cleanly on docker stop
+        run: |
+          start=$(date +%s)
+          docker stop eq
+          test $(( $(date +%s) - start )) -lt 9
+          docker logs eq 2>&1 | grep -q 'stopped cleanly'
+      - name: Server log
+        if: always()
+        run: docker logs eq || true

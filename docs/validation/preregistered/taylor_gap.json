@@ -1,0 +1,25 @@
+{
+  "id": "taylor_gap",
+  "version": 1,
+  "registeredOn": "2026-11-05",
+  "registeredBy": "Sam (owner); no run made before this file was committed",
+  "hypothesis": "When the policy rate sits more than 1 point above a simple Taylor rule (tight), the central bank cuts within 6 months more often than in any month; when it sits more than 1 point below (loose), it hikes within 6 months more often than in any month.",
+  "method": "taylor_gap",
+  "params": {
+    "publicationLagMonths": 2,
+    "windowMonths": 6,
+    "bandPts": 1,
+    "rStar": 2,
+    "inflationWeight": 0.5
+  },
+  "sample": { "from": "2000-01" },
+  "passMark": { "minCases": 30, "minLiftPts": 10, "maxPValue": 0.05 },
+  "knownLimits": [
+    "No output gap: the IMF estimate is annual and revised each vintage, so the rule here is rate = 2% + inflation + 0.5 x (inflation - target).",
+    "Inflation is today's OECD vintage, lagged 2 months to roughly what was published; revisions are not undone.",
+    "The dated target table (src/data/inflationTargetHistory.ts) is part of this test; a country is tested only in months with a confirmed published target.",
+    "Turkey, pegged currencies and banks without a numeric target are left out.",
+    "Years of rates near zero make 'loose' readings common and long; only the first month of each run counts as a call.",
+    "Cases are treated as independent in the p-value; calls in one country are separated by at least one month with a different reading."
+  ]
+}

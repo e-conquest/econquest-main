@@ -1,0 +1,19 @@
+EconQuest Terminal
+Copyright 2026 the EconQuest Terminal contributors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+Documentation, methods notes, validation records and Quest content are licensed
+under Creative Commons Attribution 4.0 International (see LICENSE-docs.md).
+
+Third-party data
+----------------
+The software fetches figures from outside sources at run time. Those figures are
+not covered by this project's licences; each source's own terms apply. What each
+source allows, and the credit it asks for, is listed in docs/DATA_LICENCES.md and
+shown in the app under Menu > About & data licences.
+
+Bundled datasets
+----------------
+datasets/ucdp/ contains unchanged UCDP datasets (release 26.1), licensed under
+CC BY 4.0 by the Uppsala Conflict Data Program. Citations are in
+datasets/ucdp/README.md.

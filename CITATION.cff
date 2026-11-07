@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use EconQuest Terminal in research or teaching, please cite it as below."
+title: "EconQuest Terminal"
+abstract: "Open-source research terminal for emerging-market sovereign and macro risk, built on free official data, with pre-registered tests and published verdicts."
+type: software
+authors:
+  - name: "EconQuest Terminal contributors"
+license: Apache-2.0
+version: 0.1.0
+date-released: "2026-11-07"
+keywords:
+  - sovereign risk
+  - emerging markets
+  - macroeconomics
+  - open data
+  - reproducible research

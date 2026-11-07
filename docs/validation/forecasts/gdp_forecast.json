@@ -1,0 +1,35 @@
+{
+  "id": "gdp_forecast",
+  "version": 1,
+  "registeredOn": "2026-11-06",
+  "registeredBy": "Sam (owner); no run made before this file was committed",
+  "hypothesis": "An AR (lag 0-4 by BIC, refitted at each origin on all data to then) forecast of quarterly real GDP growth (q/q) has a lower RMSE than the historical mean, one and four quarters ahead.",
+  "target": "gdp_growth_q",
+  "params": {
+    "maxLag": 4,
+    "d": 0,
+    "intercept": 1,
+    "window": 0,
+    "minTrain": 40
+  },
+  "benchmark": "mean",
+  "horizons": [
+    1,
+    4
+  ],
+  "sample": {
+    "from": "2008-Q1"
+  },
+  "passMark": {
+    "maxRelRmse": 0.95,
+    "maxPValue": 0.1,
+    "minSeriesShare": 0.5,
+    "minCasesPerHorizon": 300,
+    "minYears": 10
+  },
+  "knownLimits": [
+    "Values are today's vintage (later revisions included); no real-time data vintages are free for all countries, so this is a pseudo real-time test.",
+    "Pooled over every area the OECD quarterly accounts cover; aggregates (euro area, OECD) are included as published.",
+    "Not compared with past IMF WEO forecasts: the app holds only today's WEO vintage, so an IMF benchmark cannot be scored without look-ahead. A later version can add it once past vintages are stored."
+  ]
+}

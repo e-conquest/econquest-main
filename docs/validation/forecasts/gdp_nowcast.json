@@ -1,0 +1,38 @@
+{
+  "id": "gdp_nowcast",
+  "version": 1,
+  "registeredOn": "2026-11-06",
+  "registeredBy": "Sam (owner); no run made before this file was committed",
+  "hypothesis": "The bridge-equation nowcast of quarterly real GDP growth (q/q), made 30 days after the quarter ends from the monthly activity index and/or OECD leading indicator published by then, has a lower RMSE than the historical mean of GDP growth published by then.",
+  "target": "gdp_nowcast_q",
+  "params": {
+    "asOfDaysAfterQuarter": 30,
+    "gdpLagDays": 60,
+    "activityLagDays": 45,
+    "cliLagDays": 45,
+    "targetLags": 1,
+    "monthlyMaxLag": 3,
+    "minQuarters": 24
+  },
+  "benchmark": "mean",
+  "horizons": [
+    1
+  ],
+  "sample": {
+    "from": "2008-Q1"
+  },
+  "passMark": {
+    "maxRelRmse": 0.9,
+    "maxPValue": 0.1,
+    "minSeriesShare": 0.5,
+    "minCasesPerHorizon": 150,
+    "minYears": 10
+  },
+  "knownLimits": [
+    "Release lags are fixed rules (GDP 60 days, activity 45, leading indicator 45), not each country's actual calendar.",
+    "Values are today's vintage (later revisions included); no real-time data vintages are free for all countries, so this is a pseudo real-time test.",
+    "Countries with no monthly indicator are left out; quarters where no indicator month was out are left out (the fallback AR is not what is being tested).",
+    "OECD leading indicator via DBnomics lags about five months today; the test uses the OECD's own lag, so it measures the method, not today's mirror delay.",
+    "Not compared with past IMF WEO forecasts: the app holds only today's WEO vintage, so an IMF benchmark cannot be scored without look-ahead. A later version can add it once past vintages are stored."
+  ]
+}

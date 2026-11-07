@@ -1,0 +1,35 @@
+{
+  "id": "cpi_nowcast",
+  "version": 1,
+  "registeredOn": "2026-11-06",
+  "registeredBy": "Sam (owner); no run made before this file was committed",
+  "hypothesis": "An AR (lag 0-13 by BIC) on monthly y/y inflation, for the one or two months after the newest published figure, has a lower RMSE than carrying the newest figure on.",
+  "target": "cpi_nowcast_m",
+  "params": {
+    "maxLag": 13,
+    "d": 0,
+    "intercept": 1,
+    "window": 0,
+    "minTrain": 60
+  },
+  "benchmark": "naive",
+  "horizons": [
+    1,
+    2
+  ],
+  "sample": {
+    "from": "2008-01"
+  },
+  "passMark": {
+    "maxRelRmse": 0.95,
+    "maxPValue": 0.1,
+    "minSeriesShare": 0.5,
+    "minCasesPerHorizon": 1000,
+    "minYears": 10
+  },
+  "knownLimits": [
+    "Values are today's vintage (later revisions included); no real-time data vintages are free for all countries, so this is a pseudo real-time test.",
+    "No timelier price indicator is used: this is a short-range projection from inflation itself.",
+    "OECD series only; the national series the app splices on for recent months are not in the test."
+  ]
+}

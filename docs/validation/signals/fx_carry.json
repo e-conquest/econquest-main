@@ -1,0 +1,162 @@
+{
+  "id": "fx_carry",
+  "version": 1,
+  "registeredOn": "2026-11-06",
+  "registeredBy": "Drafted under Sam's signal standard (2026-11-06); registered before any run",
+  "hypothesis": "Each month, holding the third of currencies with the highest policy rate against the US and selling the third with the lowest (equal weights, against the dollar, held one month) earns more than holding dollars, net of a flat 0.25% cost per unit traded, with whole calendar years resampled together.",
+  "method": "fx_factor",
+  "factor": "carry",
+  "params": {
+    "costPctPerSide": 0.25,
+    "minCurrencies": 9,
+    "cpiLagMonths": 0,
+    "lookbackMonths": 0,
+    "skipMonths": 0,
+    "resamples": 4000,
+    "seed": 20261106
+  },
+  "universe": [
+    {
+      "ccy": "AUD",
+      "bis": "AU",
+      "cpi": "AUS"
+    },
+    {
+      "ccy": "CAD",
+      "bis": "CA",
+      "cpi": "CAN"
+    },
+    {
+      "ccy": "CHF",
+      "bis": "CH",
+      "cpi": "CHE"
+    },
+    {
+      "ccy": "GBP",
+      "bis": "GB",
+      "cpi": "GBR"
+    },
+    {
+      "ccy": "JPY",
+      "bis": "JP",
+      "cpi": "JPN"
+    },
+    {
+      "ccy": "NOK",
+      "bis": "NO",
+      "cpi": "NOR"
+    },
+    {
+      "ccy": "NZD",
+      "bis": "NZ",
+      "cpi": "NZL"
+    },
+    {
+      "ccy": "SEK",
+      "bis": "SE",
+      "cpi": "SWE"
+    },
+    {
+      "ccy": "EUR",
+      "bis": "XM",
+      "cpi": "EUU"
+    },
+    {
+      "ccy": "CZK",
+      "bis": "CZ",
+      "cpi": "CZE"
+    },
+    {
+      "ccy": "HUF",
+      "bis": "HU",
+      "cpi": "HUN"
+    },
+    {
+      "ccy": "PLN",
+      "bis": "PL",
+      "cpi": "POL"
+    },
+    {
+      "ccy": "ILS",
+      "bis": "IL",
+      "cpi": "ISR"
+    },
+    {
+      "ccy": "KRW",
+      "bis": "KR",
+      "cpi": "KOR"
+    },
+    {
+      "ccy": "MXN",
+      "bis": "MX",
+      "cpi": "MEX"
+    },
+    {
+      "ccy": "ZAR",
+      "bis": "ZA",
+      "cpi": "ZAF"
+    },
+    {
+      "ccy": "BRL",
+      "bis": "BR",
+      "cpi": "BRA"
+    },
+    {
+      "ccy": "INR",
+      "bis": "IN",
+      "cpi": "IND"
+    },
+    {
+      "ccy": "IDR",
+      "bis": "ID",
+      "cpi": "IDN"
+    },
+    {
+      "ccy": "PHP",
+      "bis": "PH",
+      "cpi": "PHL"
+    },
+    {
+      "ccy": "THB",
+      "bis": "TH",
+      "cpi": "THA"
+    },
+    {
+      "ccy": "MYR",
+      "bis": "MY",
+      "cpi": "MYS"
+    },
+    {
+      "ccy": "TRY",
+      "bis": "TR",
+      "cpi": "TUR"
+    },
+    {
+      "ccy": "RON",
+      "bis": "RO",
+      "cpi": "ROU"
+    },
+    {
+      "ccy": "ISK",
+      "bis": "IS",
+      "cpi": "ISL"
+    }
+  ],
+  "sample": {
+    "from": "2000-01"
+  },
+  "passMark": {
+    "maxPValue": 0.05,
+    "minAnnualNetPct": 0,
+    "minMonths": 120,
+    "minYears": 10
+  },
+  "knownLimits": [
+    "Carry is known for crash risk (large losses in sell-offs such as 2008); a positive average can coexist with deep drawdowns, which the verdict does not hide.",
+    "Policy rates stand in for short-term interest rates (no free interbank or forward rates for most of these currencies); where money-market rates sit away from the policy rate, carry is measured with error.",
+    "Universe fixed before the run: the floating ECB reference-rate currencies with a BIS policy rate; pegs and tightly managed currencies (BGN, DKK, HKD, CNY, SGD) are left out. A currency enters when its data start.",
+    "Flat cost of 0.25% per unit of weight traded for every currency and month: above typical spreads in major currencies, near typical spreads in emerging ones; no allowance for wider spreads in crises.",
+    "Today's vintage of policy rates and FX (these are rarely revised); month-end ECB fixings, not tradable closing prices.",
+    "One of three currency factor tests registered together (carry, value, momentum); each verdict is shown with its Holm-adjusted p across every test on record."
+  ]
+}

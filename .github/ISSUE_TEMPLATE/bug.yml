@@ -1,0 +1,25 @@
+name: Bug
+description: Something in the app does not work as described
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, what you saw instead.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+  - type: dropdown
+    id: run
+    attributes:
+      label: How you run it
+      options: [npm run dev, Docker on a Mac, Home server, Kubernetes, Other]
+  - type: textarea
+    id: logs
+    attributes:
+      label: Server log or screenshot
+      description: Remove any keys before pasting.

@@ -1,0 +1,7 @@
+# Paths left out of the public repository by scripts/public-export.sh.
+# One path per line, relative to the repository root. Lines starting with # are ignored.
+
+# Raw replies recorded from live feeds. Several sources (Kalshi, UN Comtrade/WITS, ExchangeRate-API,
+# Polymarket, OECD yields via FRED, IMF bulk downloads) do not allow their data to be passed on.
+# tests/recorded.test.ts and tests/offlineSaved.test.ts skip when these are absent.
+tests/fixtures/recorded

@@ -1,0 +1,9 @@
+apiVersion: v2
+name: econquest
+description: EconQuest sovereign and macro council terminal (open-source research), one pod with a persistent data volume.
+type: application
+version: 0.1.0
+appVersion: "main"
+home: https://github.com/smcarus/econquest
+sources:
+  - https://github.com/smcarus/econquest

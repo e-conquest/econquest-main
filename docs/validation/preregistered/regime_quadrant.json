@@ -1,0 +1,24 @@
+{
+  "id": "regime_quadrant",
+  "version": 1,
+  "registeredOn": "2026-11-06",
+  "registeredBy": "Sam (owner); no run made before this file was committed",
+  "hypothesis": "When growth and inflation are both rising (the leading indicator up over 6 months and y/y inflation up over 3 months), the central bank hikes within 6 months more often than after any month; when both are falling, it cuts within 6 months more often than after any month.",
+  "method": "regime_quadrant",
+  "framework": 2,
+  "params": {
+    "cliLagMonths": 1,
+    "cpiLagMonths": 2,
+    "cliChangeMonths": 6,
+    "cpiChangeMonths": 3,
+    "windowMonths": 6
+  },
+  "sample": { "from": "1995-01" },
+  "passMark": { "minCases": 30, "minLiftPts": 10, "maxPValue": 0.05, "minSeriesShare": 0.5, "minYears": 8 },
+  "knownLimits": [
+    "The quadrant is the app's own rule (src/utils/regimeQuadrant.ts): above zero is up on each axis. Only the two matching quadrants make a call; growth up with inflation down, and growth down with inflation up, make none.",
+    "The leading indicator and inflation are today's vintages, lagged 1 and 2 months to roughly what was published; revisions are not undone.",
+    "Every country with a BIS monthly policy rate, an OECD leading indicator and OECD inflation is pooled; pegs and long holds lower the base rate.",
+    "A call is the first month of a run of the same reading; calls in one country are at least a month apart, and runs can be short when the axes sit near zero."
+  ]
+}

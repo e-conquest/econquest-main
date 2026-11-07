@@ -1,0 +1,163 @@
+{
+  "id": "fx_value",
+  "version": 1,
+  "registeredOn": "2026-11-06",
+  "registeredBy": "Drafted under Sam's signal standard (2026-11-06); registered before any run",
+  "hypothesis": "Each month, holding the third of currencies that have cheapened most in real terms against the US dollar over the past five years (nominal depreciation less the consumer price inflation gap, prices lagged two months) and selling the third that have become dearest earns more than holding dollars, net of a flat 0.25% cost per unit traded, with whole calendar years resampled together.",
+  "method": "fx_factor",
+  "factor": "value",
+  "params": {
+    "costPctPerSide": 0.25,
+    "minCurrencies": 9,
+    "cpiLagMonths": 2,
+    "lookbackMonths": 60,
+    "skipMonths": 0,
+    "resamples": 4000,
+    "seed": 20261106
+  },
+  "universe": [
+    {
+      "ccy": "AUD",
+      "bis": "AU",
+      "cpi": "AUS"
+    },
+    {
+      "ccy": "CAD",
+      "bis": "CA",
+      "cpi": "CAN"
+    },
+    {
+      "ccy": "CHF",
+      "bis": "CH",
+      "cpi": "CHE"
+    },
+    {
+      "ccy": "GBP",
+      "bis": "GB",
+      "cpi": "GBR"
+    },
+    {
+      "ccy": "JPY",
+      "bis": "JP",
+      "cpi": "JPN"
+    },
+    {
+      "ccy": "NOK",
+      "bis": "NO",
+      "cpi": "NOR"
+    },
+    {
+      "ccy": "NZD",
+      "bis": "NZ",
+      "cpi": "NZL"
+    },
+    {
+      "ccy": "SEK",
+      "bis": "SE",
+      "cpi": "SWE"
+    },
+    {
+      "ccy": "EUR",
+      "bis": "XM",
+      "cpi": "EUU"
+    },
+    {
+      "ccy": "CZK",
+      "bis": "CZ",
+      "cpi": "CZE"
+    },
+    {
+      "ccy": "HUF",
+      "bis": "HU",
+      "cpi": "HUN"
+    },
+    {
+      "ccy": "PLN",
+      "bis": "PL",
+      "cpi": "POL"
+    },
+    {
+      "ccy": "ILS",
+      "bis": "IL",
+      "cpi": "ISR"
+    },
+    {
+      "ccy": "KRW",
+      "bis": "KR",
+      "cpi": "KOR"
+    },
+    {
+      "ccy": "MXN",
+      "bis": "MX",
+      "cpi": "MEX"
+    },
+    {
+      "ccy": "ZAR",
+      "bis": "ZA",
+      "cpi": "ZAF"
+    },
+    {
+      "ccy": "BRL",
+      "bis": "BR",
+      "cpi": "BRA"
+    },
+    {
+      "ccy": "INR",
+      "bis": "IN",
+      "cpi": "IND"
+    },
+    {
+      "ccy": "IDR",
+      "bis": "ID",
+      "cpi": "IDN"
+    },
+    {
+      "ccy": "PHP",
+      "bis": "PH",
+      "cpi": "PHL"
+    },
+    {
+      "ccy": "THB",
+      "bis": "TH",
+      "cpi": "THA"
+    },
+    {
+      "ccy": "MYR",
+      "bis": "MY",
+      "cpi": "MYS"
+    },
+    {
+      "ccy": "TRY",
+      "bis": "TR",
+      "cpi": "TUR"
+    },
+    {
+      "ccy": "RON",
+      "bis": "RO",
+      "cpi": "ROU"
+    },
+    {
+      "ccy": "ISK",
+      "bis": "IS",
+      "cpi": "ISL"
+    }
+  ],
+  "sample": {
+    "from": "2000-01"
+  },
+  "passMark": {
+    "maxPValue": 0.05,
+    "minAnnualNetPct": 0,
+    "minMonths": 120,
+    "minYears": 10
+  },
+  "knownLimits": [
+    "Consumer prices, not producer prices or unit labour costs; five-year price changes are built from y/y rates twelve months apart, so a currency needs five unbroken yearly readings.",
+    "Currencies without OECD consumer prices drop out of the value ranking.",
+    "Policy rates stand in for short-term interest rates (no free interbank or forward rates for most of these currencies); where money-market rates sit away from the policy rate, carry is measured with error.",
+    "Universe fixed before the run: the floating ECB reference-rate currencies with a BIS policy rate; pegs and tightly managed currencies (BGN, DKK, HKD, CNY, SGD) are left out. A currency enters when its data start.",
+    "Flat cost of 0.25% per unit of weight traded for every currency and month: above typical spreads in major currencies, near typical spreads in emerging ones; no allowance for wider spreads in crises.",
+    "Today's vintage of policy rates and FX (these are rarely revised); month-end ECB fixings, not tradable closing prices.",
+    "One of three currency factor tests registered together (carry, value, momentum); each verdict is shown with its Holm-adjusted p across every test on record."
+  ]
+}

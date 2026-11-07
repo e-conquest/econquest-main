@@ -1,0 +1,35 @@
+{
+  "id": "policy_rate_forecast",
+  "version": 1,
+  "registeredOn": "2026-11-06",
+  "registeredBy": "Sam (owner); no run made before this file was committed",
+  "hypothesis": "An AR (lag 0-3 by BIC, no drift, last 120 months) on the monthly change in the policy rate forecasts the rate with a lower RMSE than no change, 3 and 12 months ahead.",
+  "target": "policy_rate_m",
+  "params": {
+    "maxLag": 3,
+    "d": 1,
+    "intercept": 0,
+    "window": 120,
+    "minTrain": 60
+  },
+  "benchmark": "naive",
+  "horizons": [
+    3,
+    12
+  ],
+  "sample": {
+    "from": "2008-01"
+  },
+  "passMark": {
+    "maxRelRmse": 0.95,
+    "maxPValue": 0.1,
+    "minSeriesShare": 0.5,
+    "minCasesPerHorizon": 1000,
+    "minYears": 10
+  },
+  "knownLimits": [
+    "BIS monthly end-of-month rates; a shared area (the euro area) counts once.",
+    "Rates move in steps at meetings; no change is a strong benchmark.",
+    "Values are today's vintage (later revisions included); no real-time data vintages are free for all countries, so this is a pseudo real-time test."
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "note": "SHA-256 of each pre-registered nowcast/forecast evaluation. The runner refuses a file whose hash is not listed here; a changed evaluation needs a new version and a new hash, committed before it is run.",
+  "files": {
+    "gdp_nowcast.json": "f304891bfd42b416bb1e56a39866d2c945910129ca3f4f167d9ef0c781ac5ff2",
+    "gdp_forecast.json": "b9f6e2a38cd3b58551272b934dba757b40ae736d4dc8bfda0487598bde8d0528",
+    "cpi_nowcast.json": "b8903a56a15939d391e672af22a33af91281e92fa83f6f18179010f3a2a4ead9",
+    "cpi_forecast.json": "66ae39cc5a3551b59890988062a9d4fe719ab93d7cdc53e4c54a14fe95a017ad",
+    "policy_rate_forecast.json": "efd8ee59a5ea85d2008a6e1d272c90c024190f715f5b78a92a0eb16eaf626ea9",
+    "debt_forecast.json": "92439f04e86ea63eaa7c68d7c7f5e79d6489ca735dabcee93272e5d83814a163",
+    "cpi_forecast.v2.json": "f4a9b65fc5b436bc899849512f52c23ebede6cda135a6490ada06090b79c38e8",
+    "cpi_nowcast.v2.json": "d7adebf498bbae7f505c09f74815fea562eac0db0043e0349d5b7847792e13b4",
+    "debt_forecast.v2.json": "d9df83a7b3f9aa72a653405b2fe58e3a85633fe52ca0e45c04c7f9b26549aba2",
+    "debt_fan_coverage.json": "bb5442c806fbe6037fe4728a38e4b028b053ec3387cf773b45ff339c7756c9b7"
+  },
+  "amended": {
+    "cpi_forecast.json": {
+      "from": "452f8da5c376c3e9d2b65f4cbc47345ddc8636362bad6f46683f598f83dafd05",
+      "to": "66ae39cc5a3551b59890988062a9d4fe719ab93d7cdc53e4c54a14fe95a017ad",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    },
+    "cpi_forecast.v2.json": {
+      "from": "0872bf313ed712bc5db83c555e9ce7a89b8ed1df57838b0892a0aba16f83635b",
+      "to": "f4a9b65fc5b436bc899849512f52c23ebede6cda135a6490ada06090b79c38e8",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    },
+    "cpi_nowcast.json": {
+      "from": "b26921be3e3350c6fd8383276ce1b63fd2ac335cd80fd47a8fd4878f84f0d2a4",
+      "to": "b8903a56a15939d391e672af22a33af91281e92fa83f6f18179010f3a2a4ead9",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    },
+    "cpi_nowcast.v2.json": {
+      "from": "913d5756ff9f892644026fcc36f36307115cca1b34c13f0d4508eb53367faa51",
+      "to": "d7adebf498bbae7f505c09f74815fea562eac0db0043e0349d5b7847792e13b4",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    },
+    "debt_fan_coverage.json": {
+      "from": "3f05fa27499ad8cc85b00cf7edef1c893c009e84d933b2993506a90f53d97ae7",
+      "to": "bb5442c806fbe6037fe4728a38e4b028b053ec3387cf773b45ff339c7756c9b7",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    },
+    "debt_forecast.json": {
+      "from": "b0f103786229c9ec676eaa66dc6d3ead1fd473ad21714a66193d304b089f0ff8",
+      "to": "92439f04e86ea63eaa7c68d7c7f5e79d6489ca735dabcee93272e5d83814a163",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    },
+    "debt_forecast.v2.json": {
+      "from": "0046f71259462f52ae426d5e9ee00b7d127f3b1a3aff7334ca26f9f9f51c2dd6",
+      "to": "d9df83a7b3f9aa72a653405b2fe58e3a85633fe52ca0e45c04c7f9b26549aba2",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    },
+    "gdp_forecast.json": {
+      "from": "487b6467fdc75b579eb43f010a9a8c59b4930ece669fa7b68ca850ac1ae110f3",
+      "to": "b9f6e2a38cd3b58551272b934dba757b40ae736d4dc8bfda0487598bde8d0528",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    },
+    "gdp_nowcast.json": {
+      "from": "0039f3108a07d0d6a30c6014fc58015bfa564b7e84504f5e141359014fc3beac",
+      "to": "f304891bfd42b416bb1e56a39866d2c945910129ca3f4f167d9ef0c781ac5ff2",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    },
+    "policy_rate_forecast.json": {
+      "from": "cc6e4fd6faf3cfe80ac72aa3e308508af18be3347cac65e00ee128c4f109359a",
+      "to": "efd8ee59a5ea85d2008a6e1d272c90c024190f715f5b78a92a0eb16eaf626ea9",
+      "on": "2026-11-07",
+      "change": "registeredBy wording only (authorship note shortened); no hypothesis, rule, parameter, sample or pass mark changed. Verdicts recorded under the old hash stand."
+    }
+  }
+}

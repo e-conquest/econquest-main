@@ -1,0 +1,18 @@
+name: Methods question or replication
+description: A model, test or verdict looks wrong, or you replicated one
+labels: [methods]
+body:
+  - type: input
+    id: model
+    attributes:
+      label: Model or test
+      placeholder: e.g. gdp_nowcast v1
+    validations:
+      required: true
+  - type: textarea
+    id: detail
+    attributes:
+      label: What you found
+      description: Steps, data and code so others can check it.
+    validations:
+      required: true

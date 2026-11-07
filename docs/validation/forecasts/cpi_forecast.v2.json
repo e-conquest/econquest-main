@@ -1,0 +1,41 @@
+{
+  "id": "cpi_forecast",
+  "version": 2,
+  "registeredOn": "2026-11-06",
+  "registeredBy": "Sam (owner); registered before any run of this version",
+  "hypothesis": "An AR (lag 0-13 by BIC) forecast of monthly y/y inflation, fitted on the last 10 years at each origin, has a lower RMSE than carrying the newest figure on, 3 and 12 months ahead.",
+  "target": "cpi_yoy_m",
+  "retestOf": {
+    "version": 1,
+    "verdict": "failed (relative RMSE 3.415 at 3 months and 6.232 at 12 months against no change, p 1)",
+    "change": "Fits on the last 120 months (10 years) at each origin instead of the whole history. Version 1 fitted each country's full OECD history, which includes the 1980s-90s hyperinflations (Brazil, Argentina, Turkey, Poland and others at hundreds to thousands of percent); those episodes set the AR coefficients and error spread for today's forecasts. Ten years is the window the policy-rate model was already registered with. Everything else is as in version 1."
+  },
+  "params": {
+    "maxLag": 13,
+    "d": 0,
+    "intercept": 1,
+    "window": 120,
+    "minTrain": 60
+  },
+  "benchmark": "naive",
+  "horizons": [
+    3,
+    12
+  ],
+  "sample": {
+    "from": "2008-01"
+  },
+  "passMark": {
+    "maxRelRmse": 0.95,
+    "maxPValue": 0.1,
+    "minSeriesShare": 0.5,
+    "minCasesPerHorizon": 1000,
+    "minYears": 10
+  },
+  "knownLimits": [
+    "Values are today's vintage (later revisions included); no real-time data vintages are free for all countries, so this is a pseudo real-time test.",
+    "Inflation is close to a random walk in many countries over these horizons, so the naive benchmark is hard to beat.",
+    "Not compared with past IMF WEO forecasts: the app holds only today's WEO vintage, so an IMF benchmark cannot be scored without look-ahead. A later version can add it once past vintages are stored.",
+    "A re-test drafted after version 1 failed, so it carries less weight than a first test: one change, chosen on a stated principle, and no further versions will be tried if it fails."
+  ]
+}
